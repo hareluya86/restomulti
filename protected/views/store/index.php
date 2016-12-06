@@ -26,10 +26,12 @@ $placholder_search=Yii::t("default",$placholder_search);
             <p>
                 Ridiculus sociosqu cursus neque cursus curae ante scelerisque vehicula.
             </p>
-            <form method="post" action="list_page.html">
+            <form id="forms-search" class="forms-search" method="GET" action="/searcharea">
                 <div id="custom-search-input">
                     <div class="input-group">
-                        <input type="text" class=" search-query" placeholder="Your Address or postal code">
+                        <input id="s" type="text" class="search-query" 
+                               placeholder="Your Address or postal code"
+                               required="required" name="s">
                         <span class="input-group-btn">
                             <input type="submit" class="btn_search" value="submit">
                         </span>
@@ -38,7 +40,7 @@ $placholder_search=Yii::t("default",$placholder_search);
             </form>
         </div><!-- End sub_content -->
     </div>
-    <img src="assets/images/quickfood/img/video_fix.png" alt="" class="header-video--media" data-video-src="assets/video/intro" data-teaser-source="assets/video/intro" data-provider="Vimeo" data-video-width="1920" data-video-height="960">
+    <img src="assets/images/quickfood/img/video_fix.png" alt="" class="header-video--media" data-video-src="/assets/video/intro" data-teaser-source="/assets/video/intro" data-provider="Vimeo" data-video-width="1920" data-video-height="960">
     <div id="count" class="hidden-xs">
         <ul>
             <li><span class="number">2650</span> Restaurant</li>
@@ -50,12 +52,12 @@ $placholder_search=Yii::t("default",$placholder_search);
 
 <!--<img class="mobile-home-banner" src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
 
-<div id="parallax-wrap" class="parallax-container parallax-home" 
+<!--<div id="parallax-wrap" class="parallax-container parallax-home" 
 data-parallax="scroll" data-position="top" data-bleed="10" 
-data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">
+data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
 
 <?php 
-if ( $home_search_mode=="address" || $home_search_mode=="") { 
+/*if ( $home_search_mode=="address" || $home_search_mode=="") { 
 	if ( $enabled_advance_search=="yes"){
 		$this->renderPartial('/front/advance_search',array(
 		  'home_search_text'=>$home_search_text,
@@ -80,13 +82,69 @@ if ( $home_search_mode=="address" || $home_search_mode=="") {
 		  'placholder_search'=>$placholder_search,
 		  'home_search_subtext'=>t("Enter your post code")
 	));
-}
+}*/
 ?>
 
 </div> <!--parallax-container-->
 
+<!--HOW IT WORKS SECTIONS -->
 <?php if ($theme_hide_how_works<>2):?>
-<!--HOW IT WORKS SECTIONS-->
+    <!-- Content ================================================== -->
+    <div class="container margin_60">
+        
+         <div class="main_title">
+            <h2 class="nomargin_top" style="padding-top:0">How it works</h2>
+            <p>
+                Cum doctus civibus efficiantur in imperdiet deterruisset.
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="box_home" id="one">
+                    <span>1</span>
+                    <h3>Search by address</h3>
+                    <p>
+                        Find all restaurants available in your zone.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="box_home" id="two">
+                    <span>2</span>
+                    <h3>Choose a restaurant</h3>
+                    <p>
+                        We have more than 1000s of menus online.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="box_home" id="three">
+                    <span>3</span>
+                    <h3>Pay by card or cash</h3>
+                    <p>
+                        It's quick, easy and totally secure.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="box_home" id="four">
+                    <span>4</span>
+                    <h3>Delivery or takeaway</h3>
+                    <p>
+                        You are lazy? Are you backing home?
+                    </p>
+                </div>
+            </div>
+        </div><!-- End row -->
+        
+        <div id="delivery_time" class="hidden-xs">
+            <strong><span>2</span><span>5</span></strong>
+            <h4>The minutes that usually takes to deliver!</h4>
+        </div>
+    </div><!-- End container -->
+<?php endif;?>
+<?php if (false):?>
+<!--HOW IT WORKS SECTIONS (old) -->
 <div class="sections section-how-it-works">
 <div class="container">
  <h2><?php echo t("How it works")?></h2>
@@ -132,10 +190,136 @@ if ( $home_search_mode=="address" || $home_search_mode=="") {
 <?php if ($disabled_featured_merchant==""):?>
 <?php if ( getOptionA('disabled_featured_merchant')!="yes"):?>
 <?php if ($res=Yii::app()->functions->getFeatureMerchant2()):?>
+
+<!--quickfood-->
+<div class="white_bg">
+    <div class="container margin_60">
+        
+        <div class="main_title">
+            <h2 class="nomargin_top"><?php echo t("Featured Restaurants")?></h2>
+            <p>
+                Cum doctus civibus efficiantur in imperdiet deterruisset.
+            </p>
+        </div>
+        
+        <div class="row">
+            <?php foreach ($res as $val): //dump($val);?>
+            <?php $address= $val['street']." ".$val['city'];
+                  $address.=" ".$val['state']." ".$val['post_code'];
+
+                  $ratings=Yii::app()->functions->getRatings($val['merchant_id']);
+            ?>
+                <div class="col-md-6">
+                    <a href="<?php echo Yii::app()->createUrl("/menu-". trim($val['restaurant_slug']))?>" class="strip_list">
+                    <div class="ribbon_1">Popular</div>
+                        <div class="desc">
+                            <div class="thumb_strip">
+                                <img src="img/thumb_restaurant.jpg" alt="">
+                            </div>
+                            <div class="rating">
+                                <?php for($i = 0; $i < $ratings['ratings']; $i++){
+                                    echo '<i class="icon_star voted"></i>';
+                                } ?>
+                                <?php for($i = 0; $i < 5-$ratings['ratings']; $i++){
+                                    echo '<i class="icon_star"></i>';
+                                } ?>
+                            </div>
+                            <h3><?php echo clearString($val['restaurant_name'])?></h3>
+                            <div class="type">
+                                <?php echo FunctionsV3::displayCuisine($val['cuisine']);?>
+                            </div>
+                            <div class="location">
+                                <?php echo $address?> <span class="opening">Opens at 17:00</span>
+                            </div>
+                            <ul>
+                                <li>Take away<i class=" 
+                                    <?php echo (strpos(FunctionsV3::displayServicesList($val['service']), 'Pickup') !== false)?'icon_check_alt2 ok':'icon_close_alt2 no'?>"></i></li>
+                                <li>Delivery<i class="icon_check_alt2 
+                                    <?php echo (strpos(FunctionsV3::displayServicesList($val['service']), 'Delivery') !== false)?'icon_check_alt2 ok':'icon_close_alt2 no'?>"></i></li>
+                            </ul>
+                        </div><!-- End desc-->
+                    </a><!-- End strip_list-->
+                </div><!-- End col-md-6-->
+            <?php endforeach; ?>
+            <div class="col-md-6">
+                <a href="detail_page.html" class="strip_list">
+                <div class="ribbon_1">Popular</div>
+                    <div class="desc">
+                        <div class="thumb_strip">
+                            <img src="img/thumb_restaurant_4.jpg" alt="">
+                        </div>
+                        <div class="rating">
+                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+                        </div>
+                        <h3>Sushi Gold</h3>
+                        <div class="type">
+                            Sushi / Japanese
+                        </div>
+                        <div class="location">
+                            135 Newtownards Road, Belfast, BT4. <span class="opening">Opens at 17:00</span>
+                        </div>
+                        <ul>
+                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
+                            <li>Delivery<i class="icon_close_alt2 no"></i></li>
+                        </ul>
+                    </div><!-- End desc-->
+                </a><!-- End strip_list-->
+                <a href="detail_page.html" class="strip_list">
+                <div class="ribbon_1">Popular</div>
+                    <div class="desc">
+                        <div class="thumb_strip">
+                            <img src="img/thumb_restaurant_5.jpg" alt="">
+                        </div>
+                        <div class="rating">
+                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+                        </div>
+                        <h3>Dragon Tower</h3>
+                        <div class="type">
+                            Chinese / Thai
+                        </div>
+                        <div class="location">
+                            135 Newtownards Road, Belfast, BT4. <span class="opening">Opens at 17:00</span>
+                        </div>
+                        <ul>
+                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
+                            <li>Delivery<i class="icon_check_alt2 ok"></i></li>
+                        </ul>
+                    </div><!-- End desc-->
+                </a><!-- End strip_list-->
+                <a href="detail_page.html" class="strip_list">
+                <div class="ribbon_1">Popular</div>
+                    <div class="desc">
+                        <div class="thumb_strip">
+                            <img src="img/thumb_restaurant_6.jpg" alt="">
+                        </div>
+                        <div class="rating">
+                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+                        </div>
+                        <h3>China Food</h3>
+                        <div class="type">
+                            Chinese / Vietnam
+                        </div>
+                        <div class="location">
+                            135 Newtownards Road, Belfast, BT4. <span class="opening">Opens at 17:00</span>
+                        </div>
+                        <ul>
+                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
+                            <li>Delivery<i class="icon_check_alt2 ok"></i></li>
+                        </ul>
+                    </div><!-- End desc-->
+                </a><!-- End strip_list-->
+            </div>
+        </div><!-- End row -->   
+        
+    </div><!-- End container -->
+</div><!-- End white_bg -->
+<!--quickfood-->
+
+
 <div class="sections section-feature-resto">
 <div class="container">
 
-
+<?php if(false): ?>
   <h2><?php echo t("Featured Restaurants")?></h2>
   
   <div class="row">
@@ -189,7 +373,7 @@ if ( $home_search_mode=="address" || $home_search_mode=="") {
 <?php endif;?>
 <?php endif;?>
 <!--END FEATURED RESTAURANT SECIONS-->
-
+<?php endif;?>
 
 <?php if ($theme_hide_cuisine<>2):?>
 <!--CUISINE SECTIONS-->

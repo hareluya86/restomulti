@@ -429,7 +429,7 @@ footer .styled-select {
    width: 100%;
    overflow:hidden;
    height: 40px;
-   background: #f8f8f8 url(../img/arrow_down.svg) no-repeat  right center ;
+   background: #f8f8f8 url(/assets/images/quickfood/img/arrow_down.svg) no-repeat  right center ;
    border:none;
 	margin-bottom:15px;
 	-webkit-border-radius: 3px;
@@ -489,7 +489,7 @@ footer .styled-select {
 	border:0;
 	width:25px;
 	height:25px;
-	background: url(../img/search.svg) no-repeat center right;
+	background: url(/assets/images/quickfood/img/search.svg) no-repeat center right;
 	cursor:pointer;
 }
 #custom-search-input input.btn_search:focus, #custom-search-input .search-query:focus{outline:none;}
@@ -517,7 +517,7 @@ footer .styled-select {
 	text-align:center;
 	margin:0 10px;
 	padding-left:20px;
-	background:url(../img/dots_vert.png) center left no-repeat;
+	background:url(/assets/images/quickfood/img/dots_vert.png) center left no-repeat;
 }
 #count ul li:first-child{
 	margin-left:0;
@@ -615,16 +615,16 @@ video {
 	margin-left:-20px;
 }
 .box_home#one{
-	background:#fff url(../img/icon_home_1.svg) no-repeat center 40px;
+	background:#fff url(/assets/images/quickfood/img/icon_home_1.svg) no-repeat center 40px;
 }
 .box_home#two{
-	background:#fff url(../img/icon_home_2.svg) no-repeat center 40px;
+	background:#fff url(/assets/images/quickfood/img/icon_home_2.svg) no-repeat center 40px;
 }
 .box_home#three{
-	background:#fff url(../img/icon_home_3.svg) no-repeat center 40px;
+	background:#fff url(/assets/images/quickfood/img/icon_home_3.svg) no-repeat center 40px;
 }
 .box_home#four{
-	background:#fff url(../img/icon_home_4.svg) no-repeat center 40px;
+	background:#fff url(/assets/images/quickfood/img/icon_home_4.svg) no-repeat center 40px;
 }
 .box_home h3{
 	font-size:16px;
@@ -638,7 +638,7 @@ video {
 	margin-top:25px;
 }
 #delivery_time strong span{
-	background:url(../img/time_panel.svg) no-repeat 0 0;
+	background:url(/assets/images/quickfood/img/time_panel.svg) no-repeat 0 0;
 	display: inline-block;
 	width:80px;
 	margin-left:10px;
@@ -877,7 +877,7 @@ a.strip_list:hover h3{
 	text-indent:-9999px;
 	top:-5px;
 	left:-5px;
-	background:url(../img/ribbon_popular.png) no-repeat 0 0;
+	background:url(/assets/images/quickfood/img/ribbon_popular.png) no-repeat 0 0;
 	width:81px;
 	height:80px;
 	z-index:3;
@@ -1239,7 +1239,7 @@ ul.opening_list li span{
 .features-bg {
     position: relative;
     min-height: 400px;
-    background: url(../img/features-intro-01.jpg) no-repeat center center;
+    background: url(/assets/images/quickfood/img/features-intro-01.jpg) no-repeat center center;
     background-size: cover;
 }
 .features-img {
@@ -1382,7 +1382,7 @@ ul.opening_list li span{
 }
 .parallax-window-2 {
 	height:auto;
-	background: url(../img/bg_office.jpg) no-repeat center center;
+	background: url(/assets/images/quickfood/img/bg_office.jpg) no-repeat center center;
 	background-attachment:fixed;
 	background-size:cover;
 	-webkit-background-size: cover;
@@ -1793,7 +1793,7 @@ footer .form-group {
 	font-size:24px;
 }
 .payment_select#paypal{
-	background:#f0f0f0 url(../img/paypal.svg) center right no-repeat;
+	background:#f0f0f0 url(/assets/images/quickfood/img/paypal.svg) center right no-repeat;
 }
 
 /*3.9 Collapse*/   
@@ -2062,7 +2062,7 @@ a.bt_filters{
    width: 100%;
    overflow:hidden;
    height: 36px;
-   background: url(../img/arrow_down.svg) no-repeat  right center ;
+   background: url(/assets/images/quickfood/img/arrow_down.svg) no-repeat  right center ;
    border:none;
    border-right: 1px solid #ededed;
 } 

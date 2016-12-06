@@ -53,6 +53,8 @@ if (isset($_GET['id'])){
 <?php endif;?>
 
 <ul class="uk-switcher uk-margin " id="tab-content">
+    
+<!--Restaurant Information-->
 <li class="uk-active">
     <fieldset>        
     
@@ -222,6 +224,7 @@ if (isset($_GET['id'])){
     </fieldset>
 </li>
 
+<!--Login Information-->
 <li>
 <div class="uk-form-row">
   <label class="uk-form-label"><?php echo Yii::t("default","Username")?></label>
@@ -243,6 +246,7 @@ if (isset($_GET['id'])){
 </div>
 </li>
 
+<!--Membership-->
 <li>
 <?php 
 Yii::app()->functions->data="list";
@@ -277,6 +281,7 @@ Yii::app()->functions->data="list";
   </div>  
 </li>
 
+<!--Featured-->
 <li>
  <div class="uk-form-row">
   <label class="uk-form-label"><?php echo Yii::t("default","Featured")?>?</label>
@@ -289,8 +294,9 @@ Yii::app()->functions->data="list";
   </div>
 </li>
 
+<!--Payment History-->
 <li>
-  <?php if ($payment_res=Yii::app()->functions->getMerchantPaymentTransaction($_GET['id'])):?>
+  <?php if (isset($_GET['id']) && $payment_res=Yii::app()->functions->getMerchantPaymentTransaction($_GET['id'])):?>
 	  <table id="table_list" class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
 	  <caption><?php echo Yii::t("default","Merchant Payment History")?></caption>
 	   <thead>	
@@ -319,6 +325,7 @@ Yii::app()->functions->data="list";
   <?php endif;?>
 </li>
 
+<!--Commision Settings-->
 <li>
 
 <div class="uk-form-row">
@@ -347,7 +354,7 @@ Yii::app()->functions->data="list";
   }
   
   echo CHtml::dropDownList('commision_type',
-  $data['commision_type']
+   isset($data['commision_type'])?$data['commision_type']:''
   ,array(
    'fixed'=>"Fixed",
    'percentage'=>"Percentage"
@@ -406,8 +413,6 @@ Yii::app()->functions->data="list";
 </div>
 
 </li>
-
-
 <li>
 
  <?php 

@@ -4698,7 +4698,7 @@ $htm.='<div class="b uk-text-muted">'."$addon_raw_price ".ucwords(qTranslate($va
 				return $data_feed;
 			} else return $rows;
 		}
-		return FALSE;
+                return array('No packages created yet.');
 	}        	
 	
 	public function randomColor()
