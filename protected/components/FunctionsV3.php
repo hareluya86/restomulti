@@ -31,7 +31,7 @@ class FunctionsV3
 				return uploadURL()."/$logo";
 			}
 		} 
-		return assetsURL()."/images/logo-desktop.png";
+		return assetsURL()."/images/quickfood/img/logo.png";
 	}
 	
 	public static function getMobileLogo()
@@ -43,7 +43,7 @@ class FunctionsV3
 				return uploadURL()."/$logo";
 			}
 		} 
-		return assetsURL()."/images/logo-mobile.png";
+		return assetsURL()."/images/quickfood/img/logo-mobile.png";
 	}	
 	
 	public static function getFooterAddress()

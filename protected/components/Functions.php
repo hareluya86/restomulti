@@ -9445,6 +9445,11 @@ function assetsURL()
 	return Yii::app()->request->baseUrl."/assets";
 }
 
+function assetsURLQuickfood()
+{
+    return Yii::app()->request->baseUrl."/assets/quickfood";
+}
+
 function ccController()
 {
 	return "/".Yii::app()->controller->id;

@@ -19,10 +19,13 @@
 <!--LANGUAGE SELECTION TOP-->
 
 <!--TOP MENU-->
-<?php $this->renderPartial('/layouts/front_top_menu',array(
+<?php $this->renderPartial('/layouts/quickfood/front_top_menu',array(
   'action'=>Yii::app()->controller->action->id,
   'theme_hide_logo'=>getOptionA('theme_hide_logo')
 ));?>
+
+<!--BANNER-->
+
 
 <!--MAIN CONTENT-->
 <?php echo $content;?>
