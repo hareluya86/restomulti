@@ -1,2 +1,8 @@
 .DS_Store
 .htaccess
+.mage
+
+*.yml
+
+nbproject/private/private.xml
+
