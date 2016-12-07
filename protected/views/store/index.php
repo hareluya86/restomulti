@@ -241,85 +241,17 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
                     </a><!-- End strip_list-->
                 </div><!-- End col-md-6-->
             <?php endforeach; ?>
-            <div class="col-md-6">
-                <a href="detail_page.html" class="strip_list">
-                <div class="ribbon_1">Popular</div>
-                    <div class="desc">
-                        <div class="thumb_strip">
-                            <img src="img/thumb_restaurant_4.jpg" alt="">
-                        </div>
-                        <div class="rating">
-                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-                        </div>
-                        <h3>Sushi Gold</h3>
-                        <div class="type">
-                            Sushi / Japanese
-                        </div>
-                        <div class="location">
-                            135 Newtownards Road, Belfast, BT4. <span class="opening">Opens at 17:00</span>
-                        </div>
-                        <ul>
-                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
-                            <li>Delivery<i class="icon_close_alt2 no"></i></li>
-                        </ul>
-                    </div><!-- End desc-->
-                </a><!-- End strip_list-->
-                <a href="detail_page.html" class="strip_list">
-                <div class="ribbon_1">Popular</div>
-                    <div class="desc">
-                        <div class="thumb_strip">
-                            <img src="img/thumb_restaurant_5.jpg" alt="">
-                        </div>
-                        <div class="rating">
-                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-                        </div>
-                        <h3>Dragon Tower</h3>
-                        <div class="type">
-                            Chinese / Thai
-                        </div>
-                        <div class="location">
-                            135 Newtownards Road, Belfast, BT4. <span class="opening">Opens at 17:00</span>
-                        </div>
-                        <ul>
-                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
-                            <li>Delivery<i class="icon_check_alt2 ok"></i></li>
-                        </ul>
-                    </div><!-- End desc-->
-                </a><!-- End strip_list-->
-                <a href="detail_page.html" class="strip_list">
-                <div class="ribbon_1">Popular</div>
-                    <div class="desc">
-                        <div class="thumb_strip">
-                            <img src="img/thumb_restaurant_6.jpg" alt="">
-                        </div>
-                        <div class="rating">
-                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-                        </div>
-                        <h3>China Food</h3>
-                        <div class="type">
-                            Chinese / Vietnam
-                        </div>
-                        <div class="location">
-                            135 Newtownards Road, Belfast, BT4. <span class="opening">Opens at 17:00</span>
-                        </div>
-                        <ul>
-                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
-                            <li>Delivery<i class="icon_check_alt2 ok"></i></li>
-                        </ul>
-                    </div><!-- End desc-->
-                </a><!-- End strip_list-->
-            </div>
         </div><!-- End row -->   
         
     </div><!-- End container -->
 </div><!-- End white_bg -->
 <!--quickfood-->
 
-
+<?php if(false): ?>
 <div class="sections section-feature-resto">
 <div class="container">
 
-<?php if(false): ?>
+
   <h2><?php echo t("Featured Restaurants")?></h2>
   
   <div class="row">
@@ -375,7 +307,31 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
 <!--END FEATURED RESTAURANT SECIONS-->
 <?php endif;?>
 
-<?php if ($theme_hide_cuisine<>2):?>
+<!--CHOOSE FROM OVER X RESTAURANTS-->
+<div class="high_light">
+    <div class="container">
+            <h3>Choose from over 2,000 Restaurants</h3>
+        <p>Ridiculus sociosqu cursus neque cursus curae ante scelerisque vehicula.</p>
+        <a href="list_page.html">View all Restaurants</a>
+    </div><!-- End container -->
+</div><!-- End hight_light -->
+<!--CHOOSE FROM OVER X RESTAURANTS-->
+
+<!--WE ALSO DELIVER TO YOUR OFFICE-->
+<section class="parallax-window" data-parallax="scroll" data-image-src="/assets/images/quickfood/img/bg_office.jpg" data-natural-width="1200" data-natural-height="600">
+    <div class="parallax-content">
+        <div class="sub_content">
+            <i class="icon_mug"></i>
+            <h3>We also deliver to your office</h3>
+            <p>
+                Ridiculus sociosqu cursus neque cursus curae ante scelerisque vehicula.
+            </p>
+        </div><!-- End sub_content -->
+    </div><!-- End subheader -->
+</section><!-- End section -->
+
+
+<?php if (false && $theme_hide_cuisine<>2):?>
 <!--CUISINE SECTIONS-->
 <?php if ( $list=FunctionsV3::getCuisine() ): ?>
 <div class="sections section-cuisine">

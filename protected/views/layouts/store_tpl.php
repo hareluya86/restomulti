@@ -44,6 +44,7 @@
   'youtube_url'=>getOptionA('admin_youtube_url'),
   'theme_hide_footer_section1'=>getOptionA('theme_hide_footer_section1'),
   'theme_hide_footer_section2'=>getOptionA('theme_hide_footer_section2'),
+  'theme_hide_cuisine' => getOptionA('theme_hide_cuisine'),
 ));?>
 
 <!--FOOTER-->
