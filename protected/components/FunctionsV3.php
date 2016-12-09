@@ -602,6 +602,7 @@ class FunctionsV3
         	}
         }
         
+        /*
         if ($is_merchant_open){
         	$tag='<span class="label label-success">'.t("Open").'</span>';
         } else {
@@ -610,7 +611,16 @@ class FunctionsV3
         	} else {
         		$tag='<span class="label label-danger">'.t("Closed").'</span>';
         	}
-        }      
+        }*/
+        if ($is_merchant_open){
+        	$tag='<span class="opened">'.t("Open").'</span>';
+        } else {
+        	if ($merchant_preorder){
+        		$tag='<span class="closed">'.t("Pre-Order").'</span>';
+        	} else {
+        		$tag='<span class="closed">'.t("Closed.").'</span>';
+        	}
+        }
         return $tag;  
     }
     

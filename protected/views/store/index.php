@@ -18,6 +18,12 @@ if ( $home_search_mode=="postcode" ){
 }
 $placholder_search=Yii::t("default",$placholder_search);
 ?>
+
+<?php $this->renderPartial('/layouts/quickfood/front_top_menu',array(
+  'action'=>Yii::app()->controller->action->id,
+  'theme_hide_logo'=>getOptionA('theme_hide_logo')
+));?>
+
 <!-- SubHeader =============================================== -->
 <section class="header-video">
     <div id="hero_video">
@@ -427,4 +433,11 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
 <?php endif;?>
 
 
- 
+<?php //page-specific js and css files
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseUrl . "/assets/js/quickfood/modernizr.js"
+                , CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . "/assets/js/quickfood/video_header.js"
+                , CClientScript::POS_END);
+?>

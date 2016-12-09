@@ -11,6 +11,11 @@ $this->renderPartial('/front/progress-merchantsignup',array(
 ));
 ?>
 
+<!--TOP MENU-->
+<?php $this->renderPartial('/layouts/quickfood/front_top_menu',array(
+  'action'=>Yii::app()->controller->action->id,
+  'theme_hide_logo'=>getOptionA('theme_hide_logo')
+));?>
 
 <div class="sections section-grey">
 

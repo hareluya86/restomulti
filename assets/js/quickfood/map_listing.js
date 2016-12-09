@@ -1,3 +1,5 @@
+var MarkersData; //global variable
+
 (function(A) {
 
 	if (!Array.prototype.forEach)
@@ -12,13 +14,13 @@
 		var
 		mapObject,
 		markers = [],
-		markersData = {
+		markersData = MarkersData;/*{
 			'Chinese': [
 			{
 				name: 'Golden Bowl',
 				location_latitude: 48.865633, 
 				location_longitude: 2.321236,
-				map_image_url: 'img/thumb_restaurant_map.png',
+				map_image_url: 'assets/images/quickfood/img/thumb_restaurant_map.png',
 				name_point: 'Golden Bowl',
 				type_point: 'Chinese/Japanese',
 				description_point: '135 Newtownards Road, Belfast, BT4<br><strong>Opening time</strong>: 09am-10pm.',
@@ -28,7 +30,7 @@
 				name: 'Oriental Chinese',
 				location_latitude: 48.854183,
 				location_longitude: 2.354808,
-				map_image_url: 'img/thumb_restaurant_map.png',
+				map_image_url: 'assets/images/quickfood/img/thumb_restaurant_map.png',
 				name_point: 'Oriental Chinese',
 				type_point: 'Chinese/Japanese',
 				description_point: '135 Newtownards Road, Belfast, BT4<br><strong>Opening time</strong>: 09am-10pm.',
@@ -38,7 +40,7 @@
 				name: 'Dragon Tower',
 				location_latitude: 48.852729, 
 				location_longitude: 2.350564,
-				map_image_url: 'img/thumb_restaurant_map.png',
+				map_image_url: 'assets/images/quickfood/img/thumb_restaurant_map.png',
 				name_point: 'Dragon Tower',
 				type_point: 'Chinese/Japanese',
 				description_point: '135 Newtownards Road, Belfast, BT4<br><strong>Opening time</strong>: 09am-10pm.',
@@ -50,7 +52,7 @@
 				name: 'O Sole mio',
 				location_latitude: 48.860819, 
 				location_longitude: 2.354507,
-				map_image_url: 'img/thumb_restaurant_map.png',
+				map_image_url: 'assets/images/quickfood/img/thumb_restaurant_map.png',
 				name_point: 'O Sole mio',
 				type_point: 'Pizza/Italian',
 				description_point: '135 Newtownards Road, Belfast, BT4<br><strong>Opening time</strong>: 09am-10pm.',
@@ -60,7 +62,7 @@
 				name: 'Naples Pizza',
 				location_latitude: 48.853798,
 				location_longitude: 2.333328,
-				map_image_url: 'img/thumb_restaurant_map.png',
+				map_image_url: 'assets/images/quickfood/img/thumb_restaurant_map.png',
 				name_point: 'Naples Pizza',
 				type_point: 'Pizza/Italian',
 				description_point: '135 Newtownards Road, Belfast, BT4<br><strong>Opening time</strong>: 09am-10pm.',
@@ -72,18 +74,28 @@
 				name: 'New Hong Kong',
 				location_latitude: 48.865784,
 				location_longitude: 2.307314,
-				map_image_url: 'img/thumb_restaurant_map.png',
+				map_image_url: 'assets/images/quickfood/img/thumb_restaurant_map.png',
 				name_point: 'New Hong Kong',
 				type_point: 'Sushi',
 				description_point: '135 Newtownards Road, Belfast, BT4<br><strong>Opening time</strong>: 09am-10pm.',
 				url_point: 'detail_page.html'
 			}
 			]
-		};
+		};*/
 
 			var mapOptions = {
 				zoom: 14,
-				center: new google.maps.LatLng(48.865633, 2.321236),
+				center: (function() {
+                                    if(navigator.geolocation) {
+                                        var position = navigator.geolocation.getCurrentPosition();
+                                        var lat = position.coords.latitude;
+                                        var lng = position.coords.longitude;
+                                        return new google.maps.LatLng(lat, lng);
+                                        
+                                    } else {
+                                        return new google.maps.LatLng(48.865633, 2.321236);
+                                    }
+                                })(),
 				mapTypeId: google.maps.MapTypeId.ROADMAP,
 
 				mapTypeControl: false,
@@ -118,22 +130,21 @@
 			mapObject = new google.maps.Map(document.getElementById('map_listing'), mapOptions);
 			for (var key in markersData)
 				markersData[key].forEach(function (item) {
-					marker = new google.maps.Marker({
-						position: new google.maps.LatLng(item.location_latitude, item.location_longitude),
-						map: mapObject,
-						icon: 'img/pins/' + key + '.png',
-					});
+                                    marker = new google.maps.Marker({
+                                            position: new google.maps.LatLng(item.location_latitude, item.location_longitude),
+                                            map: mapObject,
+                                            icon: 'assets/images/quickfood/img/pins/' + item.pin_nr + '.png',
+                                    });
 
-					if ('undefined' === typeof markers[key])
-						markers[key] = [];
-					markers[key].push(marker);
-					google.maps.event.addListener(marker, 'click', (function () {
-      closeInfoBox();
-      getInfoBox(item).open(mapObject, this);
-      mapObject.setCenter(new google.maps.LatLng(item.location_latitude, item.location_longitude));
-     }));
-
-	});
+                                    if ('undefined' === typeof markers[key])
+                                            markers[key] = [];
+                                    markers[key].push(marker);
+                                    google.maps.event.addListener(marker, 'click', (function () {
+                                        closeInfoBox();
+                                        getInfoBox(item).open(mapObject, this);
+                                        mapObject.setCenter(new google.maps.LatLng(item.location_latitude, item.location_longitude));
+                                    }));
+                                });
 	
 		function hideAllMarkers () {
 			for (var key in markers)

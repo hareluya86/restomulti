@@ -14,11 +14,6 @@ class ScriptManager {
                 , CClientScript::POS_END);
         $cs->registerScriptFile($baseUrl . "/assets/quickfood/validate.js"
                 , CClientScript::POS_END);
-        $cs->registerScriptFile($baseUrl . "/assets/js/quickfood/modernizr.js"
-                , CClientScript::POS_END);
-        //Page-specific scripts
-        $cs->registerScriptFile($baseUrl . "/assets/js/quickfood/video_header.js"
-                , CClientScript::POS_END);
     }
     
     public static function RegisterActionScripts() {
@@ -255,6 +250,8 @@ class ScriptManager {
         //$cs->registerCssFile($baseUrl.'/assets/css/store.css?ver=1.0');		
         $cs->registerCssFile($baseUrl . '/assets/css/quickfood/style.css');
         $cs->registerCssFile($baseUrl . '/assets/css/quickfood/base.css');
+        $cs->registerCssFile('https://fonts.googleapis.com/css?family=Lato:400,700,900,400italic,700italic,300,300italic');
+        $cs->registerCssFile('http://fonts.googleapis.com/css?family=Gochi+Hand');
         //Replacement of quickfood template
 
         /*
