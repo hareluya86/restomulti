@@ -1030,20 +1030,22 @@ class StoreController extends CController {
         }
         switch ($_GET['tab']) {
             case 2:
-                $tabs = 2;
-                $list = Yii::app()->functions->getAllMerchantNewest();
+                $tabs = 2; //2 is list listing
+                //$list = Yii::app()->functions->getAllMerchantNewest();
+                $list = Yii::app()->functions->getAllMerchant();
                 break;
 
             case 3:
-                $tabs = 3;
-                $list = Yii::app()->functions->getFeaturedMerchant();
+                $tabs = 3; //3 is grid listing
+                //$list = Yii::app()->functions->getFeaturedMerchant();
+                $list = Yii::app()->functions->getAllMerchant();
                 break;
 
             case "4":
                 break;
 
             default:
-                $tabs = 1;
+                $tabs = 1; //1 is map listing
                 $list = Yii::app()->functions->getAllMerchant();
                 break;
         }

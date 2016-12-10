@@ -15,7 +15,7 @@ if ( empty($val['latitude'])){
 	} 
 }
 ?>
-<div class="strip_list">
+<div class="strip_list wow fadeIn" data-wow-delay="0.2s">
     <?php if ( $val['is_sponsored']==2):?>
         <div class="ribbon_1">
             Popular
@@ -77,10 +77,10 @@ if ( empty($val['latitude'])){
 <?php endforeach;?>
 </div> <!--result-merchant-->
 
-<div class="search-result-loader">
+<!--<div class="search-result-loader">
     <i></i>
     <p><?php echo t("Loading more restaurant...")?></p>
- </div> <!--search-result-loader-->
+ </div>--> <!--search-result-loader-->
  
  
 
