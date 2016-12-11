@@ -1,9 +1,8 @@
-
 <!-- SubHeader =============================================== -->
 <section class="parallax-window" id="short" data-parallax="scroll" data-image-src="/assets/images/quickfood/img/sub_header_short.jpg" data-natural-width="1400" data-natural-height="350">
     <div id="subheader">
         <div id="sub_content">
-            <h1> results in your zone</h1>
+            <h1>24 results in your zone</h1>
             <div><i class="icon_pin"></i> 135 Newtownards Road, Belfast, BT4 1AB</div>
         </div><!-- End sub_content -->
     </div><!-- End subheader -->
@@ -30,9 +29,7 @@
 
         <div class="col-md-3">
             <p>
-                <a class="btn_map" data-toggle="collapse" aria-expanded="false" aria-controls="collapseMap" href="#collapseMap" >
-                    View on map
-                </a>
+                <a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap">View on map</a>
             </p>
             <div id="filters_col">
                 <a data-toggle="collapse" href="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters" id="filters_col_bt">Filters <i class="icon-plus-1 pull-right"></i></a>
@@ -44,8 +41,8 @@
                         <ul>
                             <li><label><input type="checkbox" checked class="icheck">All <small>(49)</small></label></li> 
                             <?php $cuisines = Yii::app()->functions->Cuisine(true); ?>
-                            <?php if (is_array($cuisines) && count($cuisines) >= 1): ?>
-                                <?php foreach ($cuisines as $cuisine): ?>
+                            <?php if (is_array($cuisines) && count($cuisines)>=1): ?>
+                                <?php foreach($cuisines as $cuisine): ?>
                                     <li><label><input type="checkbox" class="icheck"><?php echo $cuisine; ?> <small>(49)</small></label></li>
                                 <?php endforeach; ?>
                             <?php endif; ?>
@@ -98,20 +95,66 @@
                         </div>
                     </div>
                     <div class="col-md-9 col-sm-6 hidden-xs">
-                        <a href="<?php echo Yii::app()->createUrl('/store/browse?tab=3') ?>" class="bt_filters"><i class="icon-th"></i></a>
+                        <a href="<?php echo Yii::app()->createUrl('/store/browse?tab=2') ?>" class="bt_filters"><i class="icon-list"></i></a>
                     </div>
                 </div>
             </div><!--End tools -->
+            <div class="row">
+            <?php $pos = 1;//For counting the position of each listing?>
+            <?php foreach ($list['list'] as $val):?>
             <?php
-            if (is_array($list['list']) && count($list['list']) >= 1) {
-                $this->renderPartial('/front/quickfood/browse-list', array(
-                    'list' => $list,
-                    'tabs' => $tabs
-                ));
-            } else
-                echo '<p class="text-danger">' . t("No restaurant found") . '</p>';
+                $merchant_id=$val['merchant_id'];
+                $ratings=Yii::app()->functions->getRatings($merchant_id);   
+                $merchant_delivery_distance=getOption($merchant_id,'merchant_delivery_miles');
+                $distance_type='';
+
+                /*fallback*/
+                if ( empty($val['latitude'])){
+                        if ($lat_res=Yii::app()->functions->geodecodeAddress($val['merchant_address'])){        
+                                $val['latitude']=$lat_res['lat'];
+                                $val['lontitude']=$lat_res['long'];
+                        } 
+                }
             ?>
-            <a href="#0" class="load_more_bt wow fadeIn" data-wow-delay="0.2s">Load more...</a>  
+                <div class="col-md-6 col-sm-6 wow zoomIn" data-wow-delay="0.<?php echo $pos++; ?>s">
+                    <a class="strip_list grid" href="<?php echo Yii::app()->createUrl("/menu-". trim($val['restaurant_slug']))?>">
+                        <?php if ( $val['is_sponsored']==2):?>
+                        <div class="ribbon_1">Popular</div>
+                        <?php endif;?>
+                        <div class="desc">
+                            <div class="thumb_strip">
+                                <img src="<?php echo FunctionsV3::getMerchantLogo($merchant_id);?>" alt="">
+                            </div>
+                            <div class="rating">
+                                <?php for($i = 0; $i < $ratings['ratings']; $i++){
+                                    echo '<i class="icon_star voted"></i>';
+                                } ?>
+                                <?php for($i = 0; $i < 5-$ratings['ratings']; $i++){
+                                    echo '<i class="icon_star"></i>';
+                                } ?>
+                                (<small><?php echo $ratings['votes']." ".t("Reviews")?></small>)
+                            </div>
+                            <h3><?php echo clearString($val['restaurant_name'])?></h3>
+                            <div class="type">
+                                <?php echo FunctionsV3::displayCuisine($val['cuisine']);?>
+                            </div>
+                            <div class="location">
+                                <?php echo $val['merchant_address']?> <br />
+                                <?php echo FunctionsV3::merchantOpenTag($merchant_id)?>  
+                                <?php echo t("Minimum Order").": ".FunctionsV3::prettyPrice($val['minimum_order'])?>
+                            </div>
+                            <ul>
+                                <li>Take away<i class=" 
+                                    <?php echo (strpos(FunctionsV3::displayServicesList($val['service']), 'Pickup') !== false)?'icon_check_alt2 ok':'icon_close_alt2 no'?>"></i></li>
+                                <li>Delivery<i class="icon_check_alt2 
+                                    <?php echo (strpos(FunctionsV3::displayServicesList($val['service']), 'Delivery') !== false)?'icon_check_alt2 ok':'icon_close_alt2 no'?>"></i></li>
+                            </ul>
+                        </div>
+                    </a><!-- End strip_list-->
+                </div><!-- End col-md-6-->
+            <?php endforeach ?>
+            </div>            
+            <a href="#0" class="load_more_bt wow fadeIn" data-wow-delay="0.2s">Load more...</a>           
         </div><!-- End col-md-9-->
 
     </div><!-- End row -->

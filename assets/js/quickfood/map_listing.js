@@ -178,13 +178,22 @@ function onHtmlClick(location_type, key) {
 ;
 
 function getCurrLoc() {
+    var lat = localStorage.getItem("lat");
+    var lng = localStorage.getItem("lng");
+    if (lat && lng) {
+        mapObject.setCenter(new google.maps.LatLng(lat,lng));
+        return;
+    }
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position){
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
             mapObject.setCenter(new google.maps.LatLng(lat,lng));
+            localStorage.setItem("lat",lat);
+            localStorage.setItem("lng",lng);
         })
     } 
+    
 }
 
 $(document).ready(function(){

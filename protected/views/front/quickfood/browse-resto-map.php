@@ -82,8 +82,8 @@
 //page-specific js and css files
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile("http://maps.googleapis.com/maps/api/js"
-        , CClientScript::POS_END);
+//$cs->registerScriptFile("http://maps.googleapis.com/maps/api/js"
+//        , CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . "/assets/js/quickfood/map_listing.js"
         , CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . "/assets/js/quickfood/infobox.js"
@@ -121,6 +121,5 @@ $cs->registerScript('ion.rangeSlider',
 $cs->registerScript('setMenu', 
         '$(document).ready(function(){$(\'#header\').addClass(\'alwaysShow\');});'
         , CClientScript::POS_END);
-?>
 ?>
 

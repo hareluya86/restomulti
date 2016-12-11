@@ -699,12 +699,13 @@ jQuery(document).ready(function() {
        });     
     } 
     
-    if ( $(".icheck").exists() ) {
+    /* This is initializes in quickfood
+     * if ( $(".icheck").exists() ) {
 	     $('.icheck').iCheck({
 	       checkboxClass: 'icheckbox_minimal',
 	       radioClass: 'iradio_flat'
 	     });
-    }
+    }*/
     
     if( $('#bar-rating').is(':visible') ) {	
     	
@@ -2452,7 +2453,10 @@ jQuery(document).ready(function() {
 		//getAddress(position.coords.latitude,position.coords.longitude);
 		var lat=position.coords.latitude;
 		var lng=position.coords.longitude;
-		var latlng = new google.maps.LatLng(lat, lng);		
+		var latlng = new google.maps.LatLng(lat, lng);	
+                //store as a global variable
+                localStorage.setItem("lat",lat);
+                localStorage.setItem("lng",lng);
 		var geocoder = new google.maps.Geocoder();
 		geocoder.geocode({'latLng': latlng}, function(results, status) {						
 			if (status == google.maps.GeocoderStatus.OK) {

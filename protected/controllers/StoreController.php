@@ -605,6 +605,7 @@ class StoreController extends CController {
                 ));
             } else
                 $this->render('search-results-nodata');
+                //$this->render('browse-resto');
         }
     }
 
@@ -1056,7 +1057,7 @@ class StoreController extends CController {
             $country_name = $country_list[$country];
         } else
             $country_name = "United states";
-
+        
         if ($lat_res = Yii::app()->functions->geodecodeAddress($country_name)) {
             $lat_res = array(
                 'lat' => $lat_res['lat'],

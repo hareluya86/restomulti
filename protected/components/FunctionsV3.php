@@ -43,7 +43,7 @@ class FunctionsV3
 				return uploadURL()."/$logo";
 			}
 		} 
-		return assetsURL()."/images/quickfood/img/logo-mobile.png";
+		return assetsURL()."/images/quickfood/img/logo_mobile.png";
 	}	
 	
 	public static function getFooterAddress()

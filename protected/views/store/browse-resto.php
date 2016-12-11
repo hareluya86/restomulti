@@ -15,6 +15,7 @@ $this->renderPartial('/layouts/quickfood/front_top_menu', array(
 ));
 ?>
 
+<!--MAIN CONTENT-->
 <?php 
     if (is_array($list['list']) && count($list['list']) >= 1) {
         if($tabs == 1) {

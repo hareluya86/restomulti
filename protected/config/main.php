@@ -1,4 +1,9 @@
 <?php
+if( ! ini_get('date.timezone') )
+{
+    date_default_timezone_set('GMT');
+}
+
 $patern="cuisine|signup|signin|merchantsignup|contact|searcharea";
 $patern.="|menu|checkout|paymentoption|receipt|logout|paypalinit|paypalverify";
 $patern.="|OrderHistory|Profile|howItWork|forgotPassword|PageSetlanguage|stripeInit";

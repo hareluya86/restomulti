@@ -28,7 +28,7 @@
                 <a class="cmn-toggle-switch cmn-toggle-switch__htx open_close" href="javascript:void(0);"><span>Menu mobile</span></a>
                 <div class="main-menu">
                     <div id="header_menu">
-                        <img src="img/logo.png" width="190" height="23" alt="" data-retina="true">
+                        <img src="<?php echo FunctionsV3::getDesktopLogo(); ?>" width="190" height="23" alt="" data-retina="true">
                     </div>
                     <a href="#" class="open_close" id="close_in"><i class="icon_close"></i></a>
                     <?php $this->widget('zii.widgets.CMenu', FunctionsV3::getMenu()); ?> 

@@ -220,7 +220,7 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
                     <div class="ribbon_1">Popular</div>
                         <div class="desc">
                             <div class="thumb_strip">
-                                <img src="img/thumb_restaurant.jpg" alt="">
+                                <img src="/assets/images/quickfood/img/thumb_restaurant.jpg" alt="">
                             </div>
                             <div class="rating">
                                 <?php for($i = 0; $i < $ratings['ratings']; $i++){

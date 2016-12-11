@@ -1,5 +1,4 @@
 
-<div class="result-merchant infinite-container" id="restuarant-list">
 <?php foreach ($list['list'] as $val):?>
 <?php
 $merchant_id=$val['merchant_id'];
@@ -67,7 +66,9 @@ if ( empty($val['latitude'])){
 		        class="btn_1">
                         <?php echo t("View menu")?>
                     </a>
+                    <?php if($tabs == 1):?>
                     <a onclick="onHtmlClick('<?php echo $val['merchant_id'] ?>', 0)" class="btn_listing">View on Map</a>
+                    <?php endif;?>
                 </div>
             </div>
         </div>
@@ -75,7 +76,6 @@ if ( empty($val['latitude'])){
 </div><!-- End strip_list-->
 
 <?php endforeach;?>
-</div> <!--result-merchant-->
 
 <!--<div class="search-result-loader">
     <i></i>
