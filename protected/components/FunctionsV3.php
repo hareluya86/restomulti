@@ -252,7 +252,7 @@ class FunctionsV3
 		
     	if ($lat_res=Yii::app()->functions->geodecodeAddress($address)){
 	        $lat=$lat_res['lat'];
-			$long=$lat_res['long'];
+                $long=$lat_res['long'];
     	} 
     	
     	if (empty($lat)){

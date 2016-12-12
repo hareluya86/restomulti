@@ -318,7 +318,7 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
     <div class="container">
             <h3>Choose from over 2,000 Restaurants</h3>
         <p>Ridiculus sociosqu cursus neque cursus curae ante scelerisque vehicula.</p>
-        <a href="list_page.html">View all Restaurants</a>
+        <a href="/store/browse">View all Restaurants</a>
     </div><!-- End container -->
 </div><!-- End hight_light -->
 <!--CHOOSE FROM OVER X RESTAURANTS-->

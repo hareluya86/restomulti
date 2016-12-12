@@ -69,7 +69,7 @@
                             if ($theme_lang_pos == "bottom" || $theme_lang_pos == "") {
                                 echo CHtml::dropDownList('language-options', '', (array) FunctionsV3::getLanguage()
                                         , array(
-                                    'class' => "language-options selectpicker",
+                                    'class' => "form-control",//"language-options selectpicker",
                                     'title' => t("Select language")
                                 ));
                             }

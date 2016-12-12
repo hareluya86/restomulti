@@ -52,10 +52,10 @@ if ( empty($val['latitude'])){
                     <?php echo t("Minimum Order").": ".FunctionsV3::prettyPrice($val['minimum_order'])?>
                 </div>
                 <ul>
-                    <li>Take away<i class=" 
-                        <?php echo (strpos(FunctionsV3::displayServicesList($val['service']), 'Pickup') !== false)?'icon_check_alt2 ok':'icon_close_alt2 no'?>"></i></li>
                     <li>Delivery<i class="icon_check_alt2 
                         <?php echo (strpos(FunctionsV3::displayServicesList($val['service']), 'Delivery') !== false)?'icon_check_alt2 ok':'icon_close_alt2 no'?>"></i></li>
+                    <li>Pickup<i class=" 
+                        <?php echo (strpos(FunctionsV3::displayServicesList($val['service']), 'Pickup') !== false)?'icon_check_alt2 ok':'icon_close_alt2 no'?>"></i></li>
                 </ul>
             </div>
         </div>
@@ -110,12 +110,13 @@ if (isset($cuisine_page)){
     foreach ($list['list'] as $val) {
         $restObj = array();
         $restObj['name'] = $val['restaurant_name'];
-        $restObj['location_latitude'] = $val['lontitude'];
-        $restObj['location_longitude'] = $val['latitude'];
-        $restObj['map_image_url'] = 'assets/images/quickfood/img/thumb_restaurant_map.png';
+        $restObj['location_latitude'] = $val['latitude'];
+        $restObj['location_longitude'] = $val['lontitude'];
+        $restObj['map_image_url'] = FunctionsV3::getMerchantLogo($val['merchant_id']);
         $restObj['name_point'] = $val['restaurant_name'];
         $restObj['type_point'] = FunctionsV3::displayCuisine($val['cuisine']);
-        $restObj['description_point'] = $val['merchant_address'].'<br><strong>'.FunctionsV3::merchantOpenTag($merchant_id).'</strong>';
+        $restObj['description_point'] = $val['merchant_address'];
+        $restObj['open_status'] = FunctionsV3::merchantOpenTag($val['merchant_id']);
         $restObj['url_point'] = Yii::app()->createUrl("/menu-". trim($val['restaurant_slug']));
         $restObj['pin_nr'] = (++$pin_nr)%7;
         

@@ -3,62 +3,79 @@ $search_address=isset($_GET['s'])?$_GET['s']:'';
 if (isset($_GET['st'])){
 	$search_address=$_GET['st'];
 }
-$this->renderPartial('/front/search-header',array(
-   'search_address'=>$search_address,
-   'total'=>$data['total']
-));?>
+//$this->renderPartial('/front/search-header',array(
+//   'search_address'=>$search_address,
+//   'total'=>$data['total']
+//));?>
+
+<!--TOP MENU-->
+<?php
+$this->renderPartial('/layouts/quickfood/front_top_menu', array(
+    'action' => Yii::app()->controller->action->id,
+    'theme_hide_logo' => getOptionA('theme_hide_logo')
+));
+?>
 
 <?php 
-$this->renderPartial('/front/order-progress-bar',array(
-   'step'=>2,
-   'show_bar'=>true
+//$this->renderPartial('/front/order-progress-bar',array(
+//   'step'=>2,
+//   'show_bar'=>true
+//));
+
+$this->renderPartial('/front/quickfood/default-header', array(
+    'h1' => count($data['list']).' '.t("results"),
+    'sub_text' => $search_address,
+    'step' => 2,
+    'show_bar' => true
 ));
 
 echo CHtml::hiddenField('clien_lat',$data['client']['lat']);
 echo CHtml::hiddenField('clien_long',$data['client']['long']);
+
+echo CHtml::hiddenField('sort_filter',$sort_filter);
+echo CHtml::hiddenField('display_type',$display_type);
 ?>
 
-<div class="search-map-results">  
-</div> <!--search-map-results-->
 
-<div class="sections section-search-results">
+<div id="position">
+    <div class="container">
+        <ul>
+            <li><a href="#0">Home</a></li>
+            <li><a href="#0">Category</a></li>
+            <li>Page active</li>
+        </ul>
+    </div>
+</div><!-- Position -->
 
-  <div class="container">
+<!--quickfood start-->
+<div class="collapse" id="collapseMap">
+    <div id="map" class="map"></div>
+</div><!-- End Map -->
 
-   <div class="row">
-   
-     <div class="col-md-3 border search-left-content" id="mobile-search-filter">
-       
-        <?php if ( $enabled_search_map=="yes"):?>
-        <a href="javascript:;" class="search-view-map green-button block center upper rounded">
-        <?php echo t("View by map")?>
-        </a>
-        <?php endif;?>
-        
-        <div class="filter-wrap rounded2 <?php echo $enabled_search_map==""?"no-marin-top":""; ?>">
-                
-          <button type="button" class="close modal-close-btn" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>  
-        
-           <p class="bold"><?php echo t("Filters")?></p>
-           
-           
-           <!--FILTER MERCHANT NAME-->       
-           <?php if (!empty($restaurant_name)):?>                      
-           <a href="<?php echo FunctionsV3::clearSearchParams('restaurant_name')?>">[<?php echo t("Clear")?>]</a>
-           <?php endif;?>    
-           <div class="filter-box">
-	           <a href="javascript:;">	             
-	             <span>
-	             <i class="<?php echo $fc==2?"ion-ios-arrow-thin-down":'ion-ios-arrow-thin-right'?>"></i>
-	             <?php echo t("Search by name")?>
-	             </span>   
-	             <b></b>
-	           </a>
-	           <ul class="<?php echo $fc==2?"hide":''?>">
-	              <li>
-	              <form method="POST" onsubmit="return research_merchant();">
+<!-- Content ================================================== -->
+<div class="container margin_60_35">
+    <div class="row">
+
+        <div class="col-md-3">
+            <p>
+                <a class="btn_map" data-toggle="collapse" aria-expanded="false" aria-controls="collapseMap" href="#collapseMap" >
+                    View on map
+                </a>
+            </p>
+            <div id="filters_col">
+                <a data-toggle="collapse" href="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters" id="filters_col_bt">Filters <i class="icon-plus-1 pull-right"></i></a>
+                <div class="collapse" id="collapseFilters">
+                    
+                    <!--FILTER MERCHANT NAME-->       
+             
+           <div class="filter_type">
+               <h6>
+                    <?php echo t("Search by name")?>
+                    <?php if (!empty($restaurant_name)):?>                      
+                        <a href="<?php echo FunctionsV3::clearSearchParams('restaurant_name')?>">[<?php echo t("Clear")?>]</a>
+                    <?php endif;?>  
+               </h6>
+                    <form method="POST" onsubmit="return research_merchant();">
 		              <div class="search-input-wraps rounded30">
 		              <div class="row">
 				        <div class="col-md-10 col-xs-10">
@@ -72,309 +89,219 @@ echo CHtml::hiddenField('clien_long',$data['client']['long']);
 				        </div>
 				     </div>
 			     </div>
-			     </form>
-	              </li>
-	           </ul>
+                    </form>
            </div> <!--filter-box-->
-           <!--END FILTER MERCHANT NAME-->           
-           
-           
-           
-           <!--FILTER DELIVERY FEE-->           
-           <div class="filter-box">
-	           <a href="javascript:;">	             
-	             <span>
-	             <i class="<?php echo $fc==2?"ion-ios-arrow-thin-down":'ion-ios-arrow-thin-right'?>"></i>
-	             <?php echo t("Delivery Fee")?>
-	             </span>   
-	             <b></b>
-	           </a>
-	            <ul class="<?php echo $fc==2?"hide":''?>">
-	              <li>
-	              <?php 
-		          echo CHtml::checkBox('filter_by[]',false,array(
-		          'value'=>'free-delivery',
-		          'class'=>"filter_promo icheck"
-		          ));
-		          ?>
-	              <?php echo t("Free Delivery")?>
-	              </li>
-	           </ul>
-           </div> <!--filter-box-->
-           <!--END FILTER DELIVERY FEE-->
+           <!--END FILTER MERCHANT NAME-->   
            
            <!--FILTER DELIVERY -->
-           <?php if (!empty($filter_delivery_type)):?>                      
-           <a href="<?php echo FunctionsV3::clearSearchParams('filter_delivery_type')?>">[<?php echo t("Clear")?>]</a>
-           <?php endif;?>
+           
            <?php if ( $services=Yii::app()->functions->Services() ):?>
-           <div class="filter-box">
-	           <a href="javascript:;">	             
-	             <span>
-	             <i class="<?php echo $fc==2?"ion-ios-arrow-thin-down":'ion-ios-arrow-thin-right'?>"></i>
+           <div class="filter_type">
+	           <h6>
 	             <?php echo t("By Delivery")?>
-	             </span>   
-	             <b></b>
-	           </a>
+                       <?php if (!empty($filter_delivery_type)):?>                      
+                        <a href="<?php echo FunctionsV3::clearSearchParams('filter_delivery_type')?>">[<?php echo t("Clear")?>]</a>
+                        <?php endif;?>
+	           </h6>
 	           <ul class="<?php echo $fc==2?"hide":''?>">
 	             <?php foreach ($services as $key=> $val):?>
-	              <li>	           	              
-	              <?php 
-		           echo CHtml::radioButton('filter_delivery_type',
-		           $filter_delivery_type==$key?true:false
-		           ,array(
-		          'value'=>$key,
-		          'class'=>"filter_by filter_delivery_type icheck"
-		          ));
-		          ?>
-		          <?php echo $val;?>   
+	              <li>	        
+                        <label>
+                            <?php 
+                                 echo CHtml::radioButton('filter_delivery_type',
+                                 $filter_delivery_type==$key?true:false
+                                 ,array(
+                                'value'=>$key,
+                                'class'=>"filter_by filter_delivery_type icheck"
+                                ));
+                                ?>
+                            <?php echo $val;?>   
+                        </label>
 	              </li>
 	             <?php endforeach;?> 
 	           </ul>
            </div> <!--filter-box-->
            <?php endif;?>
            <!--END FILTER DELIVERY -->
-           
-           <!--FILTER CUISINE-->
-           <?php if (!empty($filter_cuisine)):?>                      
-           <a href="<?php echo FunctionsV3::clearSearchParams('filter_cuisine')?>">[<?php echo t("Clear")?>]</a>
-           <?php endif;?>
-           <?php if ( $cuisine=Yii::app()->functions->Cuisine(false)):?>
-           <div class="filter-box">
-	           <a href="javascript:;">	             
-	             <span>
-	             <i class="<?php echo $fc==2?"ion-ios-arrow-thin-down":'ion-ios-arrow-thin-right'?>"></i>
-	             <?php echo t("By Cuisines")?>
-	             </span>   
-	             <b></b>
-	           </a>
-	            <ul class="<?php echo $fc==2?"hide":''?>">
-	             <?php foreach ($cuisine as $val): ?>
-	              <li>
-		           <?php 
-		           $cuisine_json['cuisine_name_trans']=!empty($val['cuisine_name_trans'])?
-	    		   json_decode($val['cuisine_name_trans'],true):'';
-	    		   
-		           echo CHtml::checkBox('filter_cuisine[]',
-		           in_array($val['cuisine_id'],(array)$filter_cuisine)?true:false
-		           ,array(
-		           'value'=>$val['cuisine_id'],
-		           'class'=>"filter_by icheck filter_cuisine"
-		           ));
-		          ?>
-	              <?php echo qTranslate($val['cuisine_name'],'cuisine_name',$cuisine_json)?>
-	              </li>
-	             <?php endforeach;?> 
-	           </ul>
-           </div> <!--filter-box-->
-           <?php endif;?>
-           <!--END FILTER CUISINE-->
-           
-           
-           <!--MINIUM DELIVERY FEE-->           
-           <?php if (!empty($filter_minimum)):?>                      
-           <a href="<?php echo FunctionsV3::clearSearchParams('filter_minimum')?>">[<?php echo t("Clear")?>]</a>
-           <?php endif;?>
-           <?php if ( $minimum_list=FunctionsV3::minimumDeliveryFee()):?>
-           <div class="filter-box">
-	           <a href="javascript:;">	             
-	             <span>
-	             <i class="<?php echo $fc==2?"ion-ios-arrow-thin-down":'ion-ios-arrow-thin-right'?>"></i>
-	             <?php echo t("Minimum Delivery")?>
-	             </span>   
-	             <b></b>
-	           </a>
-	            <ul class="<?php echo $fc==2?"hide":''?>">
-	             <?php foreach ($minimum_list as $key=>$val):?>
-	              <li>
-		           <?php 
-		          echo CHtml::radioButton('filter_minimum[]',
-		          $filter_minimum==$key?true:false
-		          ,array(
-		          'value'=>$key,
-		          'class'=>"filter_by_radio filter_minimum icheck"
-		          ));
-		          ?>
-	              <?php echo $val;?>
-	              </li>
-	             <?php endforeach;?> 
-	           </ul>
-           </div> <!--filter-box-->
-           <?php endif;?>
-           <!--END MINIUM DELIVERY FEE-->
-           
-        </div> <!--filter-wrap-->
-        
-     </div> <!--col search-left-content-->
-     
-     <div class="col-md-9 border search-right-content">
-          
-     <?php echo CHtml::hiddenField('sort_filter',$sort_filter)?>
-     <?php echo CHtml::hiddenField('display_type',$display_type)?>     
-     
-         <div class="sort-wrap">
-           <div class="row">           
-              <div class="col-md-6 col-xs-6 border ">	           
-	           <?php 
-	           $filter_list=array(
-	             'restaurant_name'=>t("Name"),
-	             'ratings'=>t("Rating"),
-	             'minimum_order'=>t("Minimum"),
-	             'distance'=>t("Distance")
-	           );
-	           if (isset($_GET['st'])){
-	           	   unset($filter_list['distance']);
-	           }
-	           echo CHtml::dropDownList('sort-results',$sort_filter,$filter_list,array(
-	             'class'=>"sort-results selectpicker",
-	             'title'=>t("Sort By")
-	           ));
-	           ?>
-              </div> <!--col-->
-              <div class="col-md-6 col-xs-6 border">                
-               
-                          
-                <a href="<?php echo FunctionsV3::clearSearchParams('','display_type=listview')?>" 
-	           class="display-type orange-button block center rounded 
-	           <?php echo $display_type=="gridview"?'inactive':''?>" 
-		          data-type="listview">
-                <i class="fa fa-th-list"></i>
-                </a>
-                
-                <a href="<?php echo FunctionsV3::clearSearchParams('','display_type=gridview')?>" 
-		          class="display-type orange-button block center rounded mr10px 
-	             <?php echo $display_type=="listview"?'inactive':''?>" 
-		          data-type="gridview">
-                <i class="fa fa-th-large"></i>
-                </a>           
-                
-                <a href="javascript:;" id="mobile-filter-handle" class="orange-button block center rounded mr10px">
-                  <i class="fa fa-filter"></i>
-                </a>    
-                
-                <?php if ( $enabled_search_map=="yes"):?>
-                <a href="javascript:;" id="mobile-viewmap-handle" class="orange-button block center rounded mr10px">
-                  <i class="ion-ios-location"></i>
-                </a>    
-                <?php endif;?>
-                
-                <div class="clear"></div>
-                
-              </div>
-           </div> <!--row-->
-         </div>  <!--sort-wrap-->  
-         
-         
-         <!--MERCHANT LIST -->
-                  
-         <div class="result-merchant">
-             <div class="row infinite-container">
-             
-             <?php if ($data):?>
-	             <?php foreach ($data['list'] as $val):?>
-	             <?php 
-	             $merchant_id=$val['merchant_id'];             
-	             $ratings=Yii::app()->functions->getRatings($merchant_id);   
-	             
-	             /*get the distance from client address to merchant Address*/             
-	             $distance_type=FunctionsV3::getMerchantDistanceType($merchant_id); 
-	             $distance_type_orig=$distance_type;
-	             
-	             /*dump("c lat=>".$data['client']['lat']);         
-	             dump("c lng=>".$data['client']['long']);	             
-	             dump("m lat=>".$val['latitude']);
-	             dump("c lng=>".$val['lontitude']);*/
-	             
-	               
-	             $distance=FunctionsV3::getDistanceBetweenPlot(
-	                $data['client']['lat'],$data['client']['long'],
-	                $val['latitude'],$val['lontitude'],$distance_type
-	             );      
-	             	             	     
-	             $distance_type_raw = $distance_type=="M"?"miles":"kilometers";
-	             $distance_type = $distance_type=="M"?t("miles"):t("kilometers");
-	             $distance_type_orig = $distance_type_orig=="M"?t("miles"):t("kilometers");
-	             
-	             if(!empty(FunctionsV3::$distance_type_result)){
-	             	$distance_type_raw=FunctionsV3::$distance_type_result;
-	             	$distance_type=t(FunctionsV3::$distance_type_result);
-	             }
-	             
-	             $merchant_delivery_distance=getOption($merchant_id,'merchant_delivery_miles');             
-	             
-	             $delivery_fee=FunctionsV3::getMerchantDeliveryFee(
-	                          $merchant_id,
-	                          $val['delivery_charges'],
-	                          $distance,
-	                          $distance_type_raw);
-	             ?>
-	             
-	             <?php 	             
-	             if ( $display_type=="listview"){
-	             	 $this->renderPartial('/front/search-list-2',array(
-					   'data'=>$data,
-					   'val'=>$val,
-					   'merchant_id'=>$merchant_id,
-					   'ratings'=>$ratings,
-					   'distance_type'=>$distance_type,
-					   'distance_type_orig'=>$distance_type_orig,
-					   'distance'=>$distance,
-					   'merchant_delivery_distance'=>$merchant_delivery_distance,
-					   'delivery_fee'=>$delivery_fee
-					 ));
-	             } else {
-		             $this->renderPartial('/front/search-list-1',array(
-					   'data'=>$data,
-					   'val'=>$val,
-					   'merchant_id'=>$merchant_id,
-					   'ratings'=>$ratings,
-					   'distance_type'=>$distance_type,
-					   'distance_type_orig'=>$distance_type_orig,
-					   'distance'=>$distance,
-					   'merchant_delivery_distance'=>$merchant_delivery_distance,
-					   'delivery_fee'=>$delivery_fee
-					 ));
-	             }
-				 ?>
-				              
-	              <?php endforeach;?>     
-              <?php else :?>     
-              <p class="center top25 text-danger"><?php echo t("No results with your selected filters")?></p>
-              <?php endif;?>
-                                                   
-             </div> <!--row-->                
-             
-             <div class="search-result-loader">
-                <i></i>
-                <p><?php echo t("Loading more restaurant...")?></p>
-             </div> <!--search-result-loader-->
-             
-             <?php                         
-             if (!isset($current_page_url)){
-             	$current_page_url='';
-             }
-             if (!isset($current_page_link)){
-             	$current_page_link='';
-             }
-             echo CHtml::hiddenField('current_page_url',$current_page_url);
-             require_once('pagination.class.php'); 
-             $attributes                 =   array();
-			 $attributes['wrapper']      =   array('id'=>'pagination','class'=>'pagination');			 
-			 $options                    =   array();
-			 $options['attributes']      =   $attributes;
-			 $options['items_per_page']  =   FunctionsV3::getPerPage();
-			 $options['maxpages']        =   1;
-			 $options['jumpers']=false;
-			 $options['link_url']=$current_page_link.'&page=##ID##';			
-			 $pagination =   new pagination( $data['total'] ,((isset($_GET['page'])) ? $_GET['page']:1),$options);		
-			 $data   =   $pagination->render();
-             ?>             
                     
-         </div> <!--result-merchant-->
-     
-     </div> <!--col search-right-content-->
-     
-   </div> <!--row-->
-  
-  </div> <!--container-->
-</div> <!--section-search-results-->
+                    <!--FILTER CUISINE-->
+                    <?php if ( $cuisines=Yii::app()->functions->Cuisine(false)):?>
+                        <div class="filter_type">
+                            <h6>
+                                <?php echo t("By Cuisines")?>
+                                <?php if (!empty($filter_cuisine)):?>                      
+                                    <a href="<?php echo FunctionsV3::clearSearchParams('filter_cuisine')?>">[<?php echo t("Clear")?>]</a>
+                                <?php endif;?>
+                            </h6>
+                            <ul class="<?php echo $fc==2?"hide":''?>">
+                                <?php foreach ($cuisines as $cuisine): ?>
+                                    <li>
+                                        <label>
+                                            <?php 
+                                            $cuisine_json['cuisine_name_trans']=!empty($cuisine['cuisine_name_trans'])?
+                                            json_decode($cuisine['cuisine_name_trans'],true):'';
+
+                                            echo CHtml::checkBox('filter_cuisine[]',
+                                                in_array($cuisine['cuisine_id'],(array)$filter_cuisine)?true:false
+                                                ,array(
+                                                    'value'=>$cuisine['cuisine_id'],
+                                                    'class'=>"filter_by icheck filter_cuisine"
+                                                )
+                                            );
+                                           ?>
+                                        </label>
+                                        <?php echo qTranslate($cuisine['cuisine_name'],'cuisine_name',$cuisine_json)?>
+                                    </li>
+                                <?php endforeach;?> 
+                            </ul>
+                        </div> <!--filter-box-->
+                    <?php endif;?>
+                    <!--END FILTER CUISINE-->
+                    
+                    
+                    
+                    
+                    <div class="filter_type">
+                        <h6>Rating</h6>
+                        <ul>
+                            <li><label><input type="checkbox" class="icheck"><span class="rating">
+                                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i>
+                                    </span></label></li>
+                            <li><label><input type="checkbox" class="icheck"><span class="rating">
+                                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+                                    </span></label></li>
+                            <li><label><input type="checkbox" class="icheck"><span class="rating">
+                                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i>
+                                    </span></label></li>
+                            <li><label><input type="checkbox" class="icheck"><span class="rating">
+                                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
+                                    </span></label></li>
+                            <li><label><input type="checkbox" class="icheck"><span class="rating">
+                                        <i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
+                                    </span></label></li>
+                        </ul>
+                    </div>
+                    <div class="filter_type">
+                        <h6>Options</h6>
+                        <ul class="nomargin">
+                            <li><label><input type="checkbox" class="icheck">Delivery</label></li>
+                            <li><label><input type="checkbox" class="icheck">Take Away</label></li>
+                            <li><label><input type="checkbox" class="icheck">Distance 10Km</label></li>
+                            <li><label><input type="checkbox" class="icheck">Distance 5Km</label></li>
+                        </ul>
+                    </div>
+                </div><!--End collapse -->
+            </div><!--End filters col-->
+        </div><!--End col-md -->
+
+        <div class="col-md-9">
+            
+            <!--MERCHANT LIST -->
+            <?php 	             
+            if ( $display_type=="listview"){
+                $this->renderPartial('/front/quickfood/search-list-list',array(
+                                  'data'=>$data,
+                                  'current_page_url'=>$current_page_url
+                                  //'val'=>$val,
+                                  //'merchant_id'=>$merchant_id,
+                                  //'ratings'=>$ratings,
+                                  //'distance_type'=>$distance_type,
+                                  //'distance_type_orig'=>$distance_type_orig,
+                                  //'distance'=>$distance,
+                                  //'merchant_delivery_distance'=>$merchant_delivery_distance,
+                                  //'delivery_fee'=>$delivery_fee
+                                ));
+            } else { //This is the default!!!
+                    $this->renderPartial('/front/quickfood/search-list-grid',array(
+                                  'data'=>$data,
+                                  'current_page_url'=>$current_page_url
+                                  //'val'=>$val,
+                                  //'merchant_id'=>$merchant_id,
+                                  ///'ratings'=>$ratings,
+                                  //'distance_type'=>$distance_type,
+                                  //'distance_type_orig'=>$distance_type_orig,
+                                  //'distance'=>$distance,
+                                  //'merchant_delivery_distance'=>$merchant_delivery_distance,
+                                  //'delivery_fee'=>$delivery_fee
+                                ));
+            }
+           ?>               
+             
+        </div><!-- End col-md-9-->
+
+    </div><!-- End row -->
+</div><!-- End container -->
+<!-- End Content =============================================== -->
+
+<!--quickfood end-->
+
+
+<?php
+//page-specific js and css files
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+
+$cs->registerScriptFile("/assets/js/quickfood/cat_nav_mobile.js"
+        , CClientScript::POS_END);
+$cs->registerScript('$(\'#cat_nav\').mobileMenu();'
+        , CClientScript::POS_END);
+
+//$cs->registerScriptFile("http://maps.googleapis.com/maps/api/js"
+//        , CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . "/assets/js/quickfood/map.js"
+        , CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . "/assets/js/quickfood/infobox.js"
+        , CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . "/assets/js/quickfood/ion.rangeSlider.js"
+        , CClientScript::POS_END);
+
+$cs->registerCssFile($baseUrl . '/assets/css/quickfood/skins/square/grey.css');
+$cs->registerCssFile($baseUrl . '/assets/css/quickfood/ion.rangeSlider.css');
+$cs->registerCssFile($baseUrl . '/assets/css/quickfood/ion.rangeSlider.skinFlat.css');
+
+$cs->registerScript('ion.rangeSlider', '$(function () {
+                     \'use strict\';
+            $("#range").ionRangeSlider({
+                hide_min_max: true,
+                keyboard: true,
+                min: 0,
+                max: 15,
+                from: 0,
+                to:5,
+                type: \'double\',
+                step: 1,
+                prefix: "Km ",
+                grid: true
+            });
+        });'
+        , CClientScript::POS_END);
+?>
+
+ <?php //build map objects
+    $markersPhp = array();
+    $pin_nr = 0;
+    foreach ($data['list'] as $val) {
+        $restObj = array();
+        $restObj['name'] = $val['restaurant_name'];
+        $restObj['location_latitude'] = $val['latitude'];
+        $restObj['location_longitude'] = $val['lontitude'];
+        $restObj['map_image_url'] = FunctionsV3::getMerchantLogo($val['merchant_id']);
+        $restObj['name_point'] = $val['restaurant_name'];
+        $restObj['type_point'] = FunctionsV3::displayCuisine($val['cuisine']);
+        $restObj['description_point'] = $val['merchant_address'];
+        $restObj['open_status'] = FunctionsV3::merchantOpenTag($val['merchant_id']);
+        $restObj['url_point'] = Yii::app()->createUrl("/menu-". trim($val['restaurant_slug']));
+        $restObj['pin_nr'] = (++$pin_nr)%7;
+        
+        $restObjCont = array();
+        $restObjCont[0] = $restObj;
+        
+        $markersPhp[$val['merchant_id']] = $restObjCont;
+    }
+    $cs = Yii::app()->getClientScript();
+    $cs->registerScript(
+            'MarkersData'
+            ,'MarkersData = '.CJSON::encode($markersPhp).';'
+            ,CClientScript::POS_BEGIN);
+ 
+ ?>

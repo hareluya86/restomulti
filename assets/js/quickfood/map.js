@@ -203,7 +203,7 @@ $('#collapseMap').on('shown.bs.collapse', function (e) {
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(item.location_latitude, item.location_longitude),
                 map: mapObject,
-                icon: 'img/pins/' + key + '.png',
+                icon: 'assets/images/quickfood/img/pins/' + key + '.png',
             });
 
             if ('undefined' === typeof markers[key])
@@ -234,10 +234,11 @@ $('#collapseMap').on('shown.bs.collapse', function (e) {
         return new InfoBox({
             content:
                     '<div class="marker_info" id="marker_info">' +
-                    '<img src="' + item.map_image_url + '" alt=""/>' +
+                    '<img width="80" height="80" src="' + item.map_image_url + '" alt=""/>' +
                     '<h3>' + item.name_point + '</h3>' +
                     '<em>' + item.type_point + '</em>' +
-                    '<span>' + item.description_point + '</span>' +
+                    '<span>' + ((item.description_point.length > 30) ? item.description_point.substring(0,30)+'...' : item.description_point) + 
+                    '<strong>' + item.open_status + '</strong>' + '</span>' +
                     '<a href="' + item.url_point + '" class="btn_1">Details</a>' +
                     '</div>',
             disableAutoPan: false,

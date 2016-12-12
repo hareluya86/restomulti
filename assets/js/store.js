@@ -1715,6 +1715,7 @@ function research_merchant()
     }
         
     dump(new_params);
+    var current_page_url = $("#current_page_url").val();
     window.location.href= $("#current_page_url").val() + new_params ;
     return false;    
 }

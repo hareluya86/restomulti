@@ -559,6 +559,24 @@ class StoreController extends CController {
         }
 
         $_SESSION['krms_display_type'] = $display_type;
+        
+        //Set $tabs mode 2=list, 3=grid
+        if (!isset($_GET['tab'])) {
+            $_GET['tab'] = '';
+        }
+        switch ($_GET['tab']) {
+            case 2:
+                $tabs = 2; //2 is list listing
+                break;
+
+            case 3:
+                $tabs = 3; //3 is grid listing
+                break;
+
+            default:
+                $tabs = 2;
+                break;
+        }
 
         if (is_array($res) && count($res) >= 1) {
 
@@ -576,7 +594,8 @@ class StoreController extends CController {
                 'current_page_link' => $current_page_link,
                 'current_page_url' => $current_page_url,
                 'fc' => getOptionA('theme_filter_colapse'),
-                'enabled_search_map' => getOptionA('enabled_search_map')
+                'enabled_search_map' => getOptionA('enabled_search_map'),
+                'tabs' => $tabs
             ));
             $_SESSION['kmrs_search_stmt'] = $res['sql'];
         } else {
@@ -602,6 +621,7 @@ class StoreController extends CController {
                     'current_page_url' => isset($current_page_url) ? $current_page_url : '',
                     'fc' => getOptionA('theme_filter_colapse'),
                     'enabled_search_map' => getOptionA('enabled_search_map'),
+                    'tabs' => $tabs
                 ));
             } else
                 $this->render('search-results-nodata');
@@ -1030,6 +1050,11 @@ class StoreController extends CController {
             $_GET['tab'] = '';
         }
         switch ($_GET['tab']) {
+            case 1:
+                $tabs = 2; //1 is map listing
+                //$list = Yii::app()->functions->getAllMerchantNewest();
+                $list = Yii::app()->functions->getAllMerchant();
+                break;
             case 2:
                 $tabs = 2; //2 is list listing
                 //$list = Yii::app()->functions->getAllMerchantNewest();
@@ -1046,7 +1071,7 @@ class StoreController extends CController {
                 break;
 
             default:
-                $tabs = 1; //1 is map listing
+                $tabs = 2; //default
                 $list = Yii::app()->functions->getAllMerchant();
                 break;
         }
