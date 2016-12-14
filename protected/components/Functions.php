@@ -61,10 +61,10 @@ class Functions extends CApplicationComponent
 	}	
 	
 	public function isMerchantLogin()
-	{						
+	{
 		$is_login=FALSE;						
 		if (!empty($_SESSION['kr_merchant_user'])){
-			$user=json_decode($_SESSION['kr_merchant_user']);									
+			$user=json_decode($_SESSION['kr_merchant_user']);	
 			if (is_numeric($user[0]->merchant_id)){
 				$is_login=TRUE;
 			}
@@ -1070,7 +1070,7 @@ class Functions extends CApplicationComponent
 		);
 		if (in_array($tag,$accepted_tag)){
 			return true;
-		}	
+		}
 		
 		/*special category*/
 		if($tag=="CategoryList"){
@@ -1078,7 +1078,7 @@ class Functions extends CApplicationComponent
 		   if($merchant_category_disabled==1){
 		   	  return false;
 		   }		
-		}			
+		}		echo 'here';	
 		
 		$tag_paymentgateway=array(
 		  'paypal','stripe','mercadopago','ide','payu','pys','ccr','bcy','epy','pyr',
@@ -1149,16 +1149,20 @@ class Functions extends CApplicationComponent
 				break;
 		}
 		
-		$info=$this->getMerchantInfo();		
+		$info=$this->getMerchantInfo();
 		if ( is_array($info) && count($info)>=1){
-			$info=(array)$info[0];			
+			$info=(array)$info[0];	
+                        
 			if (isset($info['merchant_user_id'])){
 				$access=json_decode($info['user_access']);																
 				if (in_array($tag,(array)$access)){
+                                    echo 'here kitty1';
 					return true;
 				}			
-			} else return true;							    
-		}
+			} else {
+                            echo 'here kitty2';return true;							    
+                        }
+		}echo 'here kitty3';
 		return false;		
 	}
 

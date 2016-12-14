@@ -33,9 +33,9 @@ class MerchantController extends CController
 	    if ( $action_name=="autologin"){
 	    	return true;
 	    }
-	    /*echo $this->uniqueid;
+	    echo $this->uniqueid;
 	    echo '<br/>';
-	    echo $action_name;*/
+	    echo $action_name;/**/
 	    if ( $this->uniqueid=="merchant"){
 	    	if ( !Yii::app()->functions->hasMerchantAccess($action_name)){
 	    		if ( $action_name!="login"){
@@ -46,7 +46,7 @@ class MerchantController extends CController
 	    			}    
 	    		}
 	    	}
-	    }
+	    }echo 'return true';
 	    return true;	    
     }	
         	
@@ -76,8 +76,8 @@ class MerchantController extends CController
 			$this->layout='login_tpl';
 			$this->render('login');
 		} else {											
-			$this->crumbsTitle=Yii::t("default","Dashboard");		
-			$this->render('dashboard');			
+			$this->crumbsTitle=Yii::t("default","Dashboard");
+			echo 'confirm index';$this->render('dashboard');
 		}		
 	}	
 	
@@ -97,7 +97,7 @@ class MerchantController extends CController
 	
 	
 	public function actionLogin()
-	{		
+	{
 		if (isset($_GET['logout'])){
 			//Yii::app()->request->cookies['kr_merchant_user'] = new CHttpCookie('kr_merchant_user', ""); 			
 			unset($_SESSION['kr_merchant_user']);

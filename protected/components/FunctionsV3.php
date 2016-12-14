@@ -249,7 +249,7 @@ class FunctionsV3
     	$lat=0;
 		$long=0;
 		$and='';
-		
+
     	if ($lat_res=Yii::app()->functions->geodecodeAddress($address)){
 	        $lat=$lat_res['lat'];
                 $long=$lat_res['long'];
@@ -360,10 +360,9 @@ class FunctionsV3
     		dump($stmt);
     	}
 		
-		
 		$DbExt=new DbExt();
-		$DbExt->qry("SET SQL_BIG_SELECTS=1");		
-		if ($res=$DbExt->rst($stmt)){			
+		$DbExt->qry("SET SQL_BIG_SELECTS=1");	
+		if ($res=$DbExt->rst($stmt)){	
 			//dump($res);die();
 			$stmt_rows="SELECT FOUND_ROWS()";
 			$total_found=0;
@@ -379,7 +378,17 @@ class FunctionsV3
 			   'list'=>$res,
 			   'sql'=>$stmt
 			);
-		}
+		} else {
+                    return array(
+                        'total'=>0,
+                        'client'=>array(
+                          'lat'=>$lat,
+                          'long'=>$long
+                        ),
+                        'list'=>array(),
+                        'sql'=>$stmt
+                     );
+                }
     	return false;
     }
     
@@ -808,7 +817,7 @@ class FunctionsV3
     	$new_request='';
     	if (is_array($request) && count($request)>=1){
     		foreach ($request as $key=>$val) {
-    			if ($key!=$field_to_clear){
+    			if ($key!=$field_to_clear && $val){
     				$new_request.="$key=$val&";
     			}    			
     		}

@@ -443,7 +443,7 @@ class StoreController extends CController {
             $_SESSION['search_type'] = 'kr_postcode';
             $_SESSION['kr_postcode'] = isset($_GET['zipcode']) ? $_GET['zipcode'] : '';
         }
-
+    
         unset($_SESSION['kr_item']);
         unset($_SESSION['kr_merchant_id']);
 
@@ -459,11 +459,11 @@ class StoreController extends CController {
         $current_page_link = Yii::app()->createUrl('store/searcharea/', $current_page_get);
         $current_page_url = '';
 
-
+        
         /* update merchant if expired and sponsored */
         Yii::app()->functions->updateMerchantSponsored();
         Yii::app()->functions->updateMerchantExpired();
-
+        
         /*  switch between search type */
         switch ($_SESSION['search_type']) {
             case "kr_search_address":

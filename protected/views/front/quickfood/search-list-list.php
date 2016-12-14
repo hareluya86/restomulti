@@ -15,7 +15,7 @@
     </div>
 </div><!--End tools -->
 
-    <?php if ($data): ?>
+    <?php if ($data && $data['total'] > 0): ?>
         <?php $pos = 1; //For counting the position of each listing?>
         <?php foreach ($data['list'] as $val): ?>
             <?php
@@ -100,10 +100,10 @@
 <?php endif; ?>
 
 
-<div class="search-result-loader">
+<!--<div class="search-result-loader">
     <i></i>
     <p><?php echo t("Loading more restaurant...") ?></p>
-</div> <!--search-result-loader-->
+</div> search-result-loader-->
 
 <?php
 if (!isset($current_page_url)) {

@@ -64,7 +64,7 @@ if (isset($_SESSION['search_type'])){
         </li>
         
         <li>
-            <?php if($step>=3): ?>
+            <?php if($step>=4): ?>
                 <a href="javascript:;"><?php echo t("Checkout")?></a>
             <?php else: ?>
                 <span><?php echo t("Checkout")?></span>
