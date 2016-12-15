@@ -630,169 +630,174 @@ class StoreController extends CController {
     }
 
     public function actionMenu() {
-
-        $data = $_GET;
-        $current_merchant = '';
-        if (isset($_SESSION['kr_merchant_id'])) {
-            $current_merchant = $_SESSION['kr_merchant_id'];
+        //$distance_type_orig = ''; //debug
+		$data=$_GET;		
+		$current_merchant='';
+		if (isset($_SESSION['kr_merchant_id'])){
+			$current_merchant=$_SESSION['kr_merchant_id'];
         }
-        $url = isset($_SERVER['REQUEST_URI']) ? explode("/", $_SERVER['REQUEST_URI']) : false;
-        if (!is_array($url) && count($url) <= 0) {
-            $this->render('404-page', array(
-                'header' => true,
-                'msg' => "Sorry but we cannot find what you are looking for"
+		$url=isset($_SERVER['REQUEST_URI'])?explode("/",$_SERVER['REQUEST_URI']):false;		
+		if(!is_array($url) && count($url)<=0){		
+			 $this->render('404-page',array(
+			   'header'=>true,
+			  'msg'=>"Sorry but we cannot find what you are looking for"
             ));
-            return;
+			return ;
         }
-        $page_slug = $url[count($url) - 1];
-        $page_slug = str_replace('menu-', '', $page_slug);
-        if (isset($_GET)) {
-            $c = strpos($page_slug, '?');
-            if (is_numeric($c)) {
-                $page_slug = substr($page_slug, 0, $c);
+		$page_slug=$url[count($url)-1];
+		$page_slug=str_replace('menu-','',$page_slug);			
+		if(isset($_GET)){				
+			$c=strpos($page_slug,'?');
+			if(is_numeric($c)){
+				$page_slug=substr($page_slug,0,$c);
             }
         }
-        $page_slug = trim($page_slug);
+		$page_slug=trim($page_slug);
         //dump($page_slug);
-        if (isset($data['merchant'])) {
+		if (isset($data['merchant'])){
             
-        } else
-            $data['merchant'] = $page_slug;
+		} else $data['merchant']=$page_slug;		
 
         $res = FunctionsV3::getMerchantBySlug($data['merchant']);
 
-        if (is_array($res) && count($res) >= 1) {
-            if ($current_merchant != $res['merchant_id']) {
+		if (is_array($res) && count($res)>=1){
+			if ( $current_merchant !=$res['merchant_id']){							 
                 unset($_SESSION['kr_item']);
             }
 
-            if ($res['status'] == "active") {
+			if ( $res['status']=="active"){
 
-                /* SEO */
-                $seo_title = Yii::app()->functions->getOptionAdmin('seo_menu');
-                $seo_meta = Yii::app()->functions->getOptionAdmin('seo_menu_meta');
-                $seo_key = Yii::app()->functions->getOptionAdmin('seo_menu_keywords');
+				/*SEO*/
+				$seo_title=Yii::app()->functions->getOptionAdmin('seo_menu');
+				$seo_meta=Yii::app()->functions->getOptionAdmin('seo_menu_meta');
+				$seo_key=Yii::app()->functions->getOptionAdmin('seo_menu_keywords');
 
-                if (!empty($seo_title)) {
-                    $seo_title = smarty('website_title', getWebsiteName(), $seo_title);
-                    $seo_title = smarty('merchant_name', ucwords($res['restaurant_name']), $seo_title);
-                    $this->pageTitle = $seo_title;
+				if (!empty($seo_title)){
+					$seo_title=smarty('website_title',getWebsiteName(),$seo_title);
+					$seo_title=smarty('merchant_name',ucwords($res['restaurant_name']),$seo_title);		    
+				    $this->pageTitle=$seo_title;
 
-                    $seo_meta = smarty('merchant_name', ucwords($res['restaurant_name']), $seo_meta);
-                    $seo_key = smarty('merchant_name', ucwords($res['restaurant_name']), $seo_key);
+				    $seo_meta=smarty('merchant_name',ucwords($res['restaurant_name']),$seo_meta);
+				    $seo_key=smarty('merchant_name',ucwords($res['restaurant_name']),$seo_key);		    
 
-                    Yii::app()->functions->setSEO($seo_title, $seo_meta, $seo_key);
+				    Yii::app()->functions->setSEO($seo_title,$seo_meta,$seo_key);
                 }
-                /* END SEO */
+				/*END SEO*/
 
                 unset($_SESSION['guest_client_id']);
 
-                $merchant_id = $res['merchant_id'];
+				$merchant_id=$res['merchant_id'];				
 
-                /* SET TIME */
-                $mt_timezone = Yii::app()->functions->getOption("merchant_timezone", $merchant_id);
-                if (!empty($mt_timezone)) {
-                    Yii::app()->timeZone = $mt_timezone;
+				/*SET TIME*/
+				$mt_timezone=Yii::app()->functions->getOption("merchant_timezone",$merchant_id);				
+		    	if (!empty($mt_timezone)){       	 	
+		    		Yii::app()->timeZone=$mt_timezone;
                 }
 
 
-                $distance_type = '';
-                $distance = '';
-                $merchant_delivery_distance = '';
-                $delivery_fee = 0;
-
-                /* double check if session has value else use cookie */
+		    	$distance_type='';
+		    	$distance='';
+		    	$merchant_delivery_distance='';
+		    	$delivery_fee=0;
+		    			    			    	
+		    	/*double check if session has value else use cookie*/		    	
                 FunctionsV3::cookieLocation();
+                    
+		    	if (isset($_SESSION['client_location'])){
 
-                if (isset($_SESSION['client_location'])) {
-
-                    /* get the distance from client address to merchant Address */
-                    $distance_type = FunctionsV3::getMerchantDistanceType($merchant_id);
-                    $distance_type_orig = $distance_type;
-
-                    $distance = FunctionsV3::getDistanceBetweenPlot(
-                                    $_SESSION['client_location']['lat'], $_SESSION['client_location']['long'], $res['latitude'], $res['lontitude'], $distance_type
+		    		/*get the distance from client address to merchant Address*/             
+	                 $distance_type=FunctionsV3::getMerchantDistanceType($merchant_id); 
+	                 $distance_type_orig=$distance_type;
+	                 
+		             $distance=FunctionsV3::getDistanceBetweenPlot(
+		                $_SESSION['client_location']['lat'],
+		                $_SESSION['client_location']['long'],
+		                $res['latitude'],$res['lontitude'],$distance_type
                     );
 
-                    $distance_type_raw = $distance_type == "M" ? "miles" : "kilometers";
-                    $distance_type = $distance_type == "M" ? t("miles") : t("kilometers");
+		             $distance_type_raw = $distance_type=="M"?"miles":"kilometers";            		            
+		             $distance_type=$distance_type=="M"?t("miles"):t("kilometers");
                     $distance_type_orig = $distance_type;
 
-                    if (!empty(FunctionsV3::$distance_type_result)) {
-                        $distance_type_raw = FunctionsV3::$distance_type_result;
-                        $distance_type = t(FunctionsV3::$distance_type_result);
+		              if(!empty(FunctionsV3::$distance_type_result)){
+		             	$distance_type_raw=FunctionsV3::$distance_type_result;
+		             	$distance_type=t(FunctionsV3::$distance_type_result);
                     }
 
-                    $merchant_delivery_distance = getOption($merchant_id, 'merchant_delivery_miles');
+		             $merchant_delivery_distance=getOption($merchant_id,'merchant_delivery_miles');             
 
-                    $delivery_fee = FunctionsV3::getMerchantDeliveryFee(
-                                    $merchant_id, $res['delivery_charges'], $distance, $distance_type_raw);
+		             $delivery_fee=FunctionsV3::getMerchantDeliveryFee(
+		                          $merchant_id,
+		                          $res['delivery_charges'],
+		                          $distance,
+		                          $distance_type_raw);
+		    		
                 }
 
 
-                /* SESSION REF */
-                $_SESSION['kr_merchant_id'] = $merchant_id;
-                $_SESSION['kr_merchant_slug'] = $data['merchant'];
-                $_SESSION['shipping_fee'] = $delivery_fee;
+		    	/*SESSION REF*/
+		    	$_SESSION['kr_merchant_id']=$merchant_id;
+                $_SESSION['kr_merchant_slug']=$data['merchant'];
+		    	$_SESSION['shipping_fee']=$delivery_fee;		
 
-                /* CHECK IF BOOKING IS ENABLED */
-                $booking_enabled = true;
-                if (getOption($merchant_id, 'merchant_table_booking') == "yes") {
-                    $booking_enabled = false;
+		    	/*CHECK IF BOOKING IS ENABLED*/
+		    	$booking_enabled=true;		    		
+		    	if (getOption($merchant_id,'merchant_table_booking')=="yes"){
+		    		$booking_enabled=false;
                 }
-                if (getOptionA('merchant_tbl_book_disabled')) {
-                    $booking_enabled = false;
-                }
-
-                /* CHECK IF MERCHANT HAS PROMO */
-                $promo['enabled'] = 1;
-                if ($offer = FunctionsV3::getOffersByMerchant($merchant_id, 2)) {
-                    $promo['offer'] = $offer;
-                    $promo['enabled'] = 2;
-                }
-                if ($voucher = FunctionsV3::merchantActiveVoucher($merchant_id)) {
-                    $promo['voucher'] = $voucher;
-                    $promo['enabled'] = 2;
-                }
-                $free_delivery_above_price = getOption($merchant_id, 'free_delivery_above_price');
-                if ($free_delivery_above_price > 0) {
-                    $promo['free_delivery'] = $free_delivery_above_price;
-                    $promo['enabled'] = 2;
+		    	if ( getOptionA('merchant_tbl_book_disabled')){
+		    		$booking_enabled=false;
                 }
 
-                $photo_enabled = getOption($merchant_id, 'gallery_disabled') == "yes" ? false : true;
-                if (getOptionA('theme_photos_tab') == 2) {
-                    $photo_enabled = false;
+		    	/*CHECK IF MERCHANT HAS PROMO*/
+		    	$promo['enabled']=1;
+		    	if($offer=FunctionsV3::getOffersByMerchant($merchant_id,2)){		    	   
+		    	   $promo['offer']=$offer;
+		    	   $promo['enabled']=2;
+                }
+		    	if ( $voucher=FunctionsV3::merchantActiveVoucher($merchant_id)){		    
+		    		$promo['voucher']=$voucher;
+		    		$promo['enabled']=2;
+                }
+		    	$free_delivery_above_price=getOption($merchant_id,'free_delivery_above_price');
+		    	if ($free_delivery_above_price>0){
+		    	    $promo['free_delivery']=$free_delivery_above_price;
+		    		$promo['enabled']=2;
                 }
 
-                $this->render('menu', array(
-                    'data' => $res,
-                    'merchant_id' => $merchant_id,
-                    'distance_type' => $distance_type,
-                    'distance_type_orig' => $distance_type_orig,
-                    'distance' => $distance,
-                    'merchant_delivery_distance' => $merchant_delivery_distance,
-                    'delivery_fee' => $delivery_fee,
-                    'disabled_addcart' => getOption($merchant_id, 'merchant_disabled_ordering'),
-                    'merchant_website' => getOption($merchant_id, 'merchant_extenal'),
-                    'photo_enabled' => $photo_enabled,
-                    'booking_enabled' => $booking_enabled,
-                    'promo' => $promo,
-                    'tc' => getOptionA('theme_menu_colapse'),
-                    'theme_promo_tab' => getOptionA('theme_promo_tab'),
-                    'theme_hours_tab' => getOptionA('theme_hours_tab'),
-                    'theme_reviews_tab' => getOptionA('theme_reviews_tab'),
-                    'theme_map_tab' => getOptionA('theme_map_tab'),
-                    'theme_info_tab' => getOptionA('theme_info_tab'),
-                    'theme_photos_tab' => getOptionA('theme_photos_tab')
+		    	$photo_enabled=getOption($merchant_id,'gallery_disabled')=="yes"?false:true;
+		    	if ( getOptionA('theme_photos_tab')==2){
+		    		$photo_enabled=false;
+                }
+						    
+				$this->render('menu' ,array(
+				   'data'=>$res,
+				   'merchant_id'=>$merchant_id,
+				   'distance_type'=>$distance_type,
+				   'distance_type_orig'=>$distance_type_orig,
+				   'distance'=>$distance,
+				   'merchant_delivery_distance'=>$merchant_delivery_distance,
+				   'delivery_fee'=>$delivery_fee,
+				   'disabled_addcart'=>getOption($merchant_id,'merchant_disabled_ordering'),
+				   'merchant_website'=>getOption($merchant_id,'merchant_extenal'),
+				   'photo_enabled'=>$photo_enabled,
+				   'booking_enabled'=>$booking_enabled,
+				   'promo'=>$promo,
+				   'tc'=>getOptionA('theme_menu_colapse'),
+				   'theme_promo_tab'=>getOptionA('theme_promo_tab'),
+				   'theme_hours_tab'=>getOptionA('theme_hours_tab'),
+				   'theme_reviews_tab'=>getOptionA('theme_reviews_tab'),
+				   'theme_map_tab'=>getOptionA('theme_map_tab'),
+				   'theme_info_tab'=>getOptionA('theme_info_tab'),
+				   'theme_photos_tab'=>getOptionA('theme_photos_tab')
                 ));
-            } else
-                $this->render('error', array(
-                    'message' => t("Sorry but this merchant is no longer available")
+								
+			}  else  $this->render('error',array(
+		       'message'=>t("Sorry but this merchant is no longer available")
                 ));
-        } else
-            $this->render('error', array(
-                'message' => t("merchant is not available")
+			
+		} else $this->render('error',array(
+		  'message'=>t("merchant is not available")
             ));
     }
 
