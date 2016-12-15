@@ -1793,7 +1793,7 @@ $resto_info.="<p><span class=\"uk-text-bold\">".Yii::t("default","Delivery Est")
 	    public function viewFoodItem()
 	    {	    	
 	    	if (isset($this->data['item_id'])){
-	    		require_once 'food-item.php';
+	    		require_once 'quickfood/food-item.php';
 	    	} else {
 	    		?>
 	    		<p class="uk-alert uk-alert-danger"><?php echo Yii::t("default","Sorry but we cannot find what you are looking for.")?></p>

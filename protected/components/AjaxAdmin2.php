@@ -1791,7 +1791,7 @@ $resto_info.="<p><span class=\"uk-text-bold\">".Yii::t("default","Delivery Est")
 	    }
 	    
 	    public function viewFoodItem()
-	    {	    	
+	    {
 	    	if (isset($this->data['item_id'])){
 	    		require_once 'food-item.php';
 	    	} else {

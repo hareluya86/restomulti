@@ -939,6 +939,29 @@ class FunctionsV3
 		}
 		return '-';
 	}
+        
+        public static function getPriceRange($prices='',$discount='') {
+            
+            if (is_array($prices) && count($prices)>1) {
+                $lo_price = $prices[0]['price'];
+                $hi_price = $prices[count($prices)-1]['price'];
+                if ($discount>0) {
+                    $lo_price -= $discount;
+                    $hi_price -= $discount;
+                }
+                return self::prettyPrice($lo_price).' - '.self::prettyPrice($hi_price);
+            }
+            
+            if(is_array($prices) && count($prices)>0) {
+                $lo_price = $prices[0]['price'];
+                if ($discount>0) {
+                    $lo_price -= $discount;
+                }
+                return self::prettyPrice($lo_price);
+            }
+            
+            return '-';
+        }
 	
 	public static function uploadPath()
 	{

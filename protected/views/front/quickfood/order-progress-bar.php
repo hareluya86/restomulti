@@ -34,7 +34,7 @@ if (isset($_SESSION['search_type'])){
 			break;
 	}
 } else {
-    $search_key = '';
+    $search_key = 's';
     $search_str = '';
 }
 ?>

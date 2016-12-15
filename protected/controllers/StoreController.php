@@ -630,7 +630,6 @@ class StoreController extends CController {
     }
 
     public function actionMenu() {
-        //$distance_type_orig = ''; //debug
 		$data=$_GET;		
 		$current_merchant='';
 		if (isset($_SESSION['kr_merchant_id'])){
@@ -696,6 +695,7 @@ class StoreController extends CController {
 
 
 		    	$distance_type='';
+                        $distance_type_orig = '';
 		    	$distance='';
 		    	$merchant_delivery_distance='';
 		    	$delivery_fee=0;

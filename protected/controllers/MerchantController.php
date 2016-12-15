@@ -33,9 +33,12 @@ class MerchantController extends CController
 	    if ( $action_name=="autologin"){
 	    	return true;
 	    }
-	    echo $this->uniqueid;
-	    echo '<br/>';
-	    echo $action_name;/**/
+            if(isset($debug)) {
+                echo $this->uniqueid;
+                echo '<br/>';
+                echo $action_name;/**/
+            }
+	    
 	    if ( $this->uniqueid=="merchant"){
 	    	if ( !Yii::app()->functions->hasMerchantAccess($action_name)){
 	    		if ( $action_name!="login"){
@@ -46,7 +49,7 @@ class MerchantController extends CController
 	    			}    
 	    		}
 	    	}
-	    }echo 'return true';
+	    }
 	    return true;	    
     }	
         	
@@ -77,7 +80,7 @@ class MerchantController extends CController
 			$this->render('login');
 		} else {											
 			$this->crumbsTitle=Yii::t("default","Dashboard");
-			echo 'confirm index';$this->render('dashboard');
+			$this->render('dashboard');
 		}		
 	}	
 	
