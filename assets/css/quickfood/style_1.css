@@ -38,9 +38,6 @@ Author URI: http://themeforest.net/user/Ansonika/
 4.2 Grid list
 4.3 General
 4.4 Map listing
-4.5 Search modal
-4.6 Restaurant menu
-4.7 Work with us section
 
 /*============================================================================================*/
 /* 1.  SITE STRUCTURE and TYPOGRAPHY */
@@ -210,13 +207,12 @@ a.btn_side:hover{
 	background:#333;
 	color:#fff;
 }
-a.btn_full_outline, .btn_full_outline{
+a.btn_full_outline{
 	border: none;
 	font-family: inherit;
 	font-size: inherit;
 	color:#85c99d;
 	background:none;
-	width:100%;
 	border:2px solid #85c99d;
 	cursor: pointer;
 	padding: 10px 20px;
@@ -234,7 +230,7 @@ a.btn_full_outline, .btn_full_outline{
 	display:block;
 	text-align:center;
 }
-a.btn_full_outline:hover, .btn_full_outline:hover{
+a.btn_full_outline:hover{
 	border:2px solid #333;
 	color:#333;
 }
@@ -311,10 +307,6 @@ header.sticky{
 	  display: table;
    width:100%;
    height:470px;
-   background: rgba(0,0,0,.7);
-}
-#home #subheader{
-   height:550px;
 }
 #short #subheader{
    height:350px;
@@ -830,6 +822,12 @@ a.strip_list:hover h3{
 .desc .opening{
 	color:#C33;
 }
+.desc .closed{
+	color:#C33;
+}
+.desc .opened{
+	color:#6C3;
+}
 .desc ul{
 	list-style:none;
 	margin:3px 0 0 0;
@@ -1042,7 +1040,7 @@ ul#cat_nav li a:hover, ul#cat_nav li a.active{
 	box-sizing: border-box;
 	margin:auto;
 	margin-bottom:15px;
-	background-color:#fff;
+	//background-color:#fff; //This is ugly
 }
 #sub_content #thumb img{
 	width:120px;
@@ -1470,7 +1468,7 @@ ul.opening_list li span{
 	font-family: "fontello";
 	position:absolute;
 	right:0;
-	top:1px;
+	top:2px;
 }
 #position ul li:last-child:after{
 	content:'';
@@ -2077,8 +2075,8 @@ a.bt_filters{
 
 .infoBox {padding-right:30px !important;}
 
-/*4.4 Map listing */
-header#map_listing_header{
+/*4.4 Map listing (changed to Browse) */
+header.alwaysShow{
 	background-color: #78cfcf;
 	position:fixed;
 	-webkit-box-shadow: 0px 2px 10px -2px rgba(0, 0, 0, 0.41);
@@ -2171,7 +2169,7 @@ a.btn_filter#open_filters:before{
 a.btn_filter#list:before{
 	font-family: "ElegantIcons";
   	content: "\64";
-	font-size:20px;
+	font-size:22px;
 }
 a.btn_filter#grid, a.btn_filter#list{
 	margin-top:5px;
@@ -2432,243 +2430,4 @@ a.btn_filter#search_bt:before{
  .dropdown-options .dropdown-menu a.add_to_basket:hover{
 	 background-color:#ec008c;
 	 color:#fff;
-}
-
-/*4.7 Work with us section  */
-a.box_work{
-	text-align:center;
-	background-color:#fff;
-	padding:30px;
-	font-size:14px;
-	transition: all 300ms ease-in-out; 
-	-webkit-transition: all 300ms ease-in-out; 
-	-moz-transition: all 300ms ease-in-out; 
-	-o-transition: all 300ms ease-in-out; 
-	-webkit-box-shadow: 0px 3px 0px 0px #f0f2f4; 
-	-moz-box-shadow: 0px 3px 0px 0px #f0f2f4; 
-	box-shadow: 0px 3px 0px 0px #f0f2f4;
-	color:#666;
-	margin-bottom:30px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	display:block;
-}
-a.box_work:hover{
-	 transform: translate(0, -10px); 
-	 -webkit-transform: translate(0, -10px); 
-	 -ms-transform: translate(0, -10px); 
-	 -webkit-box-shadow: 0px 3px 0px 0px #ebedef; 
-	 -moz-box-shadow: 0px 3px 0px 0px #ebedef; 
-	 box-shadow: 0px 3px 0px 0px #ebedef; 
-}
-a.box_work h3{
-	font-size:24px;
-}
-a.box_work h3 span{
-	display:block;
-	font-size:18px;
-	margin-top:3px;
-	color:#999;
-	font-weight:300;
-}
-a.box_work .btn_1{
-	margin-top:30px;
-}
-ul.list_ok {
-	list-style: none;
-	margin: 0 0 20px 0;
-	padding: 0;
-	line-height: 22px;
-}
-
-ul.list_ok li {
-	position: relative;
-	padding-left: 30px;
-	margin-bottom:15px;
-}
-
-ul.list_ok li:before {
-	font-style: normal;
-	font-weight: bold;
-	font-family: "ElegantIcons";
-	font-size: 18px;
-	content: "\e052";
-	color: #fff;
-	position: absolute;
-	left: 0;
-	top: 0;
-}
-.features-bg.img_2 {
-    position: relative;
-    min-height: 400px;
-    background: url(/assets/images/quickfood/img/delivery_2.jpg) no-repeat center center;
-    background-size: cover;
-}
-.feature_2 h3{margin-top:0; font-size:21px;}
-.feature_2 {
-	padding:30px 30px 20px 100px;
-	position:relative;
-	background:#fff;
-	margin-bottom:30px;
-	color:#666;
-	-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
-	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
-	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
-}
-.feature_2 i{
-	margin:0;
-	position:absolute; 
-	top:20px;
-	left:20px;
-	padding:0;
-	margin:0;
-	width:65px;
-	height:65px;
-	line-height:60px;
-	text-align:center;
-	font-size:38px;
-	color:#6dcff6;
-}
-label.margin_left{
-	margin-left:15px !important;
-}
-
-/*Pricing tables*/
-.plans {
-	margin: 0px auto 50px;
-	zoom: 1;
-}
-.plans:before,
-.plans:after {
-	content: '';
-	display: table;
-}
-.plans:after {
-	clear: both;
-}
-.plan {
-	margin: 10px 0;
-	padding: 20px;
-	text-align: center;
-	background: #fafafa;
-	background-clip: padding-box;
-	border: solid #dddddd;
-	min-height: 380px;
-	border-width: 1px 0 1px 1px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	background-color: #fff;
-	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-.col-md-4.plan:first-child {
-	margin-right: -30px;
-	margin-left: 30px;
-}
-.plan:last-child {
-	border-width: 1px;
-}
-.plan-title {
-	position: relative;
-	margin: -20px -10px 20px;
-	padding: 20px;
-	text-transform:uppercase;
-	line-height: 1;
-	font-size: 18px;
-	color:#555;
-	font-weight: bold;
-	border-bottom: 1px dotted #ccc;
-}
-.plan-title:before {
-	content: '';
-	position: absolute;
-	bottom: -1px;
-	left: 0;
-	right: 0;
-	height: 1px;
-}
-.plan-price {
-	margin: 0 auto 20px;
-	width: 110px;
-	height: 110px;
-	line-height: 110px;
-	font-size: 30px;
-	font-weight: bold;
-	color: white;
-	background: #4b4b4b;
-	border-radius: 100px;
-	-webkit-border-radius: 100px;
-	-moz-border-radius: 100px;
-	display: inline-block;
-	text-align: center;
-	font-family: "Helvetica Neue", Arial;
-}
-.plan-price > span {
-	font-size: 12px;
-	font-weight: normal;
-	color: rgba(255, 255, 255, 0.9);
-}
-.plan-features {
-	margin-bottom: 20px;
-	line-height: 2;
-	font-size: 12px;
-	text-align: center;
-}
-ul.plan-features {
-	padding: 0;
-	margin: 0 0 15px 0;
-}
-.plan-features li {
-	list-style: none;
-}
-.plan-tall {
-	margin: 0;
-	background: #fff;
-	border-width: 1px;
-	border-radius: 10px;
-	margin-right: -30px;
-	position: relative;
-	z-index: 100;
-	border: solid #83c99f;
-	position: relative;
-}
-.ribbon_table {
-	width: 99px;
-	height: 97px;
-	position: absolute;
-	left: -7px;
-	top: -7px;
-	display: block;
-	background: url(/assets/images/quickfood/img/ribbon.png) no-repeat 0 0;
-	z-index: 101;
-}
-.plan-tall > .plan-title {
-	font-size: 18px;
-}
-.plan-tall > .plan-price {
-	margin: 0 auto 20px;
-	height: 130px;
-	width: 130px;
-	line-height: 130px;
-	font-size: 36px;
-	font-weight: bold;
-	color: white;
-	background: #ec008c;
-	border-radius: 130px;
-	-webkit-border-radius: 130px;
-	-moz-border-radius: 130px;
-	display: inline-block;
-	text-align: center;
-}
-.plan-tall > .plan-features {
-	font-size: 14px;
-}
-.plan-tall > .plan-button {
-	padding: 0 16px;
-	line-height: 32px;
-}
-.plan-tall + .plan {
-	border-left: 0;
 }

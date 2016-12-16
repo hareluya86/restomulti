@@ -9,9 +9,9 @@ class ScriptManager {
         //register core Kendarina scripts first
         //self::RegisterAllCoreJSFile();
 
-        $cs->registerScriptFile('//code.jquery.com/jquery-1.11.2.min.js',CClientScript::POS_END);  
-        //$cs->registerScriptFile($baseUrl . "/assets/js/quickfood/jquery-1.11.2.min.js"
-        //        , CClientScript::POS_END);
+        //$cs->registerScriptFile('//code.jquery.com/jquery-1.11.2.min.js',CClientScript::POS_END);
+        $cs->registerScriptFile($baseUrl . "/assets/js/quickfood/jquery-2.2.4.min.js"
+                , CClientScript::POS_END);
         $cs->registerScriptFile($baseUrl . "/assets/js/quickfood/common_scripts_min.js"
                 , CClientScript::POS_END);
         $cs->registerScriptFile($baseUrl . "/assets/js/quickfood/functions.js"
@@ -166,10 +166,10 @@ class ScriptManager {
           'defer'=>'defer'
           )); */
 
-        /* $cs->registerScriptFile("//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-          ,CClientScript::POS_END); */
+        /*$cs->registerScriptFile("//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+          ,CClientScript::POS_END); 
         $cs->registerScriptFile($baseUrl . "/assets/vendor/bootstrap/js/bootstrap.min.js"
-                , CClientScript::POS_END);
+                , CClientScript::POS_END);*/
 
         $cs->registerScriptFile($baseUrl . "/assets/vendor/parallax.js/parallax.min.js"
                 , CClientScript::POS_END);
@@ -240,6 +240,8 @@ class ScriptManager {
         if (Yii::app()->functions->getOptionAdmin('theme_time_pick') == 2) {
             $cs->registerCssFile($baseUrl . "/assets/vendor/timepicker.co/jquery.timepicker.min.css");
         }
+        
+        //$cs->registerCssFile('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
     }
 
     public static function registerAllCoreCSSFiles() {
@@ -265,8 +267,8 @@ class ScriptManager {
         $cs->registerCssFile($baseUrl . "/assets/vendor/intel/build/css/intlTelInput.css");
         $cs->registerCssFile($baseUrl . "/assets/vendor/rupee/rupyaINR.css");
 
-        //$cs->registerCssFile('//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');	
-        $cs->registerCssFile($baseUrl . "/assets/vendor/bootstrap/css/bootstrap.min.css");
+        $cs->registerCssFile('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');	
+        //$cs->registerCssFile($baseUrl . "/assets/vendor/bootstrap/css/bootstrap.min.css");
 
         $cs->registerCssFile($baseUrl . "/assets/vendor/raty/jquery.raty.css");
 

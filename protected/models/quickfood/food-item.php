@@ -21,6 +21,8 @@ $data = Yii::app()->functions->getItemById($this->data['item_id']);
 $disabled_website_ordering = Yii::app()->functions->getOptionAdmin('disabled_website_ordering');
 $hide_foodprice = Yii::app()->functions->getOptionAdmin('website_hide_foodprice');
 echo CHtml::hiddenField('hide_foodprice', $hide_foodprice);
+
+$gallery_photo=!empty($data['gallery_photo'])?json_decode($data['gallery_photo']):false;
 ?>
 
 <?php if (is_array($data) && count($data) >= 1): ?>
@@ -55,39 +57,83 @@ echo CHtml::hiddenField('hide_foodprice', $hide_foodprice);
         <div id="cart_box">
             <h3><?php echo qTranslate($data['item_name'], 'item_name', $data) ?></h3>
             <div class="row">
+                
+                <?php if (getOption($data['merchant_id'],'disabled_food_gallery')!=2):?>  
+                <?php if (is_array($gallery_photo) && count($gallery_photo)>=1):?>
                 <div class="col-md-8">
-                    <p><?php echo qTranslate($data['item_description'],'item_description',$data)?></p>
+                    <div id="Img_carousel" class="slider-pro">
+                        <div class="sp-slides">
+                            <?php foreach ($gallery_photo as $gal_val):?>
+                            <div class="sp-slide">
+                                <img alt="" class="sp-image" src="<?php echo assetsURL() ?>/css/quickfood/images/blank.gif" 
+                                     data-src="<?php echo websiteUrl()."/upload/$gal_val"?>" 
+                                     data-small="<?php echo websiteUrl()."/upload/$gal_val"?>"
+                                     data-medium="<?php echo websiteUrl()."/upload/$gal_val"?>"
+                                     data-large="<?php echo websiteUrl()."/upload/$gal_val"?>"
+                                     data-retina="<?php echo websiteUrl()."/upload/$gal_val"?>"
+                            </div>
+                            <?php endforeach;?>
+                        </div>
+                        <div class="sp-thumbnails">
+                            <?php foreach ($gallery_photo as $gal_val):?>
+                                <img alt="<?php echo $data['item_name'] ?>" class="sp-thumbnail" src="<?php echo websiteUrl()."/upload/$gal_val"?>">
+                            <?php endforeach;?>
+                        </div>
+                    </div>
+                </div>
+                <?php endif;?>
+                <?php endif;?>
+                
+                <div class="col-md-<?php echo (is_array($gallery_photo) && count($gallery_photo)>=1) ? '4' : '12' ?>">
+                    <p><?php echo qTranslate($data['item_description'], 'item_description', $data) ?></p>
+                      <!--PRICE-->
+  <div class="section-label">
+    <a class="section-label-a">
+      <span class="bold">
+      <?php echo t("Price")?></span>
+      <b></b>
+    </a>     
+    <div class="row">
+    <?php if (is_array($data['prices']) && count($data['prices'])>=1):?>  
+      <?php foreach ($data['prices'] as $price):?>
+          <?php $price['price']=Yii::app()->functions->unPrettyPrice($price['price'])?>
+          <div class="col-md-5 ">
+             <?php if ( !empty($price['size'])):?>
+                 <?php echo CHtml::radioButton('price',
+		          $size_select==$price['size']?true:false
+		          ,array(
+		            'value'=>$price['price']."|".$price['size'],
+		            'class'=>"price_cls item_price"
+		          ))?>
+		          <?php echo qTranslate($price['size'],'size',$price)?>
+              <?php else :?>
+                  <?php echo CHtml::radioButton('price',
+		            count($price['price'])==1?true:false
+		            ,array(
+		            'value'=>$price['price'],
+		            'class'=>"item_price"
+		          ))?>
+             <?php endif;?>
+             
+             <?php if (isset($price['price'])):?>  
+                <?php if (is_numeric($data['discount'])):?>
+                    <span class="line-tru"><?php echo FunctionsV3::prettyPrice($price['price'])?></span>
+                    <span class="text-danger"><?php echo FunctionsV3::prettyPrice($price['price']-$data['discount'])?></span>
+                <?php else :?>
+                    <?php echo FunctionsV3::prettyPrice($price['price'])?>
+                 <?php endif;?>
+             <?php endif;?>
+             
+          </div> <!--col-->
+      <?php endforeach;?>
+    <?php endif;?>
+    </div> <!--row-->
+  </div>        
+  <!--PRICE-->
                 </div>
             </div>
-            
-                <div id="Img_carousel" class="slider-pro">
-                    <div class="sp-slides">
 
-                        <div class="sp-slide">
-                            <img alt="" class="sp-image" src="<?php echo assetsURL() ?>/css/quickfood/images/blank.gif" 
 
-                                 data-src="<?php echo FunctionsV3::getFoodDefaultImage($data['photo']); ?>" 
-                                 data-small="<?php echo FunctionsV3::getFoodDefaultImage($data['photo']); ?>" 
-                                 data-medium="<?php echo FunctionsV3::getFoodDefaultImage($data['photo']); ?>" 
-                                 data-large="<?php echo FunctionsV3::getFoodDefaultImage($data['photo']); ?>" 
-                                 data-retina="<?php echo FunctionsV3::getFoodDefaultImage($data['photo']); ?>">
-                        </div>
-                        <div class="sp-slide">
-                            <img alt="" class="sp-image" src="<?php echo assetsURL() ?>/css/quickfood/images/blank.gif" 
-
-                                 data-src="<?php echo FunctionsV3::getFoodDefaultImage($data['photo']); ?>" 
-                                 data-small="<?php echo FunctionsV3::getFoodDefaultImage($data['photo']); ?>" 
-                                 data-medium="<?php echo FunctionsV3::getFoodDefaultImage($data['photo']); ?>" 
-                                 data-large="<?php echo FunctionsV3::getFoodDefaultImage($data['photo']); ?>" 
-                                 data-retina="<?php echo FunctionsV3::getFoodDefaultImage($data['photo']); ?>">
-                        </div>
-                    </div>
-                    <div class="sp-thumbnails">
-                        <img alt="<?php echo $data['item_name']?>" class="sp-thumbnail" src="<?php echo FunctionsV3::getFoodDefaultImage($data['photo']); ?>">
-                        <img alt="<?php echo $data['item_name']?>" class="sp-thumbnail" src="<?php echo FunctionsV3::getFoodDefaultImage($data['photo']); ?>">
-                    </div>
-                </div>
-            
         </div>
     </div>
     </form>
