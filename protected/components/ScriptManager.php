@@ -241,7 +241,7 @@ class ScriptManager {
             $cs->registerCssFile($baseUrl . "/assets/vendor/timepicker.co/jquery.timepicker.min.css");
         }
         
-        //$cs->registerCssFile('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+        $cs->registerCssFile('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
     }
 
     public static function registerAllCoreCSSFiles() {
