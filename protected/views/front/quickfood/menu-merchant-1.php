@@ -29,6 +29,22 @@
                         $atts.='data-size="' . $val_item['single_details']['size'] . '"';
                     };
                     
+                    $row=1; //This is to determine if we are "updating cart" or "adding food item". Both result in the same operations.
+                    $item_data='';
+                    $price_select='';
+                    $size_select='';
+                    if (array_key_exists("row",(array)$val_item)){
+                            $row=$val_item['row'];	
+                            $item_data=$_SESSION['kr_item'][$row];
+                            dump($item_data);
+                            $price2=Yii::app()->functions->explodeData($item_data['price']);
+                            if (is_array($price2) && count($price2)>=1){
+                                    $price_select=isset($price2[0])?$price2[0]:'';
+                                    $size_select=isset($price2[1])?$price2[1]:'';
+                            }
+                            $row++;
+                    }
+                    
                     $data=Yii::app()->functions->getItemById($val_item['item_id']);
                     if (is_array($data) && count($data) >= 1){
                         $data = $data[0];
@@ -52,7 +68,7 @@
                         <?php if ($val_item['not_available'] == 2) :?>
                             Not available
                         <?php else:?>
-                            <form class="frm-fooditem" id="frm-fooditem-<?php echo $data['item_id'];?>" method="POST" onsubmit="return false;">
+                            <form class="frm-fooditem" id="frm-fooditem-<?php echo $data['item_id'] ?>" method="POST" >
                                 <?php echo CHtml::hiddenField('action','addToCart')?>
                                 <?php echo CHtml::hiddenField('item_id',$data['item_id'])?>
                                 <?php echo CHtml::hiddenField('row',isset($row)?$row:"")?>
@@ -60,26 +76,55 @@
                                 <?php echo CHtml::hiddenField('discount',isset($data['discount'])?$data['discount']:"" )?>
                                 <?php echo CHtml::hiddenField('currentController','store')?>
                                 
+                                <?php 
+                                //dump($data);
+                                /** two flavores */
+                                if ($data['two_flavors']==2){
+                                        $data['prices'][0]=array(
+                                          'price'=>0,
+                                          'size'=>''
+                                        );	
+                                        echo CHtml::hiddenField('two_flavors',$data['two_flavors']);
+                                }
+                                //dump($data);
+                                ?>
+                                
                                 <!--<a class="menu-item" rel="<?php echo $val_item['item_id']?>"
                                     data-single="<?php echo $val_item['single_item']?>" 
                                     <?php echo $atts;?> href="javascript:;"
                                     ><i class="icon_plus_alt2"></i>
                                 </a>-->
+                                <?php if (is_array($data['prices']) && count($data['prices'])>=1):?>  
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <i class="icon_plus_alt2"></i>
                                 </a>
                                 <div class="dropdown-menu">
-
-                                    <?php if (is_array($data['prices']) && count($data['prices'])>=1):?>  
                                     <h5>Select a size</h5>
                                     <?php foreach ($data['prices'] as $price):?>
-                                    <label>
-                                        <input type="radio" value="option1" name="options_1" checked>
-                                        <?php echo qTranslate($price['size'],'size',$price)?>
-                                        <span><?php echo FunctionsV3::prettyPrice($price['price'])?></span>
-                                    </label>
+                                        <?php $price['price']=Yii::app()->functions->unPrettyPrice($price['price'])?>
+                                        <label>
+                                            <?php if ( !empty($price['size'])):?>
+                                                <input class="item_price" type="radio" 
+                                                       value="<?php echo $price['price']."|".$price['size'];?>" 
+                                                       <?php echo ($size_select==$price['size'])?"checked":"" ?>
+                                                       name="price" >
+                                                <?php echo qTranslate($price['size'],'size',$price)?>
+                                            <?php else: ?>
+                                                <input class="item_price" type="radio" 
+                                                       value="<?php echo $price['price'];?>" 
+                                                       <?php echo (count($price['price'])==1)?"checked":"" ?>
+                                                       name="price" >
+                                            <?php endif; ?>
+                                            <?php if (isset($price['price'])):?>
+                                                <?php if (is_numeric($data['discount'])):?>
+                                                    <span><?php echo FunctionsV3::prettyPrice($price['price']-$data['discount'])?></span>
+                                                <?php else: ?>
+                                                    <span><?php echo FunctionsV3::prettyPrice($price['price'])?></span>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+                                        </label>
                                     <?php endforeach; ?>
-                                    <?php endif;?>
+                                    
                                     
                                     <?php if (isset($data['addon_item'])):?>
                                     <?php if (is_array($data['addon_item']) && count($data['addon_item'])>=1):?>
@@ -119,9 +164,10 @@
                                                 }
                                             }
                                             ?>	
-                                        
                                             <label>
-                                                <input type="checkbox" value="<?php echo $val_addon['sub_item_id']."|".$val_addon['price']."|".$val_addon['sub_item_name']."|".$val['two_flavor_position'] ?>">
+                                                <input type="checkbox" 
+                                                       class="<?php echo 'sub_item sub_item_name_'.$val['subcat_id'];?>"
+                                                       value="<?php echo $val_addon['sub_item_id']."|".$val_addon['price']."|".$val_addon['sub_item_name']."|".$val['two_flavor_position'] ?>">
                                                     <?php echo qTranslate($val_addon['sub_item_name'],'sub_item_name',$val_addon);?>
                                                 <span>+ <?php echo FunctionsV3::prettyPrice($val_addon['price']);?></span>
                                             </label>
@@ -129,11 +175,21 @@
                                     <?php endforeach; ?>
                                     <?php endif;?>
                                     <?php endif;?>
-                                    <a onclick="document.fooditem_<?php echo $val_item['item_id'];?>.submit();" class="add_to_basket add_to_cart">Add to cart</a>
-                                    <input type="submit" value="<?php echo empty($row)?Yii::t("default","add to cart"):Yii::t("default","update cart");?>" 
-                                           
-                                           class="add_to_cart orange-button upper-text">
+                                        
+                                    <?php echo CHtml::textArea('notes',
+                                    isset($item_data['notes'])?$item_data['notes']:""
+                                    ,array(
+                                     'style'=>'margin-bottom: 5px;',
+                                     'class'=>'form-control',
+                                     'placeholder'=>Yii::t("default","Special Instructions")
+                                    ))?>
+                                        
+                                    <button type="submit"
+                                           class="btn_full add_to_cart">
+                                        <?php echo empty($row)?Yii::t("default","add to cart"):Yii::t("default","update cart");?>
+                                    </button>
                                 </div>
+                                <?php endif;?>
                             </form>
                         <?php endif;?>
                         </div>
