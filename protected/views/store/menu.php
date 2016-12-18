@@ -48,7 +48,7 @@ $cs->registerScript(
   )); */
 
 $now = date('Y-m-d');
-$now_time = '';
+$now_time = date('H:i');//'';
 
 $checkout = FunctionsV3::isMerchantcanCheckout($merchant_id);
 $menu = Yii::app()->functions->getMerchantMenu($merchant_id);
@@ -256,83 +256,35 @@ if (isset($_SESSION['search_type'])){
         <div class="col-md-3" id="sidebar">
             <div class="theiaStickySidebar">
                 <div id="cart_box" >
-                    <h3>Your order <i class="icon_cart_alt pull-right"></i></h3>
-                    <table class="table table_summary">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <a href="#0" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>1x</strong> Enchiladas
-                                </td>
-                                <td>
-                                    <strong class="pull-right">$11</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#0" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>2x</strong> Burrito
-                                </td>
-                                <td>
-                                    <strong class="pull-right">$14</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#0" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>1x</strong> Chicken
-                                </td>
-                                <td>
-                                    <strong class="pull-right">$20</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#0" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>2x</strong> Corona Beer
-                                </td>
-                                <td>
-                                    <strong class="pull-right">$9</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#0" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>2x</strong> Cheese Cake
-                                </td>
-                                <td>
-                                    <strong class="pull-right">$12</strong>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <h3><?php echo t("Your Order")?> <i class="icon_cart_alt pull-right"></i></h3>
+                    <div class="item-order-wrap"></div>
                     <hr>
+                    
                     <div class="row" id="options_2">
                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-                            <label><input type="radio" value="" checked name="option_2" class="icheck">Delivery</label>
+                            <?php echo CHtml::radioButtonList('delivery_type',$now,
+                            (array)Yii::app()->functions->DeliveryOptions($merchant_id),
+                            array(
+                                'class'=>'icheck'
+                            ))?>
+                            <?php echo CHtml::hiddenField('delivery_date',$now)?>
+                            <?php echo CHtml::hiddenField('delivery_time',$now_time)?>
                         </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-                            <label><input type="radio" value="" name="option_2" class="icheck">Take Away</label>
-                        </div>
-                    </div><!-- Edn options 2 -->
-
+                    </div>
                     <hr>
-                    <table class="table table_summary">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    Subtotal <span class="pull-right">$56</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Delivery fee <span class="pull-right">$10</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="total">
-                                    TOTAL <span class="pull-right">$66</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <hr>
-                    <a class="btn_full" href="cart.html">Order now</a>
+                    
+                    <?php if ( $checkout['code']==1):?>
+                        <a href="javascript:;" class="btn_full medium checkout"><?php echo $checkout['button']?></a>
+                    <?php else :?>
+                        <?php if ( $checkout['holiday']==1):?>
+                            <?php echo CHtml::hiddenField('is_holiday',$checkout['msg'],array('class'=>'is_holiday'));?>
+                            <p class="text-danger"><?php echo $checkout['msg']?></p>
+                        <?php else :?>
+                            <p class="text-danger"><?php echo $checkout['msg']?></p>
+                            <p class="small">
+                            <?php echo Yii::app()->functions->translateDate(date('F d l')."@".timeFormat(date('c'),true));?></p>
+                        <?php endif;?>
+                    <?php endif;?>
                 </div><!-- End cart_box -->
             </div><!-- End theiaStickySidebar -->
         </div><!-- End col-md-3 -->

@@ -6865,13 +6865,13 @@ $menu_html.="</li>";
     	);
     }  
     
-    public function displayPrice($currency='',$amount='')
+    public function displayPrice($currency='',$amount='',$space=true)
     {    	
     	$pos=Yii::app()->functions->getOptionAdmin('admin_currency_position');    	
     	if ( $pos=="right"){
-    		return $amount." ".$currency;
+    		return $amount.($space)?" ":"".$currency;
     	} else {    		
-    		return $currency." ".$amount;
+    		return $currency.($space)?" ":"".$amount;
     	}
     }
     

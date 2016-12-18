@@ -2831,7 +2831,7 @@ class Functions extends CApplicationComponent {
         return false;
     }
 
-    public function displayOrderHTML($data = '', $cart_item = '', $receipt = false, $new_order_id = '') {
+    public function displayOrderHTML_Old($data = '', $cart_item = '', $receipt = false, $new_order_id = '') {
         $item_array = '';
         $this->code = 2;
         $htm = '';
@@ -3450,6 +3450,723 @@ class Functions extends CApplicationComponent {
                 $htm.="<div class=\"col-md-6 col-xs-6  text-right cart_total\">" .
                         displayPrice(baseCurrency(), prettyFormat($total, $mid)) . "</div>";
                 $htm.="</div>";
+
+
+
+                /* POINTS PROGRAM */
+                if (FunctionsV3::hasModuleAddon("pointsprogram")) {
+                    $htm.=PointsProgram::cartTotalEarnPoints($cart_item, $receipt);
+                }
+
+                if (!isset($pts_redeem_amt)) {
+                    $pts_redeem_amt = 0;
+                }
+                $htm.=CHtml::hiddenField("subtotal_order", unPrettyPrice($subtotal + $less_voucher + $pts_redeem_amt));
+
+                $htm.=CHtml::hiddenField("subtotal_order2", unPrettyPrice($subtotal));
+                $htm.=CHtml::hiddenField("subtotal_extra_charge", unPrettyPrice($delivery_charges + $merchant_packaging_charge + $taxable_subtotal));
+
+
+                if (!isset($data['cart_tip_percentage'])) {
+                    $data['cart_tip_percentage'] = '';
+                }
+
+                // array value
+                $item_array_total = array(
+                    'subtotal' => $subtotal,
+                    'taxable_total' => $taxable_subtotal,
+                    'delivery_charges' => $delivery_charges,
+                    'total' => $total,
+                    'tax' => $tax,
+                    'tax_amt' => $tax_amt,
+                    'curr' => baseCurrency(),
+                    'mid' => $mid,
+                    'discounted_amount' => $discounted_amount,
+                    'merchant_discount_amount' => $merchant_discount_amount,
+                    'merchant_packaging_charge' => $merchant_packaging_charge,
+                    'less_voucher' => $less_voucher,
+                    'voucher_type' => $voucher_type,
+                    'tips' => isset($data['cart_tip_value']) ? $data['cart_tip_value'] : '',
+                    'tips_percent' => $data['cart_tip_percentage'] > 0.1 ? number_format($data['cart_tip_percentage'], 0) . "%" : '',
+                    'pts_redeem_amt' => isset($pts_redeem_amt) ? $pts_redeem_amt : ''
+                );
+
+                /* dump($data);
+                  dump($htm); */
+
+                $this->code = 1;
+                $this->msg = "OK";
+                $this->details = array(
+                    'item-count' => $x,
+                    'html' => $htm,
+                    'raw' => array('item' => $item_array, 'total' => $item_array_total)
+                );
+            } else
+                $this->msg = Yii::t("default", "No Item added yet!");
+        } else
+            $this->msg = Yii::t("default", "No Item added yet!");
+    }
+    
+    public function displayOrderHTML($data = '', $cart_item = '', $receipt = false, $new_order_id = '') {
+        $item_array = '';
+        $this->code = 2;
+        $htm = '';
+        $subtotal = 0;
+        $mid = isset($data['merchant_id']) ? $data['merchant_id'] : '';
+        if (empty($mid)) {
+            $this->msg = Yii::t("default", "Merchant ID is empty");
+            return;
+        }
+
+        Yii::app()->functions->data = "list";
+        $food_item = Yii::app()->functions->getFoodItemLists($mid);
+        $subcat_list = Yii::app()->functions->getAddOnLists($mid);
+
+        //dump($cart_item);    	
+        //dump($food_item);
+
+        if (isset($cart_item)) {
+            if (is_array($cart_item) && count($cart_item) >= 1) {
+                $x = 0;
+                /*Render orders*/
+                $htm.='<table class="table table_summary">';
+                $htm.='<tbody>';
+                foreach ($cart_item as $key => $val) {
+
+                    $val['notes'] = isset($val['notes']) ? $val['notes'] : "";
+
+                    $size_words = '';
+                    $t = !empty($val['price']) ? explode("|", $val['price']) : '';
+                    if (is_array($t) && count($t) >= 1) {
+                        $val['price'] = $t[0];
+                        if (isset($t[1])) {
+                            $size_words = $t[1];
+                        } else
+                            $size_words = '';
+                    }
+
+                    $price = cleanNumber(unPrettyPrice($val['price']));
+                    if (!empty($val['discount'])) {
+                        $val['discount'] = unPrettyPrice($val['discount']);
+                        $price = $price - $val['discount'];
+                    }
+
+                    $qty = $val['qty'];/** fixed addon qty */
+                    $total_price = $val['qty'] * $price;
+
+                    /** check if item is taxable */
+                    //dump($val);
+                    $food_taxable = true;
+                    if (isset($val['non_taxable'])) {
+                        if ($val['non_taxable'] == 2) {
+                            $food_taxable = false;
+                        }
+                    }
+
+                    $subtotal = $subtotal + $total_price;
+
+                    if ($food_taxable == false) {
+                        $subtotal_non = $subtotal_non + $total_price;
+                    }
+
+                    /* $size_words='';
+                      if ( $price_size=explodeData($val['price'])){
+                      if (isset($price_size[1])){
+                      $size_words=$price_size[1];
+                      }
+                      } */
+
+                    /** Translation */
+                    $food_infos = '';
+                    $size_info_trans = '';
+                    $cooking_ref_trans = '';
+                    if ($this->getOptionAdmin("enabled_multiple_translation") == 2) {
+                        $food_info = $this->getFoodItem($val['item_id']);
+                        $food_infos['item_name_trans'] = !empty($food_info['item_name_trans']) ? json_decode($food_info['item_name_trans'], true) : '';
+
+                        if (!empty($size_words)) {
+                            $size_info_trans = $this->getSizeTranslation($size_words, $mid);
+                        }
+
+                        if (!empty($val['cooking_ref'])) {
+                            $cooking_ref_trans = $this->getCookingTranslation($val['cooking_ref'], $mid);
+                        }
+                    }
+                    
+                    $htm.='<tr>';
+                    $htm.='<td>';
+                    $htm.='<a href="javascript:;" class="remove_item delete_item" data-row="' . $key . '" rel="' . $val['item_id'] . '" >'
+                            . '<i class="icon_minus_alt"></i></a> <strong>' . 
+                            $val['qty'] . 'x</strong> ' . qTranslate($food_item[$val['item_id']], 'item_name', $food_infos) ;
+                    
+
+                    // array value
+                    $item_array[$key] = array(
+                        'item_id' => $val['item_id'],
+                        'item_name' => $food_item[$val['item_id']],
+                        'size_words' => $size_words,
+                        'qty' => $val['qty'],
+                        'normal_price' => prettyFormat($val['price']),
+                        'discounted_price' => $price,
+                        'order_notes' => isset($val['notes']) ? $val['notes'] : '',
+                        'cooking_ref' => isset($val['cooking_ref']) ? $val['cooking_ref'] : '',
+                        'ingredients' => isset($val['ingredients']) ? $val['ingredients'] : '',
+                        'non_taxable' => isset($val['non_taxable']) ? $val['non_taxable'] : 1
+                    );
+
+                    $htm.=Widgets::displaySpicyIconByID($val['item_id']);
+                    //$htm.="<p class=\"small \">";
+
+                    $order_extra = '';
+                    if (!empty($size_words)) {
+                        if($order_extra != ''){
+                            $order_extra.=",";
+                        }
+                        $order_extra.="<p class=\"small \">(" . ucwords(qTranslate($size_words, 'size_name', $size_info_trans)) . ")</p>";
+                    }
+                    if (!empty($val['cooking_ref'])) {
+                        if($order_extra != ''){
+                            $order_extra.=",";
+                        }
+                        $order_extra.="<p class=\"small\">" .
+                                qTranslate($val['cooking_ref'], 'cooking_name', $cooking_ref_trans) . "</p>";
+                    }
+                    if (!empty($val['notes'])) {
+                        $order_extra.="<p class=\"small text-info\">" . $val['notes'] . "</p>";
+                    }
+
+                    /* ingredients */
+                    if (isset($val['ingredients'])) {
+                        if (!empty($val['ingredients'])) {
+                            if (is_array($val['ingredients']) && count($val['ingredients']) >= 1) {
+                                if($order_extra != '<br>'){
+                                    $order_extra.=",";
+                                }
+                                $order_extra.="<p class=\"small ingredients-label\">" . t("Ingredients") . ":</p>";
+                                foreach ($val['ingredients'] as $val_ingred) {
+                                    $order_extra.="<p class=\"small\">" . $val_ingred . "</p>";
+                                }
+                            }
+                        }
+                    }
+                    $htm.=$order_extra.'</td>';
+                    if (!empty($val['discount'])) {
+                        /*$htm.="<p class=\"uk-text-small\">" .
+                                "<span class=\"normal-price\">" . displayPrice(baseCurrency(), prettyFormat($val['price'])) . " </span>" .
+                                "<span class=\"sale-price\">" . displayPrice(baseCurrency(), prettyFormat($price)) . "</span>"
+                                . "</p>";*/
+                        $htm.='<td><strong class="pull-right">' . displayPriceWithNoSpace(baseCurrency(), prettyFormat($total_price, $mid)) . '</strong>';
+                    
+                    
+                    } else {
+                        /*$htm.="<p class=\"uk-text-small\">" .
+                                "<span class=\"base-price\">" . displayPrice(baseCurrency(), prettyFormat($val['price'])) . "</span>"
+                                . "</p>";*/
+                        $htm.='<td><strong class="pull-right">' . displayPriceWithNoSpace(baseCurrency(), prettyFormat($total_price, $mid)) . '</strong>';
+                    }
+                    //Subtotal for this item
+                    //$htm.='<br>'.displayPrice(baseCurrency(), prettyFormat($total_price, $mid));
+                    $htm.='</td>';
+                    
+                    $htm.='</tr>';
+
+                    /*$htm.='<div class="manage">';
+                    $htm.='<div class="c">';
+                    if ($receipt == false):
+                        $htm.='<a href="javascript:;" class="edit_item" data-row="' . $key . '" rel="' . $val['item_id'] . '" >
+			                        <i class="ion-compose"></i>
+			                     </a>';
+                        $htm.='<a href="javascript:;" class="delete_item" data-row="' . $key . '" rel="' . $val['item_id'] . '" >
+			                       <i class="ion-trash-a"></i>
+			                    </a>';
+                    endif;
+                    $htm.='</div>';
+                    $htm.='<div class="d">' . displayPrice(baseCurrency(), prettyFormat($total_price, $mid)) . '</div>';
+                    $htm.='</div>';
+                    $htm.='<div class="clear"></div>';*/
+
+                    /* SUB ITEM */
+                    //dump($val);			          
+                    //$item_array[$key]['sub_item']=$val['sub_item'];
+                    $val['sub_item'] = isset($val['sub_item']) ? $val['sub_item'] : '';
+
+                    if (is_array($val['sub_item']) && count($val['sub_item']) >= 1) {
+                        foreach ($val['sub_item'] as $cat_id => $val_sub) {
+
+                            if (array_key_exists($cat_id, (array) $subcat_list)) {
+
+                                //** Translation */
+                                $subcategory_trans = '';
+                                if ($this->getOptionAdmin("enabled_multiple_translation") == 2) {
+                                    if ($subcategory_tran = $this->getAddonCategory($cat_id)) {
+                                        $subcategory_trans['subcategory_name_trans'] = !empty($subcategory_tran['subcategory_name_trans']) ? json_decode($subcategory_tran['subcategory_name_trans'], true) : '';
+                                    }
+                                }
+                                
+                                /*$htm.='<div class="a"></div>';
+                                $htm.='<div class="b uk-text-success">' .
+                                        ucwords(qTranslate($subcat_list[$cat_id], 'subcategory_name', $subcategory_trans)) . '</div>';
+                                $htm.='<div class="clear"></div>';
+                                 * 
+                                 */
+                            }
+
+                            $addon_qty = 1;
+                            foreach ($val_sub as $addon_row => $val_subs) {
+
+                                if (isset($val['addon_qty'][$cat_id])) {
+                                    $addon_qty = $val['addon_qty'][$cat_id][$addon_row];
+                                } else {
+                                    $addon_qty = $qty;/** fixed addon qty */
+                                    /* if ( in_array($val['item_id'],(array)$added_item)){
+                                      $addon_qty=0;
+                                      } */
+                                }
+
+                                $val_subs = explodeData($val_subs);
+
+                                //dump($val_subs);
+                                $addon_raw_price = prettyFormat($val_subs[1]);
+                                $addon_item_price = unPrettyPrice($val_subs[1]);
+                                $addon_item_price = $addon_qty * $addon_item_price;
+
+                                /** two flavor */
+                                if (!isset($val['two_flavors'])) {
+                                    $val['two_flavors'] = '';
+                                }
+                                if ($val['two_flavors'] == 2) {
+                                    if ($val_subs[3] == "") {
+                                        $subtotal+=$addon_item_price;
+                                        if ($food_taxable == false) {
+                                            $subtotal_non+=$addon_item_price;
+                                        }
+                                    }
+                                } else {
+                                    /** check if item is taxable */
+                                    $subtotal+=$addon_item_price;
+                                    if ($food_taxable == false) {
+                                        $subtotal_non+=$addon_item_price;
+                                    }
+                                }
+
+                                $item_array[$key]['sub_item'][] = array(
+                                    'addon_name' => $val_subs[2],
+                                    'addon_category' => $subcat_list[$cat_id],
+                                    'addon_qty' => $addon_qty,
+                                    //'addon_price'=>$addon_item_price
+                                    'addon_price' => unPrettyPrice($val_subs[1])
+                                );
+
+                                /* changes for driver app */
+                                $item_array[$key]['new_sub_item'][$subcat_list[$cat_id]][] = array(
+                                    'addon_name' => $val_subs[2],
+                                    'addon_category' => $subcat_list[$cat_id],
+                                    'addon_qty' => $addon_qty,
+                                    'addon_price' => unPrettyPrice($val_subs[1])
+                                );
+
+                                /*                                 * translation */
+                                $addon_name_trans = '';
+                                if ($this->getOptionAdmin("enabled_multiple_translation") == 2) {
+                                    $addon_name_trans = $this->getAddonTranslation($val_subs[2], $mid);
+                                }
+
+                                /*$htm.='<div class="a">' . $addon_qty . 'x</div>';
+                                $htm.='<div class="b uk-text-muted">' . "$addon_raw_price " . ucwords(qTranslate($val_subs[2], 'sub_item_name', $addon_name_trans)) . '</div>';
+                                $htm.='<div class="manage">';
+                                if ($addon_item_price != 0) {
+                                    $htm.='<div class="d">' . displayPrice(baseCurrency(), prettyFormat($addon_item_price)) . '</div>';
+                                } else
+                                    $htm.='<div class="d">-</div>';
+                                $htm.='</div>';
+                                $htm.='<div class="clear"></div>';
+                                 * 
+                                 */
+                                $htm.='<tr>';
+                                $htm.='<td><span class="pull-right">+ '.ucwords(qTranslate($val_subs[2], 'sub_item_name', $addon_name_trans)).'</span></td>';
+                                $htm.='<td><strong class="pull-right">'.displayPriceWithNoSpace(baseCurrency(), prettyFormat($addon_item_price)).'</strong></td>';
+                                $htm.='</tr>';
+                            }
+                        }
+                    }
+
+                    //$htm.='</div>';
+
+                    $x++;
+                    $added_item[] = $val['item_id'];/** fixed addon qty */
+                }
+                $htm.='</tbody>';
+                $htm.='</table>';
+                $htm.='<hr>';
+                
+                $taxable_subtotal = 0;
+                $tax_amt = 0;
+
+                $tax = Yii::app()->functions->getOption('merchant_tax', $mid);
+                //dump($tax);
+
+                /* if transaction is pickup */
+                /* if ($data['delivery_type']=="pickup"){
+                  $tax=0;
+                  } */
+
+                $tax_amt = $tax;
+                $delivery_charges = Yii::app()->functions->getOption('merchant_delivery_charges', $mid);
+
+
+                //shipping rates
+                if (isset($_SESSION['shipping_fee'])) {
+                    if (is_numeric($_SESSION['shipping_fee'])) {
+                        $delivery_charges = $_SESSION['shipping_fee'];
+                    }
+                }
+                //if (isset($data['delivery_charge']) && $data['delivery_charge']>=1){
+                if (isset($data['delivery_charge'])) {
+                    $delivery_charges = $data['delivery_charge'];
+                }
+                //end shipping rates
+
+                $merchant_packaging_charge = Yii::app()->functions->getOption('merchant_packaging_charge', $mid);
+                //fixed packaging charge
+                if (isset($data['packaging'])) {
+                    if ($data['packaging'] > 0) {
+                        $merchant_packaging_charge = $data['packaging'];
+                    }
+                }
+
+                if (!empty($delivery_charges)) {
+                    $delivery_charges = unPrettyPrice($delivery_charges);
+                } else
+                    $delivery_charges = 0;
+
+                /* if transaction is pickup */
+                //dump($data);
+                if ($data['delivery_type'] == "pickup") {
+                    $delivery_charges = 0;
+                }
+
+                /* VOUCHER */
+                $has_voucher = false;
+                $less_voucher = 0;
+                $voucher_type = "";
+                if (isset($_SESSION['voucher_code'])) {
+                    if (is_array($_SESSION['voucher_code'])) {
+                        $has_voucher = true;
+                        //dump($_SESSION['voucher_code']);		
+                        $_SESSION['voucher_code']['amount'] = unPrettyPrice($_SESSION['voucher_code']['amount']);
+                        if ($_SESSION['voucher_code']['voucher_type'] == "fixed amount") {
+                            $less_voucher = $_SESSION['voucher_code']['amount'];
+                        } else {
+                            $less_voucher = $subtotal * ($_SESSION['voucher_code']['amount'] / 100);
+                            $voucher_type = normalPrettyPrice($_SESSION['voucher_code']['amount']) . "%";
+                        }
+                        $_SESSION['less_voucher'] = $less_voucher;
+                    }
+                }
+                if ($receipt == TRUE) {
+                    $order_ids = isset($data['order_id']) ? $data['order_id'] : '';
+                    if (isset($_GET['id'])) {
+                        $order_ids = $_GET['id'];
+                    }
+                    $order_infos = $this->getOrderInfo($order_ids);
+                    //dump($order_infos);
+                    if (!empty($order_infos['voucher_code'])) {
+                        $has_voucher = true;
+                        if ($order_infos['voucher_type'] == "fixed amount") {
+                            $less_voucher = $order_infos['voucher_amount'];
+                        } else {
+                            $voucher_type = normalPrettyPrice((integer) $order_infos['voucher_amount']) . "%";
+                            $less_voucher = $subtotal * ($order_infos['voucher_amount'] / 100);
+                        }
+                    } else
+                        $has_voucher = false;
+                }
+
+                if ($less_voucher == TRUE) {
+                    $subtotal = $subtotal - $less_voucher;
+
+                    /** check if item is taxable */
+                    if ($food_taxable == false) {
+                        $subtotal_non = $subtotal_non - $less_voucher;
+                    }
+                }
+
+                /* PROMO STARTS HERE */
+                $show_discount = false;
+                $discounted_amount = 0;
+                $merchant_discount_amount = 0;
+
+                if ($receipt == TRUE) {
+                    $_GET['id'] = isset($_GET['id']) ? $_GET['id'] : $new_order_id;
+                    if ($promo_res = $this->getOrderDiscount($_GET['id'])) {
+                        if ($promo_res['discounted_amount'] >= 0.1) {
+                            $show_discount = true;
+                            $merchant_discount_amount = number_format($promo_res['discount_percentage'], 0);
+                            $discounted_amount = $promo_res['discounted_amount'];
+                            $subtotal = $subtotal - $discounted_amount;
+
+                            /** check if item is taxable */
+                            if ($food_taxable == false) {
+                                $subtotal_non = $subtotal_non - $discounted_amount;
+                            }
+                        }
+                    }
+                } else {
+                    if ($promo_res = Yii::app()->functions->getMerchantOffersActive($mid)) {
+                        $merchant_spend_amount = $promo_res['offer_price'];
+                        $merchant_discount_amount = number_format($promo_res['offer_percentage'], 0);
+                        if ($subtotal >= $merchant_spend_amount) {
+                            $show_discount = true;
+                            $merchant_discount_amount1 = $merchant_discount_amount / 100;
+                            $discounted_amount = $subtotal * $merchant_discount_amount1;
+                            $subtotal = $subtotal - $discounted_amount;
+
+                            /** check if item is taxable */
+                            if ($food_taxable == false) {
+                                $subtotal_non = $subtotal_non - $discounted_amount;
+                            }
+                        }
+                    }
+                }
+
+                /*                 * above sub total free delivery */
+                $free_delivery = false;
+                if ($data['delivery_type'] == "delivery") {
+
+                    if (!isset($_GET['backend'])) {
+                        $free_delivery_above_price = Yii::app()->functions->getOption("free_delivery_above_price", $mid);
+                        if (!empty($free_delivery_above_price)) {
+                            if ($subtotal >= $free_delivery_above_price) {
+                                $delivery_charges = 0;
+                                $free_delivery = true;
+                            }
+                        }
+                    }
+                }
+                /*                 * above sub total free delivery */
+
+                /** packaging incremental */
+                if (Yii::app()->functions->getOption("merchant_packaging_increment", $mid) == 2) {
+                    if (!isset($data['packaging'])) {
+                        $total_cart_item = 0;
+                        foreach ($cart_item as $cart_item_x) {
+                            $total_cart_item+=$cart_item_x['qty'];
+                        }
+                        $merchant_packaging_charge = $total_cart_item * $merchant_packaging_charge;
+                    }
+                }
+
+                /* POINTS PROGRAM */
+                if (FunctionsV3::hasModuleAddon("pointsprogram")) {
+                    if (isset($_SESSION['pts_redeem_amt']) && $_SESSION['pts_redeem_amt'] > 0.01) {
+                        $pts_redeem_amt = unPrettyPrice($_SESSION['pts_redeem_amt']);
+                        $subtotal = unPrettyPrice($subtotal) - $pts_redeem_amt;
+                    } else {
+                        if ($receipt == TRUE) {
+                            if (isset($data['points_discount']) && $data['points_discount'] > 0.01) {
+                                $pts_redeem_amt = unPrettyPrice($data['points_discount']);
+                                $subtotal = unPrettyPrice($subtotal) - $pts_redeem_amt;
+                            }
+                        }
+                    }
+                }
+
+                if (!empty($tax)) {
+                    $tax = $tax / 100;
+
+                    /** check if item is taxable */
+                    $temp_delivery_charges = $delivery_charges;
+                    if (Yii::app()->functions->getOption("merchant_tax_charges", $mid) == 2) {
+                        $temp_delivery_charges = 0;
+                    }
+
+                    if ($receipt == true) {
+                        if (isset($data['donot_apply_tax_delivery'])) {
+                            if ($data['donot_apply_tax_delivery'] == 2) {
+                                $temp_delivery_charges = 0;
+                            }
+                        }
+                    }
+
+                    if (!isset($subtotal_non)) {
+                        $subtotal_non = 0;
+                    }
+
+                    if ($subtotal_non >= 1) {
+                        $temp_subtotal = $subtotal - $subtotal_non;
+                        $taxable_subtotal = ($temp_subtotal + $temp_delivery_charges + $merchant_packaging_charge) * $tax;
+                    } else
+                        $taxable_subtotal = ($subtotal + $temp_delivery_charges + $merchant_packaging_charge) * $tax;
+
+                    /* dump($subtotal);
+                      dump($subtotal_non);
+                      dump("taxable_subtotal=>".$taxable_subtotal); */
+                }
+
+
+                $total = $subtotal + $taxable_subtotal + $delivery_charges + $merchant_packaging_charge;
+
+                $htm.='<table class="table table_summary">';
+                $htm.='<tbody>';
+
+                if ($has_voucher == TRUE) {
+
+                    if ($show_discount == true):
+                        /* $htm.='<div class="a">'.t("Discount")." $merchant_discount_amount%".  ':</div>';
+                          $htm.='<div class="manage manage-ux">';
+                          $htm.='<div class="b">('.displayPrice(baseCurrency(),prettyFormat($discounted_amount,$mid)).')</div>';
+                          $htm.='</div>'; */
+                        $htm.=FunctionsV3::receiptRowTotal(t("Discount") . " $merchant_discount_amount%", displayPrice(baseCurrency(), prettyFormat($discounted_amount, $mid)));
+                    endif;
+
+                    /* $cart_subtotal_raw=$subtotal+$less_voucher;
+                      $htm.="<span class=\"cart_subtotal_raw\" data-value=\"$cart_subtotal_raw\" ></span>"; */
+
+                    /* $htm.='<div class="a">'.Yii::t("default","Sub Total").':</div>';
+                      $htm.='<div class="manage">';
+                      $htm.='<div class="b cart_subtotal">'.displayPrice(baseCurrency(),prettyFormat($subtotal+$less_voucher,$mid)).'</div>';
+                      $htm.='</div>'; */
+
+                    $htm.=FunctionsV3::receiptRowTotal("Sub Total", displayPrice(baseCurrency(), prettyFormat($subtotal + $less_voucher, $mid)), '', 'cart_subtotal'
+                    );
+
+                    if ($receipt == TRUE) {
+                        $voucher_code = " - " . $order_infos['voucher_code'] . "";
+                    } else
+                        $voucher_code = '';
+
+                    /* $htm.='<div class="a">'.Yii::t("default","Less Voucher")." ".$voucher_type.':</div>';
+                      $htm.='<div class="manage">';
+                      $htm.='<div class="b">-'.displayPrice(baseCurrency(),prettyFormat($less_voucher,$mid)).'</div>';
+                      $htm.='</div>'; */
+
+                    $htm.=FunctionsV3::receiptRowTotal(Yii::t("default", "Less Voucher") . " " . $voucher_type, "(" . displayPrice(baseCurrency(), prettyFormat($less_voucher, $mid) . ")")
+                    );
+
+                    /* $htm.='<div class="a">'.Yii::t("default","Sub Total").':</div>';
+                      $htm.='<div class="manage">';
+                      $htm.='<div class="b">'.displayPrice(baseCurrency(),prettyFormat($subtotal,$mid)).'</div>';
+                      $htm.='</div>'; */
+                    $htm.=FunctionsV3::receiptRowTotal("Sub Total", displayPrice(baseCurrency(), prettyFormat($subtotal, $mid))
+                    );
+                } else {
+
+                    if ($show_discount == true):
+                        /* $htm.='<div class="a">'.t("Discount")." $merchant_discount_amount%".  ':</div>';
+                          $htm.='<div class="manage manage-ux">';
+                          $htm.='<div class="b">('.displayPrice(baseCurrency(),prettyFormat($discounted_amount,$mid)).')</div>';
+                          $htm.='</div>'; */
+                        $htm.=FunctionsV3::receiptRowTotal(t("Discount") . " $merchant_discount_amount%", displayPrice(baseCurrency(), prettyFormat($discounted_amount, $mid))
+                        );
+                    endif;
+
+                    /* $cart_subtotal_raw=$subtotal;
+                      $htm.="<span class=\"cart_subtotal_raw\" data-value=\"$cart_subtotal_raw\" ></span>"; */
+
+                    /* POINTS PROGRAM */
+                    if (FunctionsV3::hasModuleAddon("pointsprogram")) {
+                        $pts_redeem_amt = 0;
+                        if (isset($_SESSION['pts_redeem_amt']) && $_SESSION['pts_redeem_amt'] > 0.01) {
+                            $pts_redeem_amt = $_SESSION['pts_redeem_amt'];
+                        } else {
+                            if ($receipt == TRUE) {
+                                if (isset($data['points_discount']) && $data['points_discount'] > 0.01) {
+                                    $pts_redeem_amt = $data['points_discount'];
+                                }
+                            }
+                        }
+                        if ($pts_redeem_amt > 0) {
+                            $htm.=FunctionsV3::receiptRowTotal('Points Discount', "(" . PointsProgram::price($pts_redeem_amt) . ")");
+                        }
+                    }
+
+                    /* $htm.='<div class="a">'.Yii::t("default","Sub Total").':</div>';
+                      $htm.='<div class="manage">';
+                      $htm.='<div class="b cart_subtotal">'.displayPrice(baseCurrency(),prettyFormat($subtotal,$mid)).'</div>';
+                      $htm.='</div>'; */
+
+                    $htm.=FunctionsV3::receiptRowTotal('Sub Total', displayPrice(baseCurrency(), prettyFormat($subtotal, $mid)), '', 'cart_subtotal'
+                    );
+                }
+
+
+                if (!empty($delivery_charges)) {
+                    $htm.=FunctionsV3::receiptRowTotal('Delivery Fee', displayPrice(baseCurrency(), prettyFormat($delivery_charges, $mid)));
+                }
+
+                if ($free_delivery == true) {
+                    /* $htm.='<div class="a">'.Yii::t("default","Delivery Fee").':</div>';
+                      $htm.='<div class="manage">';
+                      $htm.='<div class="b">'.t("Free").'</div>';
+                      $htm.='</div>'; */
+                    $htm.=FunctionsV3::receiptRowTotal("Delivery Fee", t("Free"));
+                }
+
+                if (!empty($merchant_packaging_charge)) {
+                    /* $htm.='<div class="a">'.Yii::t("default","Packaging").':</div>';
+                      $htm.='<div class="manage">';
+                      $htm.='<div class="b">'.displayPrice(baseCurrency(),prettyFormat($merchant_packaging_charge,$mid)).'</div>';
+                      $htm.='</div>'; */
+                    $htm.=FunctionsV3::receiptRowTotal("Packaging", displayPrice(baseCurrency(), prettyFormat($merchant_packaging_charge, $mid))
+                    );
+                }
+
+                if (!empty($tax)) {
+                    /* $htm.='<div class="a">'.Yii::t("default","Tax").' '.$tax_amt.'% :</div>';
+                      $htm.='<div class="manage">';
+                      $htm.='<div class="b">'.displayPrice(baseCurrency(),prettyFormat($taxable_subtotal,$mid)).'</div>';
+                      $htm.='</div>'; */
+                    $htm.=FunctionsV3::receiptRowTotal(t("Tax") . " $tax_amt%", displayPrice(baseCurrency(), prettyFormat($taxable_subtotal, $mid))
+                    );
+                }
+
+                if (isset($data['cart_tip_value'])) {
+                    if ($data['cart_tip_value'] >= 0.1) {
+
+                        /* $htm.='<div class="a">'.Yii::t("default","Tips").' '.
+                          number_format($data['cart_tip_percentage'],0).'% :</div>';
+                          $htm.='<div class="manage">';
+                          $htm.='<div class="b">'.displayPrice(baseCurrency(),prettyFormat($data['cart_tip_value'],$mid)).
+                          '</div>';
+                          $htm.='</div>'; */
+
+                        $htm.=FunctionsV3::receiptRowTotal(t("Tips") . " " . number_format($data['cart_tip_percentage'], 0) . "%", displayPrice(baseCurrency(), prettyFormat($data['cart_tip_value'], $mid))
+                        );
+
+                        $total+=$data['cart_tip_value'];
+                    }
+                }
+
+                if (isset($data['card_fee'])) {
+                    if ($data['card_fee'] >= 0.1) {
+
+                        /* $htm.='<div class="a">'.Yii::t("default","Card Fee").':</div>';
+                          $htm.='<div class="manage">';
+                          $htm.='<div class="b">'.displayPrice(baseCurrency(),prettyFormat($data['card_fee'],$mid)).'</div>';
+                          $htm.='</div>'; */
+
+                        $htm.=FunctionsV3::receiptRowTotal("Card Fee", displayPrice(baseCurrency(), prettyFormat($data['card_fee'], $mid))
+                        );
+
+                        $total+=$data['card_fee'];
+                    }
+                }
+
+                /* $htm.='<div class="a bold cart_total_wrap">'.Yii::t("default","Total").':</div>';
+                  $htm.='<div class="manage">';
+                  $htm.='<div class="b bold cart_total">'.displayPrice(baseCurrency(),prettyFormat($total,$mid)).'</div>';
+                  $htm.='</div>';
+                  $htm.='<div class="clear"></div>';
+                  $htm.='</div>'; */
+                $htm.="<tr>";
+                //$htm.="<td>" . t("Total") . "</td>";
+                $htm.="<td class=\"total\">" .t("Total") .
+                    '<span class="pull-right">'.
+                        displayPrice(baseCurrency(), prettyFormat($total, $mid)) . 
+                        '</span></td>';
+                $htm.="</tr>";
+                $htm.="</tbody>";
+                $htm.="</table>";
 
 
 
@@ -6786,6 +7503,15 @@ EOF;
             return $currency . " " . $amount;
         }
     }
+    
+    public function displayPriceWithNoSpace($currency = '', $amount = '') {
+        $pos = Yii::app()->functions->getOptionAdmin('admin_currency_position');
+        if ($pos == "right") {
+            return $amount ."". $currency;
+        } else {
+            return $currency ."". $amount;
+        }
+    }
 
     public function bookedAvailable($merchant_id = '') {
         //dump($_POST);
@@ -9014,6 +9740,10 @@ function displayPrice($currency = '', $amount = '') {
     return Yii::app()->functions->displayPrice($currency, $amount);
 }
 
+function displayPriceWithNoSpace($currency = '', $amount = '') {
+    return Yii::app()->functions->displayPriceWithNoSpace($currency, $amount);
+}
+
 function getWebsiteName() {
     return Yii::app()->functions->getWebsiteName();
 }
@@ -9110,3 +9840,4 @@ function clearString($text = '') {
     }
     return;
 }
+

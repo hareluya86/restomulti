@@ -139,39 +139,62 @@
                                         <h5><?php echo qTranslate($val['subcat_name'],'subcat_name',$val)?></h5>
                                         <?php foreach ($val['sub_item'] as $val_addon):?>   
                                         
-                                        <?php 
-                                            $subcat_id=$val['subcat_id'];
-                                            $sub_item_id=$val_addon['sub_item_id'];
-                                            $multi_option_val=$val['multi_option'];
+                                            <?php 
+                                                $subcat_id=$val['subcat_id'];
+                                                $sub_item_id=$val_addon['sub_item_id'];
+                                                $multi_option_val=$val['multi_option'];
 
-                                            /** fixed select only one addon*/
-                                            if ( $val['multi_option']=="custom" || $val['multi_option']=="multiple"){
-                                                $sub_item_name="sub_item[$subcat_id][$x]";
-                                            } else $sub_item_name="sub_item[$subcat_id][]"; 
+                                                /** fixed select only one addon*/
+                                                if ( $val['multi_option']=="custom" || $val['multi_option']=="multiple"){
+                                                    $sub_item_name="sub_item[$subcat_id][$x]";
+                                                } else $sub_item_name="sub_item[$subcat_id][]"; 
 
-                                            $sub_addon_selected='';
-                                            $sub_addon_selected_id='';
+                                                $sub_addon_selected='';
+                                                $sub_addon_selected_id='';
 
-                                            $item_data['sub_item']=isset($item_data['sub_item'])?$item_data['sub_item']:'';
-                                            if (array_key_exists($subcat_id,(array)$item_data['sub_item'])){
-                                                $sub_addon_selected=$item_data['sub_item'][$subcat_id];
-                                                if (is_array($sub_addon_selected) && count($sub_addon_selected)>=1){
-                                                    foreach ($sub_addon_selected as $val_addon_selected) {
-                                                        $val_addon_selected=Yii::app()->functions->explodeData($val_addon_selected);
-                                                        if (is_array($val_addon_selected)){
-                                                            $sub_addon_selected_id[]=$val_addon_selected[0];
+                                                $item_data['sub_item']=isset($item_data['sub_item'])?$item_data['sub_item']:'';
+                                                if (array_key_exists($subcat_id,(array)$item_data['sub_item'])){
+                                                    $sub_addon_selected=$item_data['sub_item'][$subcat_id];
+                                                    if (is_array($sub_addon_selected) && count($sub_addon_selected)>=1){
+                                                        foreach ($sub_addon_selected as $val_addon_selected) {
+                                                            $val_addon_selected=Yii::app()->functions->explodeData($val_addon_selected);
+                                                            if (is_array($val_addon_selected)){
+                                                                $sub_addon_selected_id[]=$val_addon_selected[0];
+                                                            }
                                                         }
                                                     }
                                                 }
-                                            }
                                             ?>	
                                             <label>
-                                                <input type="checkbox" 
-                                                       class="<?php echo 'sub_item sub_item_name_'.$val['subcat_id'];?>"
-                                                       value="<?php echo $val_addon['sub_item_id']."|".$val_addon['price']."|".$val_addon['sub_item_name']."|".$val['two_flavor_position'] ?>">
-                                                    <?php echo qTranslate($val_addon['sub_item_name'],'sub_item_name',$val_addon);?>
+                                                
+                                                <?php 
+                                                    if ( $val['multi_option']=="custom" || $val['multi_option']=="multiple"): 
+
+                                                        echo CHtml::checkBox($sub_item_name,
+                                                        in_array($sub_item_id,(array)$sub_addon_selected_id)?true:false
+                                                        ,array(
+                                                          'value'=>$val_addon['sub_item_id']."|".$val_addon['price']."|".$val_addon['sub_item_name']."|".$val['two_flavor_position'],
+                                                          'data-id'=>$val['subcat_id'],
+                                                          'data-option'=>$val['multi_option_val'],
+                                                          'rel'=>$val['multi_option'],
+                                                          'class'=>'sub_item_name sub_item_name_'.$val['subcat_id']
+                                                        ));
+                                                    else :            	                            
+                                                        echo CHtml::radioButton($sub_item_name,
+                                                        in_array($sub_item_id,(array)$sub_addon_selected_id)?true:false
+                                                        ,array(
+                                                          'value'=>$val_addon['sub_item_id']."|".$val_addon['price']."|".$val_addon['sub_item_name']."|".$val['two_flavor_position'],	             
+                                                          'class'=>'sub_item sub_item_name_'.$val['subcat_id']	             
+                                                        ));
+                                                    endif;
+                                                ?>
+                                                
+                                                <?php echo qTranslate($val_addon['sub_item_name'],'sub_item_name',$val_addon);?>
                                                 <span>+ <?php echo FunctionsV3::prettyPrice($val_addon['price']);?></span>
+                                                <?php echo CHtml::hiddenField("addon_qty[$subcat_id][$x]",1)?>
+                                                
                                             </label>
+                                            <?php $x++;?>
                                         <?php endforeach; ?>
                                     <?php endforeach; ?>
                                     <?php endif;?>

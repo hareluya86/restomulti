@@ -1475,13 +1475,22 @@ class FunctionsV3
 		return $kr_search_adrress;
     }
     
-    public static function receiptRowTotal($label='',$value='',$class1='',$class2='')
+    public static function receiptRowTotalOld($label='',$value='',$class1='',$class2='')
     {
     	$html='';
     	$html.="<div class=\"row\">";
     	$html.="<div class=\"col-md-6 col-xs-6 text-right $class1\">".t($label)."</div>";
     	$html.="<div class=\"col-md-6 col-xs-6 text-right $class2\">$value</div>";
     	$html.="</div>";
+    	return $html;
+    }
+    public static function receiptRowTotal($label='',$value='',$class1='',$class2='')
+    {
+    	$html='';
+    	$html.="<tr>";
+    	$html.="<td>".t($label).'<span class="pull-right">'.$value.'</span></td>';
+    	//$html.="<td>$value</td>";
+    	$html.="</tr>";
     	return $html;
     }
     
