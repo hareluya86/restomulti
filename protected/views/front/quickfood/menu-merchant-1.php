@@ -29,7 +29,7 @@
                         $atts.='data-size="' . $val_item['single_details']['size'] . '"';
                     };
                     
-                    $row=1; //This is to determine if we are "updating cart" or "adding food item". Both result in the same operations.
+                    $row=''; //This is to determine if we are "updating cart" or "adding food item". Both result in the same operations.
                     $item_data='';
                     $price_select='';
                     $size_select='';
@@ -76,6 +76,7 @@
                                 <?php echo CHtml::hiddenField('discount',isset($data['discount'])?$data['discount']:"" )?>
                                 <?php echo CHtml::hiddenField('currentController','store')?>
                                 
+                                <?php echo CHtml::hiddenField('qty','1'); //In our template, we don't have a quantity selector so we default to 1'?>
                                 <?php 
                                 //dump($data);
                                 /** two flavores */
