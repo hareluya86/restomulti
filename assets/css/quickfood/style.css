@@ -1803,6 +1803,12 @@ footer .form-group {
 .payment_select#paypal{
 	background:#f0f0f0 url(/assets/images/quickfood/img/paypal.svg) center right no-repeat;
 }
+.payment_select#pyp{
+	background:#f0f0f0 url(/assets/images/quickfood/img/paypal.svg) center right no-repeat;
+}
+.payment_select#ocr{
+	background:#f0f0f0 url(/assets/images/quickfood/img/paypal.svg) center right no-repeat;
+}
 
 /*3.9 Collapse*/   
 .panel {
