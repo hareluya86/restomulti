@@ -135,82 +135,96 @@ Yii::app()->functions->getOptionAdmin("admin_currency_position"));
                         <?php endif;?>
                         <?php if ( $address_book):?>
                             <div class="address_book_wrap">
-                                <div class="row top10">
-                                    <div class="col-md-10">
-                                        <?php 
-                                            $address_list=Yii::app()->functions->addressBook(Yii::app()->functions->getClientId());
-                                            echo CHtml::dropDownList('address_book_id',$address_book['id'],
-                                            (array)$address_list,array(
-                                               'class'=>"grey-fields full-width"
-                                            ));
-                                        ?>
-                                        <a href="javascript:;" class="edit_address_book block top10">
-                                            <i class="ion-compose"></i> <?php echo t("Edit")?>
-                                        </a>
-                                    </div> 
-                                </div>   
+                                <div class="form-group">
+                                    <div class="row top10">
+                                        <div class="col-md-10">
+                                            <?php 
+                                                $address_list=Yii::app()->functions->addressBook(Yii::app()->functions->getClientId());
+                                                echo CHtml::dropDownList('address_book_id',$address_book['id'],
+                                                (array)$address_list,array(
+                                                   'class'=>"grey-fields full-width form-control"
+                                                ));
+                                            ?>
+
+                                        </div> 
+                                        <div class="col-md-2">
+                                            <?php echo CHtml::hiddenField('street1',isset($client_info['street'])?$client_info['street']:'');?>
+                                            <?php echo CHtml::hiddenField('city1',isset($client_info['city'])?$client_info['city']:'');?>
+                                            <?php echo CHtml::hiddenField('state1',isset($client_info['state'])?$client_info['state']:'');?>
+                                            <?php echo CHtml::hiddenField('zipcode1',isset($client_info['zipcode'])?$client_info['zipcode']:'');?>
+                                            <?php echo CHtml::hiddenField('location_name1',isset($client_info['location_name'])?$client_info['location_name']:'');?>
+                                            <?php echo CHtml::hiddenField('contact_phone1',isset($client_info['contact_phone'])?$client_info['contact_phone']:'');?>
+                                            <?php echo CHtml::hiddenField('delivery_instruction1',isset($client_info['delivery_instruction'])?$client_info['delivery_instruction']:'');?>
+                                            <a href="javascript:;" class="edit_address_book block top10 btn_full_outline">
+                                                <i class="ion-compose"></i> <?php echo t("Edit")?>
+                                            </a>
+                                        </div>
+                                    </div>  
+                                </div>
                             </div>
                         <?php endif;?>
-                        <div class="form-group">
-                            <?php echo CHtml::textField('street', isset($client_info['street'])?$client_info['street']:'' ,array(
-                                'class'=>'grey-fields full-width form-control',
-                                'placeholder'=>Yii::t("default","Street"),
-                                'data-validation'=>"required"
-                            ))?>
-                        </div>
-                        <div class="form-group">
-                            <?php echo CHtml::textField('city', isset($client_info['city'])?$client_info['city']:''
-                                ,array(
+                        <div class="address-block">
+                            <div class="form-group">
+                                <?php echo CHtml::textField('street', isset($client_info['street'])?$client_info['street']:'' ,array(
                                     'class'=>'grey-fields full-width form-control',
-                                    'placeholder'=>Yii::t("default","City"),
+                                    'placeholder'=>Yii::t("default","Street"),
                                     'data-validation'=>"required"
-                            ))?>
-                        </div>
-                        <div class="form-group">
-                            <?php echo CHtml::textField('state',
-                                isset($client_info['state'])?$client_info['state']:''
-                                ,array(
-                                    'class'=>'grey-fields full-width form-control',
-                                    'placeholder'=>Yii::t("default","State"),
-                                    'data-validation'=>"required"
-                            ))?>
-                        </div>
-                        <div class="form-group">
-                            <?php echo CHtml::textField('zipcode',
-                                isset($client_info['zipcode'])?$client_info['zipcode']:''
-                                ,array(
-                                     'class'=>'grey-fields full-width form-control',
-                                     'placeholder'=>Yii::t("default","Zip code")
-                            ))?>
-                        </div>
-                        <div class="form-group">
-                            <?php echo CHtml::textField('location_name',
-                                isset($client_info['location_name'])?$client_info['location_name']:''
-                                ,array(
-                                    'class'=>'grey-fields full-width form-control',
-                                    'placeholder'=>Yii::t("default","Apartment suite, unit number, or company name")	               
-                            ))?>
-                        </div>
-                        <div class="form-group">
-                            <?php echo CHtml::textField('contact_phone',
-                            isset($client_info['contact_phone'])?$client_info['contact_phone']:''
-                            ,array(
-                                  'class'=>'grey-fields mobile_inputs full-width form-control',
-                                  'placeholder'=>Yii::t("default","Mobile Number"),
-                                  'data-validation'=>"required"  
-                                 ))?>
-                        </div> 
-                        <div class="form-group">
-                            <?php echo CHtml::textField('delivery_instruction','',array(
-                                 'class'=>'grey-fields full-width form-control',
-                                 'placeholder'=>Yii::t("default","Delivery instructions")   
                                 ))?>
-                        </div>
-                        <div class="form-group">
-                            <?php
-                                echo CHtml::checkBox('saved_address',false,array('class'=>"",'value'=>2));
-                                echo " ".t("Save to my address book");
-                                ?>
+                            </div>
+                            <div class="form-group">
+                                <?php echo CHtml::textField('city', isset($client_info['city'])?$client_info['city']:''
+                                    ,array(
+                                        'class'=>'grey-fields full-width form-control',
+                                        'placeholder'=>Yii::t("default","City"),
+                                        'data-validation'=>"required"
+                                ))?>
+                            </div>
+                            <div class="form-group">
+                                <?php echo CHtml::textField('state',
+                                    isset($client_info['state'])?$client_info['state']:''
+                                    ,array(
+                                        'class'=>'grey-fields full-width form-control',
+                                        'placeholder'=>Yii::t("default","State"),
+                                        'data-validation'=>"required"
+                                ))?>
+                            </div>
+                            <div class="form-group">
+                                <?php echo CHtml::textField('zipcode',
+                                    isset($client_info['zipcode'])?$client_info['zipcode']:''
+                                    ,array(
+                                         'class'=>'grey-fields full-width form-control',
+                                         'placeholder'=>Yii::t("default","Zip code")
+                                ))?>
+                            </div>
+                            <div class="form-group">
+                                <?php echo CHtml::textField('location_name',
+                                    isset($client_info['location_name'])?$client_info['location_name']:''
+                                    ,array(
+                                        'class'=>'grey-fields full-width form-control',
+                                        'placeholder'=>Yii::t("default","Apartment suite, unit number, or company name")	               
+                                ))?>
+                            </div>
+                            <div class="form-group">
+                                <?php echo CHtml::textField('contact_phone',
+                                isset($client_info['contact_phone'])?$client_info['contact_phone']:''
+                                ,array(
+                                      'class'=>'grey-fields mobile_inputs full-width form-control',
+                                      'placeholder'=>Yii::t("default","Mobile Number"),
+                                      'data-validation'=>"required"  
+                                     ))?>
+                            </div> 
+                            <div class="form-group">
+                                <?php echo CHtml::textField('delivery_instruction','',array(
+                                     'class'=>'grey-fields full-width form-control',
+                                     'placeholder'=>Yii::t("default","Delivery instructions")   
+                                    ))?>
+                            </div>
+                            <div class="form-group">
+                                <?php
+                                    echo CHtml::checkBox('saved_address',false,array('class'=>"",'value'=>2));
+                                    echo " ".t("Save to my address book");
+                                    ?>
+                            </div>
                         </div>
                         <?php if (isset($is_guest_checkout)):?>
                             <div class="form-group">

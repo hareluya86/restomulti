@@ -3529,7 +3529,7 @@ class Functions extends CApplicationComponent {
             if (is_array($cart_item) && count($cart_item) >= 1) {
                 $x = 0;
                 /*Render orders*/
-                $htm.='<table class="table table_summary">';
+                $htm.='<table class="table'.(($receipt)?' table-striped nomargin':' table_summary').'">';
                 $htm.='<tbody>';
                 foreach ($cart_item as $key => $val) {
 
@@ -3595,10 +3595,11 @@ class Functions extends CApplicationComponent {
                     
                     $htm.='<tr>';
                     $htm.='<td>';
-                    $htm.='<a href="javascript:;" class="remove_item delete_item" data-row="' . $key . '" rel="' . $val['item_id'] . '" >'
-                            . '<i class="icon_minus_alt"></i></a> <strong>' . 
-                            $val['qty'] . 'x</strong> ' . qTranslate($food_item[$val['item_id']], 'item_name', $food_infos) ;
-                    
+                    if ($receipt == false) {
+                        $htm.='<a href="javascript:;" class="remove_item delete_item" data-row="' . $key . '" rel="' . $val['item_id'] . '" >'
+                                . '<i class="icon_minus_alt"></i></a>';
+                    }
+                    $htm.='<strong>'.$val['qty'] . 'x</strong> ' . qTranslate($food_item[$val['item_id']], 'item_name', $food_infos) ;
 
                     // array value
                     $item_array[$key] = array(
@@ -4160,10 +4161,17 @@ class Functions extends CApplicationComponent {
                   $htm.='</div>'; */
                 $htm.="<tr>";
                 //$htm.="<td>" . t("Total") . "</td>";
-                $htm.="<td class=\"total\">" .t("Total") .
+                if($receipt) {
+                    $htm.="<td class=\"total_confirm\">" .t("Total") .
                     '<span class="pull-right">'.
                         displayPrice(baseCurrency(), prettyFormat($total, $mid)) . 
                         '</span></td>';
+                } else {
+                    $htm.="<td class=\"total\">" .t("Total") .
+                        '<span class="pull-right">'.
+                            displayPrice(baseCurrency(), prettyFormat($total, $mid)) . 
+                            '</span></td>';
+                }
                 $htm.="</tr>";
                 $htm.="</tbody>";
                 $htm.="</table>";

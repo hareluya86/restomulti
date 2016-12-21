@@ -1119,9 +1119,9 @@ jQuery(document).ready(function () {
         $(".cc-add-wrap").slideToggle("fast");
     });
 
-    if ($('.payment-option-page').is(':visible')) {
+    //if ($('.payment-option-page').is(':visible')) {
         load_cc_list();
-    }
+    //}
 
     if ($('.merchant-payment-option').is(':visible')) {
         load_cc_list_merchant();
@@ -3556,6 +3556,15 @@ jQuery(document).ready(function ($) {
         $("#street").attr("data-validation", 'required');
         $("#city").attr("data-validation", 'required');
         $("#state").attr("data-validation", 'required');
+        
+        $("#street").val($("#street1").val());
+        $("#city").val($("#city1").val());
+        $("#state").val($("#state1").val());
+        $("#zipcode").val($("#zipcode1").val());
+        $("#location_name").val($("#location_name1").val());
+        $("#contact_phone").val($("#contact_phone1").val());
+        $("#delivery_instruction").val($("#delivery_instruction1").val());
+        
     });
 
     $(document).on("click", ".map-address", function () {
