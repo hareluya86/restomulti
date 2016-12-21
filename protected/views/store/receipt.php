@@ -70,57 +70,333 @@ $full_merchant_address = $merchant_info['street'] . " " . $merchant_info['city']
                                     <td><?php echo Yii::t("default","Merchant Name")?></td>
                                     <td><strong class="pull-right"><?php echo clearString($data['merchant_name'])?></strong></td>
                                 </tr>
-                                <?php if (isset($_SESSION['kr_delivery_options']['delivery_date'])):?>
+                                <?php $print[]=array( 'label'=>Yii::t("default","Merchant Name"), 'value'=>$data['merchant_name']); ?>
+                                <?php if (isset($data['abn']) && !empty($data['abn'])):?>	       
                                     <tr>
-                                        <td><?php echo Yii::t("default","Pickup Date")?></td>
-                                        <td>
-                                            <strong class="pull-right">
-                                                <?php echo $_SESSION['kr_delivery_options']['delivery_date']?>
-                                            </strong>
-                                        </td>
+                                      <td><?php echo Yii::t("default","ABN")?></td>
+                                      <td><strong class="pull-right"><?php echo $data['abn']?></strong></td>
                                     </tr>
                                     <?php 	       
                                         $print[]=array(
-                                          'label'=>Yii::t("default","Pickup Date"),
-                                          'value'=>$_SESSION['kr_delivery_options']['delivery_date']
+                                          'label'=>Yii::t("default","ABN"),
+                                          'value'=>$data['abn']
                                         );
                                     ?>
+                                <?php endif;?>
+                                <tr>
+                                    <td><?php echo Yii::t("default","Telephone")?></td>
+                                    <td><strong class="pull-right"><?php echo $data['merchant_contact_phone']?></strong></td>
+                                </tr>
+                                <?php 	       
+                                    $print[]=array(
+                                        'label'=>Yii::t("default","Telephone"),
+                                        'value'=>$data['merchant_contact_phone']
+                                    );
+                                ?>
+                                <tr>
+                                    <td><?php echo Yii::t("default","Address")?></td>
+                                    <td><strong class="pull-right"><?php echo $full_merchant_address?></strong></td>
+                                </tr>    
+                                <?php 	       
+                                    $print[]=array(
+                                        'label'=>Yii::t("default","Address"),
+                                        'value'=>$full_merchant_address
+                                    );
+                                ?>
+                                <tr>
+                                    <td><?php echo Yii::t("default","TRN Type")?></td>
+                                    <td><strong class="pull-right"><?php echo Yii::t("default",$data['trans_type'])?></strong></td>
+                                </tr>
+                                <?php 	       
+                                    $print[]=array(
+                                        'label'=>Yii::t("default","TRN Type"),
+                                        'value'=>$data['trans_type']
+                                    );
+                                ?>
+                                <tr>
+                                    <td><?php echo Yii::t("default","Payment Type")?></td>
+                                    <td><strong class="pull-right"><?php echo strtoupper(t($data['payment_type']))?></strong></td>
+                                </tr>
+                                <?php 	       
+                                    $print[]=array(
+                                        'label'=>Yii::t("default","Payment Type"),
+                                        'value'=>strtoupper(t($data['payment_type']))
+                                    );
+                                ?>
+                                <?php if ( $data['payment_provider_name']):?>	      
+                                    <tr>
+                                        <td><?php echo Yii::t("default","Card#")?></td>
+                                        <td><strong class="pull-right"><?php echo $data['payment_provider_name']?></strong></td>
+                                    </tr>
+                                    <?php 	       
+                                        $print[]=array(
+                                            'label'=>Yii::t("default","Card#"),
+                                            'value'=>strtoupper($data['payment_provider_name'])
+                                        );
+                                    ?>
+                                <?php endif;?>
+                                <?php if ( $data['payment_type'] =="pyp"):?>
+                                    <?php 
+                                        $paypal_info=Yii::app()->functions->getPaypalOrderPayment($data['order_id']);	       
+                                    ?>	       
+                                    <tr>
+                                      <td><?php echo Yii::t("default","Paypal Transaction ID")?></td>
+                                      <td><strong class="pull-right"><?php echo isset($paypal_info['TRANSACTIONID'])?$paypal_info['TRANSACTIONID']:'';?></strong></td>
+                                    </tr>
+                                    <?php 	       
+                                        $print[]=array(
+                                            'label'=>Yii::t("default","Paypal Transaction ID"),
+                                            'value'=>isset($paypal_info['TRANSACTIONID'])?$paypal_info['TRANSACTIONID']:''
+                                        );
+                                    ?>
+                                <?php endif;?>    
+                                    
+                                <tr>
+                                    <td><?php echo Yii::t("default","Reference #")?></td>
+                                    <td><strong class="pull-right"><?php echo Yii::app()->functions->formatOrderNumber($data['order_id'])?></strong></td>
+                                </tr>
+                                <?php 	       
+                                    $print[]=array(
+                                        'label'=>Yii::t("default","Reference #"),
+                                        'value'=>Yii::app()->functions->formatOrderNumber($data['order_id'])
+                                    );
+                                ?>
+                                <?php if ( !empty($data['payment_reference'])):?>	      
+                                    <tr>
+                                        <td><?php echo Yii::t("default","Payment Ref")?></td>
+                                        <td><strong class="pull-right"><?php echo $data['payment_reference']?></strong></td>
+                                    </tr>
+                                    <?php
+                                        $print[]=array(
+                                            'label'=>Yii::t("default","Payment Ref"),
+                                            'value'=>Yii::app()->functions->formatOrderNumber($data['order_id'])
+                                        );
+                                ?>
+                                <?php endif;?>
+                                <?php if ( $data['payment_type']=="ccr" || $data['payment_type']=="ocr"):?>	       
+                                    <tr>
+                                        <td><?php echo Yii::t("default","Card #")?></td>
+                                        <td><strong class="pull-right"><?php echo $card=Yii::app()->functions->maskCardnumber($data['credit_card_number'])?></strong></td>
+                                    </tr>
+                                    <?php 	       
+                                        $print[]=array(
+                                          'label'=>Yii::t("default","Card #"),
+                                          'value'=>$card
+                                        );
+                                    ?>
+                                <?php endif;?>
+                                <tr>
+                                    <td><?php echo Yii::t("default","TRN Date")?></td>
+                                    <td><strong class="pull-right">
+                                        <?php 
+                                            $trn_date=date('M d,Y G:i:s',strtotime($data['date_created']));
+                                            echo Yii::app()->functions->translateDate($trn_date);
+                                        ?>
+                                    </strong></td>
+                                </tr>
+                                <?php 	       
+                                    $print[]=array(
+                                        'label'=>Yii::t("default","TRN Date"),
+                                        'value'=>$trn_date
+                                    );
+                                ?>    
+                                
+                                <?php if ($data['trans_type']=="delivery"):?>
+                                    <?php if (isset($_SESSION['kr_delivery_options']['delivery_date'])):?>
+                                        <tr>
+                                            <td><?php echo Yii::t("default","Delivery Date")?></td>
+                                            <td><strong class="pull-right">
+                                                <?php 
+                                                    $deliver_date=prettyDate($_SESSION['kr_delivery_options']['delivery_date']);
+                                                    echo Yii::app()->functions->translateDate($deliver_date);
+                                                ?>
+                                            </strong></td>
+                                        </tr>
+                                        <?php 	       
+                                            $print[]=array(
+                                                'label'=>Yii::t("default","Delivery Date"),
+                                                'value'=>$deliver_date
+                                            );
+                                        ?>
+                                    <?php endif;?>
                                     <?php if (isset($_SESSION['kr_delivery_options']['delivery_time'])):?>
-                                        <?php if ( !empty($_SESSION['kr_delivery_options']['delivery_time'])):?>
+                                        <?php if ( !empty($_SESSION['kr_delivery_options']['delivery_time'])):?>		       
+                                            <tr>
+                                              <td><?php echo Yii::t("default","Delivery Time")?></td>
+                                              <td><strong class="pull-right"><?php echo Yii::app()->functions->timeFormat($_SESSION['kr_delivery_options']['delivery_time'],true)?></strong></td>
+                                            </tr>
+                                            <?php 	       
+                                            $print[]=array(
+                                              'label'=>Yii::t("default","Delivery Time"),
+                                              'value'=>Yii::app()->functions->timeFormat($_SESSION['kr_delivery_options']['delivery_time'],true)
+                                            );
+                                            ?>
+                                        <?php endif;?>
+                                    <?php endif;?>
+                                            
+                                    <?php if (isset($_SESSION['kr_delivery_options']['delivery_asap'])):?>
+                                        <?php if ( !empty($_SESSION['kr_delivery_options']['delivery_asap'])):?>		       
+                                            <tr>
+                                                <td><?php echo Yii::t("default","Deliver ASAP")?></td>
+                                                <td><strong class="pull-right">
+                                                <?php echo $delivery_asap=$_SESSION['kr_delivery_options']['delivery_asap']==1?t("Yes"):'';?>
+                                                </strong></td>
+                                            </tr>
+                                            <?php 	       
+                                                 $print[]=array(
+                                                  'label'=>Yii::t("default","Deliver ASAP"),
+                                                  'value'=>$delivery_asap
+                                                 );
+                                                 ?>
+                                        <?php endif;?>
+                                    <?php endif;?> 
+                                            
+                                    <tr>
+                                        <td><?php echo Yii::t("default","Deliver to")?></td>
+                                        <td><strong class="pull-right">
+                                        <?php 		         
+                                            if (!empty($data['client_full_address'])){
+                                                   echo $delivery_address=$data['client_full_address'];
+                                            } else echo $delivery_address=$data['full_address'];		         
+                                        ?>
+                                        </strong></td>
+                                    </tr>
+                                    <?php 	       
+                                    $print[]=array(
+                                      'label'=>Yii::t("default","Deliver to"),
+                                      'value'=>$delivery_address
+                                    );
+                                    ?>
+                                    
+                                    <tr>
+                                        <td><?php echo Yii::t("default","Delivery Instruction")?></td>
+                                        <td><strong class="pull-right">
+                                            <?php echo $data['delivery_instruction']?>
+                                        </strong></td>
+                                    </tr>
+                                    <?php 	       
+                                        $print[]=array(
+                                            'label'=>Yii::t("default","Delivery Instruction"),
+                                            'value'=>$data['delivery_instruction']
+                                        );
+                                    ?>
+                                    
+                                    <tr>
+                                        <td><?php echo Yii::t("default","Location Name")?></td>
+                                        <td><strong class="pull-right">
+                                            <?php 
+                                                if (!empty($data['location_name1'])){
+                                                       $data['location_name']=$data['location_name1'];
+                                                }
+                                                echo $data['location_name'];
+                                            ?>
+                                        </strong></td>
+                                    </tr>
+                                    <?php 	       
+                                        $print[]=array(
+                                            'label'=>Yii::t("default","Location Name"),
+                                            'value'=>$data['location_name']
+                                        );
+                                    ?>
+                                    
+                                    <tr>
+                                        <td><?php echo Yii::t("default","Contact Number")?></td>
+                                        <td><strong class="pull-right">
+                                        <?php 
+                                            if ( !empty($data['contact_phone1'])){
+                                                   $data['contact_phone']=$data['contact_phone1'];
+                                            }
+                                            echo $data['contact_phone'];?>
+                                        </strong></td>
+                                      </tr>       
+                                    <?php 	       
+                                        $print[]=array(
+                                            'label'=>Yii::t("default","Contact Number"),
+                                            'value'=>$data['contact_phone']
+                                        );
+                                    ?>
+                                      
+                                    <?php if ($data['order_change']>=0.1):?>					
+                                        <tr>
+                                            <td><?php echo Yii::t("default","Change")?></td>
+                                            <td><strong class="pull-right">
+                                                <?php echo displayPrice( baseCurrency(), normalPrettyPrice($data['order_change']))?>
+                                            </strong></td>
+                                        </tr>     
+                                        <?php 	       
+                                            $print[]=array(
+                                                'label'=>Yii::t("default","Change"),
+                                                'value'=>normalPrettyPrice($data['order_change'])
+                                            );
+                                        ?>
+                                    <?php endif;?>
+                                <?php else :?>
+                                    <?php 
+                                        if (isset($data['contact_phone1'])){
+                                                if (!empty($data['contact_phone1'])){
+                                                        $data['contact_phone']=$data['contact_phone1'];
+                                                }
+                                        }
+                                    ?>
+                                    <tr>
+                                        <td><?php echo Yii::t("default","Contact Number")?></td>
+                                        <td><strong class="pull-right"><?php echo $data['contact_phone']?></td>
+                                    </tr>
+                                    <?php 	       
+                                        $print[]=array(
+                                            'label'=>Yii::t("default","Contact Number"),
+                                            'value'=>$data['contact_phone']
+                                        );
+                                    ?>
+
+                                    <?php if (isset($_SESSION['kr_delivery_options']['delivery_date'])):?>		       
+                                        <tr>
+                                            <td><?php echo Yii::t("default","Pickup Date")?></td>
+                                            <td><strong class="pull-right">
+                                                <?php echo $_SESSION['kr_delivery_options']['delivery_date']?>
+                                            </strong></td>
+                                        </tr>
+                                        <?php 	       
+                                            $print[]=array(
+                                                'label'=>Yii::t("default","Pickup Date"),
+                                                'value'=>$_SESSION['kr_delivery_options']['delivery_date']
+                                            );
+                                        ?>
+                                    <?php endif;?>
+                                    <?php if (isset($_SESSION['kr_delivery_options']['delivery_time'])):?>
+                                        <?php if ( !empty($_SESSION['kr_delivery_options']['delivery_time'])):?>		       
                                             <tr>
                                                 <td><?php echo Yii::t("default","Pickup Time")?></td>
-                                                <td>
-                                                    <strong class="pull-right">
-                                                        <?php echo Yii::app()->functions->timeFormat($_SESSION['kr_delivery_options']['delivery_time'],true)?>
-                                                    </strong>
-                                                </td>
+                                                <td><strong class="pull-right">
+                                                    <?php echo Yii::app()->functions->timeFormat($_SESSION['kr_delivery_options']['delivery_time'],true)?>
+                                                </strong></td>
                                             </tr>
                                             <?php 	       
                                                 $print[]=array(
                                                     'label'=>Yii::t("default","Pickup Time"),
                                                     'value'=>Yii::app()->functions->timeFormat($_SESSION['kr_delivery_options']['delivery_time'],true)
-                                                );?>
+                                                );
+                                            ?>
                                         <?php endif;?>
                                     <?php endif;?>
-                                    <?php if ($data['order_change']>=0.1):?>
+                                    <?php if ($data['order_change']>=0.1):?>					
                                         <tr>
                                             <td><?php echo Yii::t("default","Change")?></td>
-                                            <td>
-                                                <strong class="pull-right">
-                                                    <?php echo displayPrice( baseCurrency(), normalPrettyPrice($data['order_change']))?>
-                                                </strong>
-                                            </td>
-                                        </tr>
+                                            <td><strong class="pull-right">
+                                                <?php echo displayPrice( baseCurrency(), normalPrettyPrice($data['order_change']))?>
+                                            </strong></td>
+                                        </tr>  
                                         <?php 	       
                                             $print[]=array(
                                                 'label'=>Yii::t("default","Change"),
                                                 'value'=>$data['order_change']
                                             );
                                         ?>
-                                    <?php endif;?>
+                                    <?php endif;?> 
                                 <?php endif;?>
                             </tbody>
                         </table>
+                    </div>
                 </div>
             </div>
 
