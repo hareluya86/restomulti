@@ -6,7 +6,7 @@
 <!-- SubHeader =============================================== -->
 <section class="parallax-window" id="short" data-parallax="scroll" 
          data-image-src="<?php echo assetsURL()."/images/b-2-mobile.jpg"?>" 
-         data-natural-width="1600" data-natural-height="988"
+         
          >      
     <div id="subheader">
         <div id="sub_content">
@@ -14,5 +14,10 @@
             <div><i class="icon_pin"></i> <?php echo isset($sub_text)?$sub_text:''?></div>
         </div><!-- End sub_content -->
     </div><!-- End subheader -->
+    <?php 
+        $this->renderPartial('/front/quickfood/progress-merchantsignup',array(
+       'step'=>$step,
+       'show_bar'=>$show_bar
+    ));?>
 </section><!-- End section -->
 <!-- End SubHeader ============================================ -->

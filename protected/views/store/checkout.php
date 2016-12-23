@@ -127,6 +127,18 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
                         echo CHtml::hiddenField('theme_enabled_email_verification',2);
                         }
                     ?>
+                    <?php if ( $disabled_guest_checkout!="yes"):?>
+                        <div class="payment_select">
+                            <label>
+                                <?php echo t("Guest Checkout")?>
+                            </label>
+                            <p><?php echo t("Proceed to checkout, and you will have an option to create an account at the end.")?></p>
+                            <p style="text-align: center">
+                                <a href="<?php echo $this->createUrl('/store/guestcheckout');?>" 
+	               class="text-center block orange-text bottom20"><?php echo t("Continue as guest")?></a>
+                            </p>
+                        </div>
+                    <?php endif; ?> 
                     <div class="form-group">
                         <label><?php echo t("First Name");?></label>
                         <?php echo CHtml::textField('first_name','',

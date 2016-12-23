@@ -1768,7 +1768,9 @@ if (!class_exists('AjaxAdmin')) {
                     $row = $this->data['row'] - 1;
                     $_SESSION['kr_item'][$row] = $item;
                     $this->msg = t("Cart updated");
+                    $this->details = 'is_numeric';
                 } else {
+                    $this->details = 'is_not_numeric';
                     $addon_ids = '';
                     if (!isset($item['sub_item'])) {
                         $item['sub_item'] = '';
@@ -1895,6 +1897,7 @@ if (!class_exists('AjaxAdmin')) {
                         $_SESSION['kr_item'][] = $item;
                     } else {
                         $_SESSION['kr_item'][$found_key]['qty']+=$item['qty'];
+                        //$_SESSION['kr_item'][$found_key]['sub_item']
                     }
                 }
 
@@ -1929,6 +1932,22 @@ if (!class_exists('AjaxAdmin')) {
         }
 
         public function deleteItem() {
+            if (isset($_SESSION['kr_item'][$this->data['row']])) {
+
+                //if (is_numeric($row_api_id)){
+                if (isset($_SESSION['kr_item'][$this->data['row']]['row_api_id'])) {
+                    $row_api_id = $_SESSION['kr_item'][$this->data['row']]['row_api_id'];
+                    $ApiFunctions = new ApiFunctions;
+                    $ApiFunctions->deleteItemFromCart($row_api_id);
+                }
+
+                unset($_SESSION['kr_item'][$this->data['row']]);
+            }
+            $this->code = 1;
+            $this->msg = "";
+        }
+        
+        public function removeItemBy1() {
             if (isset($_SESSION['kr_item'][$this->data['row']])) {
 
                 //if (is_numeric($row_api_id)){

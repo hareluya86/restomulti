@@ -49,6 +49,7 @@ $full_merchant_address = $merchant_info['street'] . " " . $merchant_info['city']
         " " . $merchant_info['post_code'];
 ?>
 
+<div class="white_bg">
 <div class="sections section-grey2 section-receipt">
     <div class="container margin_60_35">
         <?php if ($ok == TRUE): ?>
@@ -58,7 +59,7 @@ $full_merchant_address = $merchant_info['street'] . " " . $merchant_info['city']
                         <h2 class="inner"><?php echo t("Order Details")?></h2>
                         <div id="confirm">
                             <i class="icon_check_alt2"></i>
-                            <h3>Thank you!</h3>
+                            <h3><?php echo t("Thank you!");?></h3>
                         </div>
                         <h4><?php echo t("Summary");?></h4>
                         <div class="receipt-wrap order-list-wrap">
@@ -407,7 +408,7 @@ $full_merchant_address = $merchant_info['street'] . " " . $merchant_info['city']
 
     </div> <!--container-->
 </div>  <!--section-receipt-->
-
+</div>
 <?php
 $data_raw = Yii::app()->functions->details['raw'];
 $receipt = EmailTPL::salesReceipt($print, Yii::app()->functions->details['raw']);

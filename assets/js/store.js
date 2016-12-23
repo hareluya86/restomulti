@@ -989,7 +989,7 @@ jQuery(document).ready(function () {
 
         /*check if delivery/pickup date is empty*/
 
-        if ($("#delivery_type").val() == "delivery") {
+        if (/*$("#delivery_type").val()*/$("input[type=radio][name=delivery_type]:checked").val() == "delivery") {
             if ($("#minimum_order").length >= 1) {
                 var minimum = parseFloat($("#minimum_order").val());
                 if (isNaN(subtotal)) {
@@ -1014,7 +1014,7 @@ jQuery(document).ready(function () {
             }
         }
 
-        if ($("#delivery_type").val() == "pickup") {
+        if (/*$("#delivery_type").val()*/$("input[type=radio][name=delivery_type]:checked").val() == "pickup") {
 
             if ($("#merchant_minimum_order_pickup").exists()) {
                 var minimum = parseFloat($("#merchant_minimum_order_pickup").val());
@@ -1039,7 +1039,7 @@ jQuery(document).ready(function () {
             }
         }
 
-        if ($("#delivery_type").val() == "delivery") {
+        if (/*$("#delivery_type").val()*/$("input[type=radio][name=delivery_type]:checked").val() == "delivery") {
             if ($("#is_ok_delivered").val() == 2) {
                 uk_msg(js_lang.trans_15 + " " + $("#merchant_delivery_miles").val() + " " + $("#unit_distance").val());
                 return;
@@ -1077,7 +1077,7 @@ jQuery(document).ready(function () {
             }
         }
 
-        var params = "delivery_type=" + $("#delivery_type").val() + "&delivery_date=" + $("#delivery_date").val();
+        var params = "delivery_type=" + /*$("#delivery_type").val()*/$("input[type=radio][name=delivery_type]:checked").val() + "&delivery_date=" + $("#delivery_date").val();
         params += "&delivery_time=" + $("#delivery_time").val();
         params += "&delivery_asap=" + $("#delivery_asap:checked").val();
         params += "&merchant_id=" + $("#merchant_id").val();
@@ -1807,7 +1807,7 @@ function uk_msg_sucess(msg)
 function load_item_cart()
 {
     var params = "action=loadItemCart&currentController=store&merchant_id=" + $("#merchant_id").val();
-    params += "&delivery_type=" + $("#delivery_type").val();
+    params += "&delivery_type=" + $('input[type=radio][name=delivery_type]:checked').val();//$("#delivery_type").val();
     busy(true);
     $.ajax({
         type: "POST",
@@ -2541,7 +2541,7 @@ jQuery(document).ready(function () {
         if ($("#from_address").val() == "") {
             if ($("#customer_ask_address").val() != 2) {
 
-                var delivery_type = $("#delivery_type").val();
+                var delivery_type = $("input[type=radio][name=delivery_type]:checked").val();//$("#delivery_type").val();
                 if (delivery_type == "delivery") {
                     var params = "action=enterAddress&currentController=store&tbl=enterAddress";
                     open_fancy_box2(params);
@@ -2595,8 +2595,8 @@ jQuery(document).ready(function () {
         return;
     });
 
-    $(document).on("change", "#delivery_type", function () {
-        var delivery_type = $(this).val();
+    $(document).on("ifChecked", "input[type=radio][name=delivery_type]", function () {
+        var delivery_type = $("input[type=radio][name=delivery_type]:checked").val();
         if (delivery_type == "pickup") {
             $(".delivery-asap").hide();
             $("#delivery_time").attr("placeholder", js_lang.trans_38);
@@ -3027,8 +3027,8 @@ jQuery(document).ready(function () {
         }
     });
 
-    if ($("#delivery_type").exists()) {
-        var delivery_type = $("#delivery_type").val();
+    if ($("input[type=radio][name=delivery_type]:checked").exists()){//$("#delivery_type").exists()) {
+        var delivery_type = $("input[type=radio][name=delivery_type]:checked").val();//$("#delivery_type").val();
         if (delivery_type == "pickup") {
             $(".delivery-asap").hide();
             $("#delivery_time").attr("placeholder", js_lang.trans_38);

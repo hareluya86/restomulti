@@ -5,7 +5,7 @@
     ));
 ?>
 
-<div id="position">
+<!--<div id="position">
     <div class="container">
         <ul>
             <li><a href="#0">Home</a></li>
@@ -13,12 +13,13 @@
             <li>Page active</li>
         </ul>
     </div>
-</div><!-- Position -->
+</div> Position -->
 
 <div class="collapse" id="collapseMap">
     <div id="map" class="map"></div>
 </div><!-- End Map -->
 
+<div class="white_bg">
 <!-- Content ================================================== -->
 <div class="container margin_60_35">
     <div class="row">
@@ -156,7 +157,7 @@
     </div><!-- End row -->
 </div><!-- End container -->
 <!-- End Content =============================================== -->
-
+</div>
 <?php
 //page-specific js and css files
 $baseUrl = Yii::app()->baseUrl;

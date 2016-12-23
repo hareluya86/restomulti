@@ -1842,7 +1842,7 @@ $resto_info.="<p><span class=\"uk-text-bold\">".Yii::t("default","Delivery Est")
 	    			$row=$this->data['row']-1;
 	    			$_SESSION['kr_item'][$row]=$item;
 	    			$this->msg=t("Cart updated");
-	    		} else {	  	    
+	    		} else {
 	    			$addon_ids='';	    			
 	    			if (!isset($item['sub_item'])){
 	    				$item['sub_item']='';
@@ -1857,8 +1857,8 @@ $resto_info.="<p><span class=\"uk-text-bold\">".Yii::t("default","Delivery Est")
 	    					}
 	    				}
 	    			}	    		    
-	    			if (is_array($addon_ids) && count($addon_ids)>=1){
-	    			    $item['addon_ids']=$addon_ids;		
+	    			if (is_array($addon_ids) && count($addon_ids)>=1){                                    
+	    			    $item['addon_ids']=$addon_ids;
 	    			}
 	    			
 	    			//dump($item);	    			
@@ -1933,8 +1933,7 @@ $resto_info.="<p><span class=\"uk-text-bold\">".Yii::t("default","Delivery Est")
 	    			   	   	   if (!isset($val['addon_ids'])){
 	    			   	   	   	   $val['addon_ids']=''; 
 	    			   	   	   }
-	    			   	   	   
-	    			   	   	   if (is_array($item['addon_ids']) && count($item['addon_ids'])>=1){	 
+	    			   	   	   if (is_array($item['addon_ids']) && count($item['addon_ids'])>=1){
 	    			   	   	   	   if ( count($val['addon_ids']) >= count($item['addon_ids']) ) {
 		    			   	   	   	   $compare=array_diff((array)$val['addon_ids'],(array)$item['addon_ids']);
 		    			   	   	   	   if (count($compare)<=0){		
@@ -1970,6 +1969,16 @@ $resto_info.="<p><span class=\"uk-text-bold\">".Yii::t("default","Delivery Est")
 	    			   $_SESSION['kr_item'][]=$item;
 	    			} else {	    					    			
 	    			   $_SESSION['kr_item'][$found_key]['qty']+=$item['qty'];
+                                   //No choice have to increment all addon items here
+                                   //loop through each subitem and increment if found in incoming request
+                                   foreach ($_SESSION['kr_item'][$found_key]['addon_qty'] as $i => $addon_cat) {
+                                       foreach($addon_cat as $row => $addon_row) {
+                                           $_SESSION['kr_item'][$found_key]['addon_qty'][$i][$row] += $item['qty'];
+                                           //$this->details .= $row.':'.$_SESSION['kr_item'][$found_key]['addon_qty'][$i][$row].'|';
+                                           
+                                       }
+                                   }
+                                    //$this->details = $_SESSION['kr_item'][$found_key]['addon_qty'];
 	    			}	    		
 	    		}	    	
 	    			    		

@@ -173,7 +173,7 @@ if (isset($_SESSION['search_type'])){
 }
 ?>
 
-<div id="position">
+<!--<div id="position">
     <div class="container">
         <ul>
             <li><a href="#0">Home</a></li>
@@ -181,8 +181,9 @@ if (isset($_SESSION['search_type'])){
             <li>Page active</li>
         </ul>
     </div>
-</div><!-- Position -->
+</div> Position -->
 
+<div class="white_bg">
 <div class="container margin_60_35">
     <div class="row">
 
@@ -261,15 +262,23 @@ if (isset($_SESSION['search_type'])){
                     <hr>
                     
                     <div class="row" id="options_2">
-                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-                            <?php echo CHtml::radioButtonList('delivery_type',$now,
-                            (array)Yii::app()->functions->DeliveryOptions($merchant_id),
-                            array(
-                                'class'=>'icheck'
-                            ))?>
-                            <?php echo CHtml::hiddenField('delivery_date',$now)?>
-                            <?php echo CHtml::hiddenField('delivery_time',$now_time)?>
-                        </div>
+                        <?php foreach(Yii::app()->functions->DeliveryOptions($merchant_id) as $delivery_option):?>
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                <?php /*echo CHtml::radioButtonList('delivery_type',$now,
+                                    (array)Yii::app()->functions->DeliveryOptions($merchant_id),
+                                    array(
+                                        'class'=>'icheck'
+                                ))*/?>
+                                <?php echo CHtml::radioButton('delivery_type',true,array(
+                                    'class'=>'icheck',
+                                    'id'=> strtolower($delivery_option),
+                                    'value' => strtolower($delivery_option)
+                                ));?>
+                                <label for="<?php echo strtolower($delivery_option);?>"><?php echo $delivery_option;?></label>
+                            </div>
+                        <?php endforeach;?>
+                        <?php echo CHtml::hiddenField('delivery_date',$now)?>
+                        <?php echo CHtml::hiddenField('delivery_time',$now_time)?>
                     </div>
                     <hr>
                     
@@ -292,4 +301,4 @@ if (isset($_SESSION['search_type'])){
     </div><!-- End row -->
 </div><!-- End container -->
 <!-- End Content =============================================== -->
-
+</div>

@@ -1,18 +1,14 @@
 <?php
 $this->renderPartial('/front/banner-receipt',array(
-   'h1'=>t("Restaurant Signup"),
-   'sub_text'=>t("step 3 of 4"),
-    'step'=>3,
-   'show_bar'=>true
+   'h1'=>t("Payment"),
+   'sub_text'=>t("step 3 of 4")
 ));
 
 /*PROGRESS ORDER BAR*/
-/*$this->renderPartial('/front/progress-merchantsignup',array(
+$this->renderPartial('/front/progress-merchantsignup',array(
    'step'=>3,
    'show_bar'=>true
 ));
- * 
- */
 
 require_once('stripe/lib/Stripe.php');
 

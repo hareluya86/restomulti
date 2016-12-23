@@ -1,14 +1,16 @@
 <?php
 $this->renderPartial('/front/banner-receipt',array(
    'h1'=>t("Restaurant Signup"),
-   'sub_text'=>t("step 3 of 4")
+   'sub_text'=>t("step 3 of 4"),
+    'step'=>3,
+   'show_bar'=>true
 ));
 
 /*PROGRESS ORDER BAR*/
-$this->renderPartial('/front/progress-merchantsignup',array(
+/*$this->renderPartial('/front/progress-merchantsignup',array(
    'step'=>3,
    'show_bar'=>true
-));
+));*/
 ?>
 <?php 
 $continue=true;
@@ -30,58 +32,60 @@ if ($res_paypal=$paypal->getExpressDetail()){
 ?>
 <div class="sections section-grey2 section-orangeform section-merchant-payment">
 
- <div class="container">
- <div class="inner">   
- 
-  <?php if ( $continue==TRUE):?>
-  <h1><?php echo Yii::t("default","Paypal Verification")?></h1>
-  
-  <div class="box-grey rounded">	
-  
-  <form class="uk-form uk-form-horizontal forms" id="forms" onsubmit="return false;">
-  <?php echo CHtml::hiddenField('action','merchantPaymentPaypal')?>
-  <?php echo CHtml::hiddenField('currentController','store')?>
-  <?php echo CHtml::hiddenField('internal-token',$_GET['internal-token'])?>
-  <?php echo CHtml::hiddenField('token',$_GET['token'])?>    
-  
-  <?php if (isset($_GET['renew'])):?>
-      <?php echo CHtml::hiddenField('renew',$_GET['renew'])?>    
-      <?php echo CHtml::hiddenField('package_id',$_GET['package_id'])?>    
-  <?php endif;?>
+    <div class="container margin_60_35">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="box_style_2">
+                    <?php if ( $continue==TRUE):?>
+                        <h2 class="inner">
+                            <?php echo Yii::t("default","Paypal Verification")?>
+                        </h2>
+                        <div class="box-grey rounded">
 
-  <div class="uk-form-row">
-  <label class="uk-form-label"><?php echo Yii::t("default","Paypal Name")?></label>
-  <span class="uk-text-bold"><?php echo $res_paypal['FIRSTNAME']." ".$res_paypal['LASTNAME']?></span>
-  </div>
-  
-  <div class="uk-form-row">
-  <label class="uk-form-label"><?php echo Yii::t("default","Paypal Email")?></label>
-  <span class="uk-text-bold"><?php echo $res_paypal['EMAIL']?></span>
-  </div>
-  
-  <div class="uk-form-row">
-  <label class="uk-form-label"><?php echo Yii::t("default","Selected Package")?></label>
-  <span class="uk-text-bold"><?php echo ucwords($merchant['package_name'])?></span>
-  </div>
-  
-  <div class="uk-form-row">
-  <label class="uk-form-label"><?php echo Yii::t("default","Amount to pay")?></label>
-  <span class="uk-text-bold"><?php echo $res_paypal['CURRENCYCODE']." ".$res_paypal['AMT']?></span>
-  </div>
+                            <form class="uk-form uk-form-horizontal forms" id="forms" onsubmit="return false;">
+                                <?php echo CHtml::hiddenField('action','merchantPaymentPaypal')?>
+                                <?php echo CHtml::hiddenField('currentController','store')?>
+                                <?php echo CHtml::hiddenField('internal-token',$_GET['internal-token'])?>
+                                <?php echo CHtml::hiddenField('token',$_GET['token'])?>    
 
-   
-  <div class="uk-form-row">   
-    <input type="submit" value="<?php echo Yii::t("default","Pay Now")?>" class="orange-button">
-  </div>
-  
-  </form>
-  
-  </div>
-  
-  <?php else :?>
-  <p class="text-danger"><?php echo $msg;?></p>
-  <?php endif;?>
-  
-  </div>
-  </div>
+                                <?php if (isset($_GET['renew'])):?>
+                                    <?php echo CHtml::hiddenField('renew',$_GET['renew'])?>    
+                                    <?php echo CHtml::hiddenField('package_id',$_GET['package_id'])?>    
+                                <?php endif;?>
+
+                                <div class="form-group">
+                                    <label class="uk-form-label"><?php echo Yii::t("default","Paypal Name")?></label>
+                                    <span class="form-control"><?php echo $res_paypal['FIRSTNAME']." ".$res_paypal['LASTNAME']?></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="uk-form-label"><?php echo Yii::t("default","Paypal Email")?></label>
+                                    <span class="form-control"><?php echo $res_paypal['EMAIL']?></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="uk-form-label"><?php echo Yii::t("default","Selected Package")?></label>
+                                    <span class="form-control"><?php echo ucwords($merchant['package_name'])?></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="uk-form-label"><?php echo Yii::t("default","Amount to pay")?></label>
+                                    <span class="form-control"><?php echo $res_paypal['CURRENCYCODE']." ".$res_paypal['AMT']?></span>
+                                </div>
+
+
+                                <div class="form-group">   
+                                    <input type="submit" value="<?php echo Yii::t("default","Pay Now")?>" class="orange-button btn_full_outline">
+                                </div>
+                            </form>
+
+                        </div>
+
+                    <?php else :?>
+                        <p class="text-danger"><?php echo $msg;?></p>
+                    <?php endif;?>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -66,7 +66,7 @@ echo CHtml::hiddenField('admin_currency_set',getCurrencyCode());
 echo CHtml::hiddenField('admin_currency_position',
 Yii::app()->functions->getOptionAdmin("admin_currency_position"));
 ?>
-
+<div class="white_bg">
 <div class="container margin_60_35">
     <?php if ( $continue==TRUE):?>
         <?php 
@@ -365,3 +365,4 @@ Yii::app()->functions->getOptionAdmin("admin_currency_position"));
     <?php endif; ?>
 </div>
 <!--section-payment-option-->
+</div>

@@ -3714,15 +3714,18 @@ class Functions extends CApplicationComponent {
 
                             $addon_qty = 1;
                             foreach ($val_sub as $addon_row => $val_subs) {
-
+                                //$htm.='$addon_row='.$addon_row.' $val_subs='.$val_subs.' $qty='.$qty.'<br/>';
                                 if (isset($val['addon_qty'][$cat_id])) {
                                     $addon_qty = $val['addon_qty'][$cat_id][$addon_row];
+                                    //$htm.='$addon_qty='.$addon_qty.'<br/>';
                                 } else {
                                     $addon_qty = $qty;/** fixed addon qty */
                                     /* if ( in_array($val['item_id'],(array)$added_item)){
                                       $addon_qty=0;
                                       } */
+                                    //$htm.='else';
                                 }
+                                
 
                                 $val_subs = explodeData($val_subs);
 
