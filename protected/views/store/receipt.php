@@ -4,7 +4,9 @@ unset($_SESSION['pts_redeem_amt']);
 
 $this->renderPartial('/front/quickfood/banner-receipt', array(
     'h1' => t("Thank You"),
-    'sub_text' => t("Your order has been placed.")
+    'sub_text' => t("Your order has been placed."),
+    'step' => '',
+    'show_bar'=>false
 ));
 
 /* Render top menu */
