@@ -135,7 +135,7 @@ echo CHtml::hiddenField('restaurant_name', $data['restaurant_name']);
 Yii::app()->clientScript->registerMetaTag(
         Yii::app()->getBaseUrl(true) . FunctionsV3::getMerchantLogo($merchant_id)
         , 'og:image');
-if (isset($_SESSION['search_type'])){
+/*if (isset($_SESSION['search_type'])){
     switch ($_SESSION['search_type']) {
         case "kr_search_foodname":			
             $search_key='foodname';
@@ -170,7 +170,7 @@ if (isset($_SESSION['search_type'])){
 } else {
     $search_key='s';
     $search_str='';
-}
+}*/
 ?>
 
 <!--<div id="position">
@@ -188,7 +188,7 @@ if (isset($_SESSION['search_type'])){
     <div class="row">
 
         <div class="col-md-3">
-            <p><a href="<?php echo Yii::app()->createUrl('store/searcharea',array($search_key=>$search_str)); ?>" class="btn_side">Back to search</a></p>
+            
             <div class="box_style_1">
                     <?php
                         $this->renderPartial('/front/quickfood/menu-category', array(
@@ -280,6 +280,33 @@ if (isset($_SESSION['search_type'])){
                         <?php echo CHtml::hiddenField('delivery_date',$now)?>
                         <?php echo CHtml::hiddenField('delivery_time',$now_time)?>
                     </div>
+                    <hr>
+                    
+                    <?php if ($data['service']==3):?>
+                        <h4><?php echo t("Distance Information")?></h4>
+                    <?php else :?>
+                        <h4><?php echo t("Delivery Information")?></h4>
+                    <?php endif;?>
+                    <p class="delivery-fee-wrap">
+                        <?php echo t("Delivery Est")?>: <?php echo FunctionsV3::getDeliveryEstimation($merchant_id)?></p>
+                    </p>
+                    <p class="delivery-fee-wrap">
+                        <?php 
+                            if (!empty($merchant_delivery_distance)){
+                                    echo t("Delivery Distance Covered").": ".$merchant_delivery_distance." $distance_type_orig";
+                            } else echo  t("Delivery Distance Covered").": ".t("not available");
+                        ?>
+                    </p>
+                    <p class="delivery-fee-wrap">
+                        <?php 
+                            if ($delivery_fee){
+                                 echo t("Delivery Fee").": ".FunctionsV3::prettyPrice($delivery_fee);
+                            } else echo  t("Delivery Fee").": ".t("Free Delivery");
+                        ?>
+                    </p>
+                    <a href="javascript:;" class="top10 green-color change-address block text-center">
+                        [<?php echo t("Change Your Address here")?>]
+                    </a>
                     <hr>
                     
                     <?php if ( $checkout['code']==1):?>

@@ -879,7 +879,7 @@ class Functions extends CApplicationComponent {
 
         $mtype = $this->getMerchantMembershipType();
         if ($mtype == 2) {
-            $payment_list = '';
+            $payment_list['items'] = array();
         }
 
         $minfo = $this->getMerchantInfo();
@@ -939,7 +939,7 @@ class Functions extends CApplicationComponent {
                         array('visible' => $togle_com, 'tag' => 'withdrawals', 'label' => '<i class="fa fa-paypal"></i>' . t("Withdrawals"),
                             'url' => array('merchant/withdrawals')),
                     )),
-                $payment_list,
+                $payment_list, //another bug
                 array('visible' => $this->hasMerchantAccess("sms-gateway"), 'tag' => 'sms-gateway', 'label' => '<i class="fa fa-mobile"></i>' . Yii::t("default", 'SMS'),
                     'itemOptions' => array('class' => ''), 'items' => array(
                         array('visible' => $this->hasMerchantAccess("smsSettings"), 'tag' => 'smsSettings', 'label' => '<i class="fa fa-paypal"></i>' . Yii::t("default", "SMS Alert Settings"),

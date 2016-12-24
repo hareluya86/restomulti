@@ -14,6 +14,15 @@
                    href="javascript:;">
                        <?php echo t("Merchant information") ?>
                 </a>
+                <?php if($step >= 2): ?>
+                    <a class="<?php echo $step >= 2 ? "active" : "inactive";
+                                    echo $step == 2 ? " current" : ""; ?>" 
+                       href="javascript:;">
+                           <?php echo t("Merchant information") ?>
+                    </a>
+                <?php else: ?>
+                    <span><?php echo t("Merchant information") ?></span>
+                <?php endif;?>
             </li>
             <li>
                 <a class="<?php echo $step >= 3 ? "active" : "inactive";

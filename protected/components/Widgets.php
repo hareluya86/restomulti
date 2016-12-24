@@ -330,14 +330,18 @@ class Widgets extends CApplicationComponent
          	}		         
         }         
 		?>
-		<div class="voucher_wrap">                      
+		<div class="voucher_wrap">   
+                    <div class="form-group">
         <?php echo CHtml::textField('voucher_code',$code
         ,array(
           'placeholder'=>t("Enter Voucher here"),
-          'class'=>"grey-fields center",
+          'class'=>"grey-fields center form-control",
           'style'=>$style
         ))?>
-        <a href="javascript:;" class="green-button apply_voucher"><?php echo $text?></a>            
+                        </div>
+            <div class="form-group">
+                <a href="javascript:;" class="green-button apply_voucher btn_full_outline"><?php echo $text?></a> 
+            </div>
         </div>
 		<?php
 	}

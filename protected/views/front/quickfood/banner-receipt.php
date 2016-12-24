@@ -6,8 +6,7 @@
 <!-- SubHeader =============================================== -->
 <section class="parallax-window" id="short" data-parallax="scroll" 
          data-image-src="<?php echo assetsURL()."/images/b-2-mobile.jpg"?>" 
-         
-         >      
+         >
     <div id="subheader">
         <div id="sub_content">
             <h1><?php echo isset($h1)?$h1:''?></h1>

@@ -31,7 +31,7 @@ if (isset($is_guest_checkout)){
 	$continue=true;	
 } else {	
 	$client_info = Yii::app()->functions->getClientInfo(Yii::app()->functions->getClientId());
-	if (isset($s['kr_search_address'])){	
+	if (false && isset($s['kr_search_address'])){	
 		$temp=explode(",",$s['kr_search_address']);		
 		if (is_array($temp) && count($temp)>=2){
 			$street=isset($temp[0])?$temp[0]:'';
@@ -148,13 +148,6 @@ Yii::app()->functions->getOptionAdmin("admin_currency_position"));
 
                                         </div> 
                                         <div class="col-md-2">
-                                            <?php echo CHtml::hiddenField('street1',isset($client_info['street'])?$client_info['street']:'');?>
-                                            <?php echo CHtml::hiddenField('city1',isset($client_info['city'])?$client_info['city']:'');?>
-                                            <?php echo CHtml::hiddenField('state1',isset($client_info['state'])?$client_info['state']:'');?>
-                                            <?php echo CHtml::hiddenField('zipcode1',isset($client_info['zipcode'])?$client_info['zipcode']:'');?>
-                                            <?php echo CHtml::hiddenField('location_name1',isset($client_info['location_name'])?$client_info['location_name']:'');?>
-                                            <?php echo CHtml::hiddenField('contact_phone1',isset($client_info['contact_phone'])?$client_info['contact_phone']:'');?>
-                                            <?php echo CHtml::hiddenField('delivery_instruction1',isset($client_info['delivery_instruction'])?$client_info['delivery_instruction']:'');?>
                                             <a href="javascript:;" class="edit_address_book block top10 btn_full_outline">
                                                 <i class="ion-compose"></i> <?php echo t("Edit")?>
                                             </a>
