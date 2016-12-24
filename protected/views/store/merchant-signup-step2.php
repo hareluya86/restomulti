@@ -315,3 +315,14 @@ echo CHtml::hiddenField('mobile_country_code',Yii::app()->functions->getAdminCou
         </div>
     </div>
 </div>
+<?php 
+
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+
+$cs->registerCss('intl-tel-input', 
+        '.intl-tel-input {'
+        . ' display: block !important'
+        . '}');
+
+?>

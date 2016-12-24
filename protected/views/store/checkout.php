@@ -26,7 +26,7 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="box_style_2 hidden-xs info">
+                    <div class="box_style_2 info">
                         <h4 class="nomargin_top">Login to your account <i class="icon_lock_alt pull-right"></i></h4>
                         <form id="forms" class="forms" method="POST">
                             <?php echo CHtml::hiddenField('action', 'clientLogin') ?>
@@ -87,7 +87,7 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
                     <?php echo CHtml::hiddenField('do-action', isset($_GET['do-action'])?$_GET['do-action']:'' )?>     
                     <div class="section-forgotpass" style="display: none;">
                         <div class="col-md-12 ">
-                            <div class="box_style_2 hidden-xs info">
+                            <div class="box_style_2 info">
                                 <h4 class="nomargin_top"><?php echo t("Forgot Password")?> <i class="icon_lock-open_alt pull-right"></i></h4>
                                 <div class="form-group">
                                     <?php echo CHtml::textField('username-email','',
@@ -224,3 +224,14 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
     </div>
 </div>
 
+<?php 
+
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+
+$cs->registerCss('intl-tel-input', 
+        '.intl-tel-input {'
+        . ' display: block !important'
+        . '}');
+
+?>

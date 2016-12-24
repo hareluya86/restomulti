@@ -25,7 +25,7 @@ $this->renderPartial('/layouts/quickfood/front_top_menu', array(
 <div class="container margin_60_35">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="box_style_2 hidden-xs info">
+            <div class="box_style_2 info">
                 <h4 class="nomargin_top"><?php echo t("We have sent verification code to your email address")?> </h4>
                 <form class="forms bottom20" id="forms" onsubmit="return false;">
                     <?php echo CHtml::hiddenField('action','verifyEmailCode')?>         

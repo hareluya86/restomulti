@@ -237,12 +237,48 @@ class ScriptManager {
         $cs->registerCssFile('https://fonts.googleapis.com/css?family=Lato:400,700,900,400italic,700italic,300,300italic');
         $cs->registerCssFile('http://fonts.googleapis.com/css?family=Gochi+Hand');
 
-        if (Yii::app()->functions->getOptionAdmin('theme_time_pick') == 2) {
-            $cs->registerCssFile($baseUrl . "/assets/vendor/timepicker.co/jquery.timepicker.min.css");
-        }
         
         //$cs->registerCssFile('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
         //$cs->registerCssFile($baseUrl . "/assets/css/quickfood/bootstrap.min.css");
+        self::registerVendorCoreCSSFiles();
+    }
+    
+    public static function registerVendorCoreCSSFiles() {
+        $baseUrl = Yii::app()->baseUrl;
+        $cs = Yii::app()->getClientScript();
+        
+        //$cs->registerCssFile("//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
+        $cs->registerCssFile($baseUrl . "/assets/vendor/font-awesome/css/font-awesome.min.css");
+
+
+        $cs->registerCssFile($baseUrl . "/assets/vendor/colorpick/css/colpick.css");
+        $cs->registerCssFile($baseUrl . "/assets/vendor/iCheck/skins/all.css");
+        $cs->registerCssFile($baseUrl . "/assets/vendor/chosen/chosen.css");
+        $cs->registerCssFile($baseUrl . "/assets/vendor/fancybox/source/jquery.fancybox.css?ver=1");
+        $cs->registerCssFile($baseUrl . "/assets/vendor/animate.min.css");
+        //$cs->registerCssFile($baseUrl."/assets/vendor/flexslider/flexslider.css");
+        $cs->registerCssFile($baseUrl . "/assets/vendor/magnific-popup/magnific-popup.css");
+        //$cs->registerCssFile($baseUrl."/assets/vendor/bxslider/jquery.bxslider.css");
+        $cs->registerCssFile($baseUrl . "/assets/vendor/intel/build/css/intlTelInput.css");
+        $cs->registerCssFile($baseUrl . "/assets/vendor/rupee/rupyaINR.css");
+
+        $cs->registerCssFile('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');	
+        //$cs->registerCssFile($baseUrl . "/assets/vendor/bootstrap/css/bootstrap.min.css");
+
+        $cs->registerCssFile($baseUrl . "/assets/vendor/raty/jquery.raty.css");
+
+        //$cs->registerCssFile("//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css");
+        $cs->registerCssFile($baseUrl . "/assets/vendor/ionicons-2.0.1/css/ionicons.min.css");
+        
+        $cs->registerCssFile($baseUrl . "/assets/vendor/nprogress/nprogress.css");
+
+        $cs->registerCssFile($baseUrl . "/assets/vendor/justified-gallery/css/justifiedGallery.min.css");
+
+        $cs->registerCssFile($baseUrl . "/assets/vendor/EasyAutocomplete/easy-autocomplete.min.css");
+        
+        if (Yii::app()->functions->getOptionAdmin('theme_time_pick') == 2) {
+            $cs->registerCssFile($baseUrl . "/assets/vendor/timepicker.co/jquery.timepicker.min.css");
+        }
     }
 
     public static function registerAllCoreCSSFiles() {

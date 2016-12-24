@@ -198,7 +198,7 @@ Yii::app()->clientScript->registerMetaTag(
                     ?>
             </div><!-- End box_style_1 -->
 
-            <div class="box_style_2 hidden-xs" id="help">
+            <div class="box_style_2" id="help">
                 <i class="icon_lifesaver"></i>
                 <h4>Need <span>Help?</span></h4>
                 <a href="tel://<?php echo $data['restaurant_phone'];?>" class="phone"><?php echo $data['restaurant_phone'];?></a>

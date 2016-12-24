@@ -246,3 +246,15 @@ $this->renderPartial('/front/quickfood/banner-receipt',array(
         </div>
     </div>
 </div>
+
+<?php 
+
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+
+$cs->registerCss('intl-tel-input', 
+        '.intl-tel-input {'
+        . ' display: block !important'
+        . '}');
+
+?>

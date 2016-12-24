@@ -359,3 +359,15 @@ Yii::app()->functions->getOptionAdmin("admin_currency_position"));
 </div>
 <!--section-payment-option-->
 </div>
+
+<?php 
+
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+
+$cs->registerCss('intl-tel-input', 
+        '.intl-tel-input {'
+        . ' display: block !important'
+        . '}');
+
+?>

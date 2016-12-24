@@ -47,7 +47,7 @@ $placholder_search=Yii::t("default",$placholder_search);
         </div><!-- End sub_content -->
     </div>
     <img src="assets/images/quickfood/img/video_fix.png" alt="" class="header-video--media" data-video-src="/assets/video/intro" data-teaser-source="/assets/video/intro" data-provider="Vimeo" data-video-width="1920" data-video-height="960">
-    <div id="count" class="hidden-xs">
+    <div id="count" class="">
         <ul>
             <li><span class="number">2650</span> Restaurant</li>
             <li><span class="number">5350</span> People Served</li>
@@ -143,7 +143,7 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
             </div>
         </div><!-- End row -->
         
-        <div id="delivery_time" class="hidden-xs">
+        <div id="delivery_time" class="">
             <strong><span>2</span><span>5</span></strong>
             <h4>The minutes that usually takes to deliver!</h4>
         </div>
