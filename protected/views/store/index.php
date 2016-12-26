@@ -17,12 +17,12 @@ if ( $home_search_mode=="postcode" ){
 	$placholder_search=Yii::t("default","Enter your postcode");
 }
 $placholder_search=Yii::t("default",$placholder_search);
-?>
 
-<?php $this->renderPartial('/layouts/quickfood/front_top_menu',array(
+$this->renderPartial('/layouts/quickfood/front_top_menu',array(
   'action'=>Yii::app()->controller->action->id,
   'theme_hide_logo'=>getOptionA('theme_hide_logo')
-));?>
+));
+?>
 
 <!-- SubHeader =============================================== -->
 <section class="header-video">
@@ -47,7 +47,7 @@ $placholder_search=Yii::t("default",$placholder_search);
         </div><!-- End sub_content -->
     </div>
     <img src="assets/images/quickfood/img/video_fix.png" alt="" class="header-video--media" data-video-src="/assets/video/intro" data-teaser-source="/assets/video/intro" data-provider="Vimeo" data-video-width="1920" data-video-height="960">
-    <div id="count" class="">
+    <div id="count" class="hidden-xs">
         <ul>
             <li><span class="number">2650</span> Restaurant</li>
             <li><span class="number">5350</span> People Served</li>
@@ -137,7 +137,7 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
                     <span>4</span>
                     <h3>Delivery or takeaway</h3>
                     <p>
-                        You are lazy? Are you backing home?
+                        Don't feel like leaving home? No problem!
                     </p>
                 </div>
             </div>

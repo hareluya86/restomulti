@@ -12,6 +12,13 @@ $this->renderPartial('/front/quickfood/banner-receipt',array(
    'show_bar'=>true
 ));
 */
+
+/* Render top menu */
+$this->renderPartial('/layouts/quickfood/front_top_menu', array(
+    'action' => Yii::app()->controller->action->id,
+    'theme_hide_logo' => getOptionA('theme_hide_logo')
+));
+?>
 ?>
 
 

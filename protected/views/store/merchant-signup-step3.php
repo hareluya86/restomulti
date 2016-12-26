@@ -13,12 +13,11 @@ $this->renderPartial('/front/quickfood/banner-receipt',array(
 ));
 */
 /* Render top menu */
-/*$this->renderPartial('/layouts/quickfood/front_top_menu', array(
+$this->renderPartial('/layouts/quickfood/front_top_menu', array(
     'action' => Yii::app()->controller->action->id,
     'theme_hide_logo' => getOptionA('theme_hide_logo')
 ));
- *
- */
+
 ?>
 <div class="sections section-grey2 section-orangeform section-merchant-payment">
     <div class="container margin_60_35">
