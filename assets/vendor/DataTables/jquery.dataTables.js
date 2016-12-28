@@ -11430,10 +11430,10 @@
 		"sTable": "dataTable",
 	
 		/* Two buttons buttons */
-		"sPagePrevEnabled": "paginate_enabled_previous",
-		"sPagePrevDisabled": "paginate_disabled_previous",
-		"sPageNextEnabled": "paginate_enabled_next",
-		"sPageNextDisabled": "paginate_disabled_next",
+		"sPagePrevEnabled": "paginate_enabled_previous btn btn-default",
+		"sPagePrevDisabled": "paginate_disabled_previous btn btn-default",
+		"sPageNextEnabled": "paginate_enabled_next  btn btn-default",
+		"sPageNextDisabled": "paginate_disabled_next btn btn-default",
 		"sPageJUINext": "",
 		"sPageJUIPrev": "",
 		

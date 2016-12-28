@@ -81,7 +81,9 @@ class ScriptManager {
                 'map_marker', "var map_marker ='" . FunctionsV3::getMapMarker() . "' ", CClientScript::POS_HEAD
         );
 
-        $cs->registerScriptFile($baseUrl . "/assets/vendor/DataTables/jquery.dataTables.min.js"
+        //$cs->registerScriptFile($baseUrl . "/assets/vendor/DataTables/jquery.dataTables.min.js"
+        //        , CClientScript::POS_END);
+        $cs->registerScriptFile($baseUrl . "/assets/vendor/DataTables/jquery.dataTables.js"
                 , CClientScript::POS_END);
 
         $cs->registerScriptFile($baseUrl . "/assets/vendor/DataTables/fnReloadAjax.js"

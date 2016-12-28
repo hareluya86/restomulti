@@ -2,7 +2,6 @@
 <div class="indent_title_in">
     <i class="icon_profile"></i>
     <h3><?php echo t("Profile")?></h3>
-    <p>Partem diceret praesent mel et, vis facilis alienum antiopam ea, vim in sumo diam sonet. Illud ignota cum te, decore elaboraret nec ea. Quo ei graeci repudiare definitionem. Vim et malorum ornatus assentior, exerci elaboraret eum ut, diam meliore no mel.</p>
 </div>
 
 

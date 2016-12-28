@@ -11,7 +11,7 @@ $this->renderPartial('/layouts/quickfood/front_top_menu',array(
   'action'=>Yii::app()->controller->action->id,
   'theme_hide_logo'=>getOptionA('theme_hide_logo')
 ));
-
+$tabs = (is_numeric($tabs) && $tabs > 0) ? $tabs - 1 : 0;
 ?>
 
 <!-- Content ================================================== -->
@@ -20,7 +20,7 @@ $this->renderPartial('/layouts/quickfood/front_top_menu',array(
         <nav>
             <ul>
                 <li>
-                    <a href="#profile" class="<?php echo $tabs==""?"active":''?>">
+                    <a href="#profile">
                         <i class="icon_profile"></i>
                         <span><?php echo t("Profile")?></span>
                     </a>
@@ -68,15 +68,15 @@ $this->renderPartial('/layouts/quickfood/front_top_menu',array(
             <?php if ( $disabled_cc != "yes"):?>
                 <section id="creditcard">
                     <?php 
-                        if (isset($_GET['do']) && $tabs == 4){
-                                $this->renderPartial('/front/manage-credit-card-add',array(
-                                  'data'=>Yii::app()->functions->getCreditCardInfo(isset($_GET['id'])?$_GET['id']:''),
-                                  'tabs'=>$tabs
-                                ));
+                        if (isset($_GET['do']) && $tabs == 3){
+                            $this->renderPartial('/front/quickfood/manage-credit-card-add',array(
+                              'data'=>Yii::app()->functions->getCreditCardInfo(isset($_GET['id'])?$_GET['id']:''),
+                              'tabs'=>$tabs
+                            ));
                         } else {
-                                    $this->renderPartial('/front/manage-credit-card',array(
-                                      'tabs'=>$tabs
-                                    ));
+                            $this->renderPartial('/front/quickfood/manage-credit-card',array(
+                              'tabs'=>$tabs
+                            ));
                         }
                     ?>
                 </section>
@@ -98,7 +98,7 @@ $cs->registerScriptFile($baseUrl . "/assets/js/quickfood/tabs.js"
 $cs->registerScriptFile($baseUrl . "/assets/js/quickfood/bootstrap3-wysihtml5.min.js"
                 , CClientScript::POS_END);
 $cs->registerScript('tabs', 
-        'new CBPFWTabs(document.getElementById(\'tabs\'));'
+        'new CBPFWTabs(document.getElementById(\'tabs\'),{start:'.$tabs.'});'
         , CClientScript::POS_END);
 $cs->registerScript('wysihtml5', 
         '$(\'.wysihtml5\').wysihtml5({});'
