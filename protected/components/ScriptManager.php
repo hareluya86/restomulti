@@ -264,7 +264,7 @@ class ScriptManager {
         $cs->registerCssFile($baseUrl . "/assets/vendor/intel/build/css/intlTelInput.css");
         $cs->registerCssFile($baseUrl . "/assets/vendor/rupee/rupyaINR.css");
 
-        $cs->registerCssFile('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');	
+        //$cs->registerCssFile('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');	
         //$cs->registerCssFile($baseUrl . "/assets/vendor/bootstrap/css/bootstrap.min.css");
 
         $cs->registerCssFile($baseUrl . "/assets/vendor/raty/jquery.raty.css");

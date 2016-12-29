@@ -90,7 +90,7 @@ if (isset($cuisine_page)){
 	$page_link=Yii::app()->createUrl('store/cuisine/?category='.urlencode($_GET['category']));
 } else $page_link=Yii::app()->createUrl('store/browse/?tab='.$tabs);
 
- echo CHtml::hiddenField('current_page_url',$page_link);
+ //echo CHtml::hiddenField('current_page_url',$page_link);
  require_once('pagination.class.php'); 
  $attributes                 =   array();
  $attributes['wrapper']      =   array('id'=>'pagination','class'=>'pagination');			 

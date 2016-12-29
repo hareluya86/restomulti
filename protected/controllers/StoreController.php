@@ -102,13 +102,17 @@ class StoreController extends CController {
           Yii::app()->end(); */
         $this->actionHome();
     }
+    
+    public function actionCuisine2() {
+        self::actionSearchArea();
+    }
 
     public function actionCuisine() {
         /* update merchant if expired and sponsored */
         Yii::app()->functions->updateMerchantSponsored();
         Yii::app()->functions->updateMerchantExpired();
 
-        /* $category='';
+        $category='';
           $getdata=isset($_GET)?$_GET:'';
           if(is_array($getdata) && count($getdata)>=1){
           $category=$getdata['category'];
@@ -118,7 +122,7 @@ class StoreController extends CController {
           if ( $cat_res=Yii::app()->functions->GetCuisineByName($category)){
           $cuisine_id=$cat_res['cuisine_id'];
           } else $cuisine_id="-1";
-          $filter_cuisine[]=$cuisine_id; */
+          $filter_cuisine[]=$cuisine_id; 
 
         $cuisine_id = isset($_GET['category']) ? $_GET['category'] : '';
 
@@ -153,10 +157,35 @@ class StoreController extends CController {
                 'country_coordinates', 'var country_coordinates = ' . json_encode($lat_res) . '
 		  ', CClientScript::POS_HEAD
         );
+        if (!isset($_GET['tab'])) {
+            $_GET['tab'] = '';
+        }
+        switch ($_GET['tab']) {
+            case 1:
+                $tabs = 2; //1 is map listing
+                break;
+            case 2:
+                $tabs = 2; //2 is list listing
+                break;
 
+            case 3:
+                $tabs = 3; //3 is grid listing
+                break;
+
+            case "4":
+                break;
+
+            default:
+                $tabs = 2; //default
+                break;
+        }
+
+        $current_page_url = Yii::app()->createUrl('store/cuisine/');
         $this->render('merchant-list-cuisine', array(
             'list' => $res,
-            'category' => isset($category) ? $category : ''
+            'category' => isset($category) ? $category : '',
+            'tabs' => $tabs,
+            'current_page_url' => $current_page_url
         ));
     }
 
@@ -1046,30 +1075,26 @@ class StoreController extends CController {
             $this->render('404-page', array('header' => true));
             return;
         }
-
+        
+        $current_page_url = Yii::app()->createUrl('store/browse/');
+        
         /* update merchant if expired and sponsored */
         Yii::app()->functions->updateMerchantSponsored();
         Yii::app()->functions->updateMerchantExpired();
 
-        if (!isset($_GET['tab'])) {
-            $_GET['tab'] = '';
+        if (!isset($_GET['tabs'])) {
+            $_GET['tabs'] = '';
         }
-        switch ($_GET['tab']) {
+        switch ($_GET['tabs']) {
             case 1:
                 $tabs = 2; //1 is map listing
-                //$list = Yii::app()->functions->getAllMerchantNewest();
-                $list = Yii::app()->functions->getAllMerchant();
                 break;
             case 2:
                 $tabs = 2; //2 is list listing
-                //$list = Yii::app()->functions->getAllMerchantNewest();
-                $list = Yii::app()->functions->getAllMerchant();
                 break;
 
             case 3:
                 $tabs = 3; //3 is grid listing
-                //$list = Yii::app()->functions->getFeaturedMerchant();
-                $list = Yii::app()->functions->getAllMerchant();
                 break;
 
             case "4":
@@ -1077,6 +1102,32 @@ class StoreController extends CController {
 
             default:
                 $tabs = 2; //default
+                break;
+        }
+        
+        if (!isset($_GET['filter'])) {
+            $_GET['filter'] = '';
+        }
+        switch ($_GET['filter']) {
+            case 1:
+                $filter = 1; //all
+                $list = Yii::app()->functions->getAllMerchant();
+                
+                break;
+            case 2:
+                $filter = 2; //newest
+                $list = Yii::app()->functions->getAllMerchantNewest();
+                
+                break;
+
+            case 3:
+                $filter = 3; //featured
+                $list = Yii::app()->functions->getFeaturedMerchant();
+
+                break;
+
+            default:
+                $filter = 1; //default
                 $list = Yii::app()->functions->getAllMerchant();
                 break;
         }
@@ -1102,10 +1153,12 @@ class StoreController extends CController {
                 'country_coordinates', 'var country_coordinates = ' . json_encode($lat_res) . '
 		  ', CClientScript::POS_HEAD
         );
-
+        
         $this->render('browse-resto', array(
             'list' => $list,
-            'tabs' => $tabs
+            'tabs' => $tabs,
+            'filter' => $filter,
+            'current_page_url' => $current_page_url
         ));
     }
 

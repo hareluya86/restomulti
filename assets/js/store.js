@@ -1548,6 +1548,32 @@ jQuery(document).ready(function () {
             geocode_address2(locations);
         }
     });
+    
+    $(document).on("change","#filter",function(){
+        var url = $("#current_page_url").val();
+        if($('#tabs').val()) {
+            if(url === $("#current_page_url").val())
+                url += '?';
+            else
+                url += '&';
+            url += 'tabs=' + $('#tabs').val();
+        }
+        if($('#filter').val()) {
+            if(url === $("#current_page_url").val())
+                url += '?';
+            else
+                url += '&';
+            url += 'filter=' + $(this).val();
+        }
+        if($('#category').val()) {
+            if(url === $("#current_page_url").val())
+                url += '?';
+            else
+                url += '&';
+            url += 'category=' + $('#category').val();
+        }
+        window.location = url;
+    });
 
 }); /*END DOCU*/
 

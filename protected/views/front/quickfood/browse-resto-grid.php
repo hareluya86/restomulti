@@ -1,7 +1,7 @@
 <?php
     $this->renderPartial('/front/quickfood/default-header', array(
-        'h1' => t("Browse Restaurant"),
-        'sub_text' => t("choose from your favorite restaurant")
+        'h1' => $h1,
+        'sub_text' => $sub_text
     ));
 ?>
 
@@ -23,7 +23,7 @@
 <!-- Content ================================================== -->
 <div class="container margin_60_35">
     <div class="row">
-
+<?php if(false):?>
         <div class="col-md-3">
             <p>
                 <a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap">View on map</a>
@@ -31,20 +31,12 @@
             <div id="filters_col">
                 <a data-toggle="collapse" href="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters" id="filters_col_bt">Filters <i class="icon-plus-1 pull-right"></i></a>
                 <div class="collapse" id="collapseFilters">
+                    <!--FILTER MERCHANT NAME-->       
+
                     <div class="filter_type">
-                        <h6>Distance</h6>
-                        <input type="text" id="range" value="" name="range">
-                        <h6>Type</h6>
-                        <ul>
-                            <li><label><input type="checkbox" checked class="icheck">All <small>(49)</small></label></li> 
-                            <?php $cuisines = Yii::app()->functions->Cuisine(true); ?>
-                            <?php if (is_array($cuisines) && count($cuisines)>=1): ?>
-                                <?php foreach($cuisines as $cuisine): ?>
-                                    <li><label><input type="checkbox" class="icheck"><?php echo $cuisine; ?> <small>(49)</small></label></li>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </ul>
-                    </div>
+                        
+                    </div> <!--filter-box-->
+                    <!--END FILTER MERCHANT NAME-->
                     <div class="filter_type">
                         <h6>Rating</h6>
                         <ul>
@@ -77,22 +69,28 @@
                 </div><!--End collapse -->
             </div><!--End filters col-->
         </div><!--End col-md -->
-
-        <div class="col-md-9">
+<?php endif; ?>
+        <div class="col-md-12">
 
             <div id="tools">
                 <div class="row">
-                    <div class="col-md-3 col-sm-3 col-xs-6">
-                        <div class="styled-select">
-                            <select name="sort_rating" id="sort_rating">
-                                <option value="" selected>Sort by ranking</option>
-                                <option value="lower">Lowest ranking</option>
-                                <option value="higher">Highest ranking</option>
-                            </select>
+                    <?php if(isset($filter)):?>
+                        <div class="col-md-3 col-sm-3 col-xs-6">
+                            <div class="styled-select">
+                                <select name="filter" id="filter" >
+                                    <option value="1" <?php echo ($filter==1 || $filter=='')?'selected':'';?>><?php echo t("Restaurant List");?></option>
+                                    <option value="2" <?php echo ($filter==2)?'selected':'';?>><?php echo t("Newest");?></option>
+                                    <option value="3" <?php echo ($filter==3)?'selected':'';?>><?php echo t("Featured");?></option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-9 col-sm-6 hidden-xs">
-                        <a href="<?php echo Yii::app()->createUrl('/store/browse?tab=2') ?>" class="bt_filters"><i class="icon-list"></i></a>
+                    <?php endif; ?>
+                    <div class="col-md-<?php echo (isset($filter))?'9':'12'?> 
+                                col-sm-<?php echo (isset($filter))?'6':'12'?>  
+                                col-xs-<?php echo (isset($filter))?'6':'12'?> ">
+                        <a href="<?php echo Yii::app()->createUrl($current_page_url.'?tabs=2'
+                                .((isset($filter))?'&filter='.$filter:'')
+                                .((isset($category))?'&category='.$category:'')) ?>" class="bt_filters"><i class="icon-list"></i></a>
                     </div>
                 </div>
             </div><!--End tools -->
