@@ -54,4 +54,5 @@ $this->renderPartial('/layouts/quickfood/front_top_menu', array(
     
     echo CHtml::hiddenField('current_page_url', $current_page_url);
     echo CHtml::hiddenField('category', $category);
+    echo CHtml::hiddenField('tabs', $tabs);
 ?>

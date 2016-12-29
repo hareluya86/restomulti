@@ -157,10 +157,10 @@ class StoreController extends CController {
                 'country_coordinates', 'var country_coordinates = ' . json_encode($lat_res) . '
 		  ', CClientScript::POS_HEAD
         );
-        if (!isset($_GET['tab'])) {
-            $_GET['tab'] = '';
+        if (!isset($_GET['tabs'])) {
+            $_GET['tabs'] = '';
         }
-        switch ($_GET['tab']) {
+        switch ($_GET['tabs']) {
             case 1:
                 $tabs = 2; //1 is map listing
                 break;
@@ -1087,7 +1087,7 @@ class StoreController extends CController {
         }
         switch ($_GET['tabs']) {
             case 1:
-                $tabs = 2; //1 is map listing
+                $tabs = 1; //1 is map listing
                 break;
             case 2:
                 $tabs = 2; //2 is list listing

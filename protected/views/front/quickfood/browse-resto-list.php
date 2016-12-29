@@ -16,7 +16,7 @@
 
         <div class="col-md-12">
 
-            <div id="tools">
+            <div id="tools" class="hidden-xs">
                 <div class="row">
                     <?php if(isset($filter)):?>
                         <div class="col-md-3 col-sm-3 col-xs-6">
@@ -29,7 +29,8 @@
                             </div>
                         </div>
                     <?php endif; ?>
-                    <div class="col-md-<?php echo (isset($filter))?'9':'12'?> 
+                    <div class="hidden-xs
+                                col-md-<?php echo (isset($filter))?'9':'12'?> 
                                 col-sm-<?php echo (isset($filter))?'6':'12'?>  
                                 col-xs-<?php echo (isset($filter))?'6':'12'?> ">
                         <a href="<?php echo Yii::app()->createUrl($current_page_url.'?tabs=3'
