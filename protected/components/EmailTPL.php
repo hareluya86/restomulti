@@ -390,7 +390,7 @@ or simply visit this link {confirmation-link}
 HTML;
 	}	
 	
-	public function payoutRequest()
+	public static function payoutRequest()
 	{
 		return <<<HTML
 <p>Hi {merchant-name},</p>
@@ -412,7 +412,7 @@ We will complete this request on the {process-date} (or the next business day), 
 HTML;
 	}
 	
-	public function payoutProcess()
+	public static function payoutProcess()
 	{
 return <<<HTML
 <p>Hi {merchant-name},</p>
