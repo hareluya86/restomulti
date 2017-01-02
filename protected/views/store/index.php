@@ -143,7 +143,7 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
             </div>
         </div><!-- End row -->
         
-        <div id="delivery_time" class="">
+        <div id="delivery_time" class="hidden-xs">
             <strong><span>2</span><span>5</span></strong>
             <h4>The minutes that usually takes to deliver!</h4>
         </div>
