@@ -2466,7 +2466,7 @@ $resto_info.="<p><span class=\"uk-text-bold\">".Yii::t("default","Delivery Est")
 		    		  'date_created'=>date('c'),
 		    		  'ip_address'=>$_SERVER['REMOTE_ADDR'],
 		    		  'contact_phone'=>$this->data['contact_phone'],
-		    		  'is_guest'=>1
+		    		  //'is_guest'=>1
 		    		);
 		    				    		
 		    				    		
