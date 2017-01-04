@@ -671,6 +671,10 @@ class FunctionsV3
     	 /* dump("$lat1,$lon1");
     	  dump("$lat2,$lon2");
     	  dump($unit);*/
+        if (empty($lat1)){ return false; }
+        if (empty($lon1)){ return false; }
+        if (empty($lat2)){ return false; }
+        if (empty($lon2)){ return false; }
     	  
     	  $units_params='';
     	  
@@ -745,10 +749,10 @@ class FunctionsV3
     	  	 return false;
     	  }
     	  
-    	  if (empty($lat1)){ return false; }
-    	  if (empty($lon1)){ return false; }
-    	  
     	  $theta = $lon1 - $lon2;
+          echo 'lat1='.$lat1;
+          echo 'lat2='.$lat2;
+          echo 'theta='.$theta;
 		  $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
 		  $dist = acos($dist);
 		  $dist = rad2deg($dist);

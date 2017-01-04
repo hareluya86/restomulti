@@ -6,6 +6,12 @@ $this->renderPartial('/front/quickfood/banner-receipt',array(
     'show_bar'=>false
 ));
 
+/* Render top menu */
+$this->renderPartial('/layouts/quickfood/front_top_menu', array(
+    'action' => Yii::app()->controller->action->id,
+    'theme_hide_logo' => getOptionA('theme_hide_logo')
+));
+
 echo CHtml::hiddenField('mobile_country_code',Yii::app()->functions->getAdminCountrySet(true));
 ?>
 
@@ -27,20 +33,20 @@ echo CHtml::hiddenField('mobile_country_code',Yii::app()->functions->getAdminCou
 
                                 <?php if ($google_login_enabled==2 || $fb_flag==2 ) :?>
                                     <?php if ( $fb_flag==2):?>
-                                        <a href="javascript:fbcheckLogin();" class="fb-button orange-button medium rounded">
-                                            <i class="ion-social-facebook"></i>
+                                        <a href="javascript:fbcheckLogin();" class="fb-button orange-button medium rounded btn btn-primary">
+                                            <i class="icon-facebook"></i>
                                             <?php echo t("login with Facebook")?>
                                         </a>
                                     <?php endif; ?>
                                     <?php if ($google_login_enabled==2):?>
-                                        <div class="top10"></div>
                                         <a href="<?php echo Yii::app()->createUrl('/store/googleLogin')?>" 
-                                            class="google-button orange-button medium rounded">
-                                            <i class="ion-social-googleplus-outline"></i><?php echo t("Sign in with Google")?>
+                                            class="google-button orange-button medium rounded btn btn-danger">
+                                            <i class="ion-social-googleplus-outline" style="width: 19px"></i>
+                                                <?php echo t("Sign in with Google")?>
                                         </a>
                                     <?php endif;?>
                                     <div class="login-or">
-                                        <span><?php echo t("Or")?></span>
+                                        <h4><?php echo t("Or")?></h4>
                                     </div>
                                 <?php endif; ?>
                                 <div class="form-group">

@@ -733,7 +733,6 @@ class StoreController extends CController {
                 FunctionsV3::cookieLocation();
                     
 		    	if (isset($_SESSION['client_location'])){
-
 		    		/*get the distance from client address to merchant Address*/             
 	                 $distance_type=FunctionsV3::getMerchantDistanceType($merchant_id); 
 	                 $distance_type_orig=$distance_type;

@@ -10,7 +10,9 @@
     <div id="subheader">
         <div id="sub_content">
             <h1><?php echo isset($h1)?$h1:''?></h1>
-            <div><i class="icon_pin"></i> <?php echo isset($sub_text)?$sub_text:''?></div>
+            <?php if(isset($sub_text)): ?>
+                <div><i class="icon_pin"></i> <?php echo isset($sub_text)?$sub_text:''?></div>
+            <?php endif; ?>
         </div><!-- End sub_content -->
     </div><!-- End subheader -->
     <?php 

@@ -957,6 +957,11 @@ jQuery(document).ready(function() {
 		$(this).addClass("highlight");
 		$(".change-language").attr("href", home_url+"/setlanguage/Id/"+ $(this).data("id")  );
 	});
+        $( document ).on( "click", "#language-options option", function() {
+		//$(".lang-selector").removeClass("highlight");
+		//$(this).addClass("highlight");
+		document.location = home_url+"/setlanguage/Id/"+ $(this).val() ;
+	});
 	
 	$( document ).on( "click", ".goto-reviews-tab", function() {
 	   $(".view-reviews").click();
