@@ -37,7 +37,7 @@
   text-transform: none;
      
   /* fix buttons height, for twitter bootstrap */
-  line-height: 1em;
+  /*line-height: 1em;  Screws up the position of the icon for some reason*/
  
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */

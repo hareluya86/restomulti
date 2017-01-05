@@ -131,7 +131,7 @@
                         <?php if (!empty($fb_page)):?>
                             <li>
                                 <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($fb_page)?>">
-                                    <i class="ion-social-facebook"></i>
+                                    <i class="icon-facebook"></i>
                                 </a>
                             </li>
                         <?php endif;?>
@@ -269,7 +269,7 @@
 
     <?php if (!empty($fb_page)): ?>
                             <div class="mycol border">
-                                <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($fb_page) ?>"><i class="ion-social-facebook"></i></a>
+                                <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($fb_page) ?>"><i class="icon-facebook"></i></a>
                             </div> <!--col-->
     <?php endif; ?>
 
