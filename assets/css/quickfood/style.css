@@ -2036,6 +2036,23 @@ a.load_more_bt:hover{
 	background-color:#fff;
 	color:#ec008c;
 }
+
+div.load_more_bt{
+	display:block;
+	padding:10px;
+	text-align:center;
+	border:3px solid #fff;
+	color:#555;
+	font-weight:600;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+div.load_more_bt:hover{
+	background-color:#fff;
+	color:#ec008c;
+}
+
 #tools{
 	background:#fff;
 	margin-bottom:25px;

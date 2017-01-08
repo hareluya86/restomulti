@@ -281,6 +281,9 @@ class ScriptManager {
         if (Yii::app()->functions->getOptionAdmin('theme_time_pick') == 2) {
             $cs->registerCssFile($baseUrl . "/assets/vendor/timepicker.co/jquery.timepicker.min.css");
         }
+        
+        $cs->registerCssFile($baseUrl . '/assets/css/store-v2.css?ver=1.0');
+        
     }
 
     public static function registerAllCoreCSSFiles() {

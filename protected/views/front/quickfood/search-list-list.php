@@ -1,20 +1,12 @@
 <div id="tools">
     <div class="row">
-        <div class="col-md-3 col-sm-3 col-xs-6">
-            <div class="styled-select">
-                <select name="sort_rating" id="sort_rating">
-                    <option value="" selected>Sort by ranking</option>
-                    <option value="lower">Lowest ranking</option>
-                    <option value="higher">Highest ranking</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-9 col-sm-6 hidden-xs">
+        <div class="col-md-12 col-sm-12 hidden-xs">
             <a href="<?php echo FunctionsV3::clearSearchParams('display_type', 'display_type=gridview') ?>" class="bt_filters"><i class="icon-th"></i></a>
         </div>
     </div>
 </div><!--End tools -->
 
+<div class="infinite-container result-merchant">
     <?php if ($data && $data['total'] > 0): ?>
         <?php $pos = 1; //For counting the position of each listing?>
         <?php foreach ($data['list'] as $val): ?>
@@ -32,7 +24,7 @@
                 }
             }
             ?>
-            <div class="strip_list wow fadeIn" data-wow-delay="0.2s">
+            <div class="strip_list wow fadeIn infinite-item" data-wow-delay="0.2s">
                 <?php if ($val['is_sponsored'] == 2): ?>
                     <div class="ribbon_1">
                         Popular
@@ -69,9 +61,9 @@
                                 <?php echo FunctionsV3::displayCuisine($val['cuisine']); ?>
                             </div>
                             <div class="location">
-        <?php echo $val['merchant_address'] ?> <br />
-                                                <?php echo FunctionsV3::merchantOpenTag($merchant_id) ?>  
-                                                <?php echo t("Minimum Order") . ": " . FunctionsV3::prettyPrice($val['minimum_order']) ?>
+                                <?php echo $val['merchant_address'] ?> <br />
+                                <?php echo FunctionsV3::merchantOpenTag($merchant_id) ?>  
+                                <?php echo t("Minimum Order") . ": " . FunctionsV3::prettyPrice($val['minimum_order']) ?>
                             </div>
                             <ul>
                                 <li>Delivery<i class="icon_check_alt2 
@@ -93,17 +85,16 @@
                     </div>
                 </div><!-- End row-->
             </div><!-- End strip_list-->
-    <?php endforeach ?>        
-    <a href="#0" class="load_more_bt wow fadeIn" data-wow-delay="0.2s">Load more...</a>
-<?php else : ?>     
-    <p class="center top25 text-danger"><?php echo t("No results with your selected filters") ?></p>
-<?php endif; ?>
+        <?php endforeach ?>
+    <?php else : ?>     
+        <p class="center top25 text-danger"><?php echo t("No results with your selected filters") ?></p>
+    <?php endif; ?>
+</div>
 
-
-<!--<div class="search-result-loader">
+<div class="search-result-loader" style="display: none;">
     <i></i>
-    <p><?php echo t("Loading more restaurant...") ?></p>
-</div> search-result-loader-->
+    <div class="load_more_bt wow fadeIn" data-wow-delay="0.2s"><?php echo t("Loading more restaurant...")?></div>
+</div> <!--search-result-loader-->
 
 <?php
 if (!isset($current_page_url)) {
@@ -112,7 +103,7 @@ if (!isset($current_page_url)) {
 if (!isset($current_page_link)) {
     $current_page_link = '';
 }
-echo CHtml::hiddenField('current_page_url', $current_page_url);
+echo CHtml::hiddenField('current_page_link', $current_page_link);
 require_once('pagination.class.php');
 $attributes = array();
 $attributes['wrapper'] = array('id' => 'pagination', 'class' => 'pagination');

@@ -38,16 +38,6 @@ echo CHtml::hiddenField('display_type', $display_type);
 ?>
 
 
-<div id="position">
-    <div class="container">
-        <ul>
-            <li><a href="#0">Home</a></li>
-            <li><a href="#0">Category</a></li>
-            <li>Page active</li>
-        </ul>
-    </div>
-</div><!-- Position -->
-
 <!--quickfood start-->
 <div class="collapse" id="collapseMap">
     <div id="map" class="map"></div>
@@ -202,7 +192,8 @@ echo CHtml::hiddenField('display_type', $display_type);
             if ($display_type == "listview") {
                 $this->renderPartial('/front/quickfood/search-list-list', array(
                     'data' => $data,
-                    'current_page_url' => $current_page_url
+                    'current_page_url' => $current_page_url,
+                    'current_page_link' => $current_page_link
                         //'val'=>$val,
                         //'merchant_id'=>$merchant_id,
                         //'ratings'=>$ratings,
@@ -215,7 +206,8 @@ echo CHtml::hiddenField('display_type', $display_type);
             } else { //This is the default!!!
                 $this->renderPartial('/front/quickfood/search-list-grid', array(
                     'data' => $data,
-                    'current_page_url' => $current_page_url
+                    'current_page_url' => $current_page_url,
+                    'current_page_link' => $current_page_link
                         //'val'=>$val,
                         //'merchant_id'=>$merchant_id,
                         ///'ratings'=>$ratings,

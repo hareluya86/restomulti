@@ -487,7 +487,6 @@ class StoreController extends CController {
         unset($current_page_get['page']);
         $current_page_link = Yii::app()->createUrl('store/searcharea/', $current_page_get);
         $current_page_url = '';
-
         
         /* update merchant if expired and sponsored */
         Yii::app()->functions->updateMerchantSponsored();
@@ -591,9 +590,9 @@ class StoreController extends CController {
         
         //Set $tabs mode 2=list, 3=grid
         if (!isset($_GET['tab'])) {
-            $_GET['tab'] = '';
+            $_GET['tabs'] = '';
         }
-        switch ($_GET['tab']) {
+        switch ($_GET['tabs']) {
             case 2:
                 $tabs = 2; //2 is list listing
                 break;
@@ -606,7 +605,7 @@ class StoreController extends CController {
                 $tabs = 2;
                 break;
         }
-
+        
         if (is_array($res) && count($res) >= 1) {
 
             $_SESSION['client_location'] = $res['client'];

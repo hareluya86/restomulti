@@ -750,9 +750,6 @@ class FunctionsV3
     	  }
     	  
     	  $theta = $lon1 - $lon2;
-          echo 'lat1='.$lat1;
-          echo 'lat2='.$lat2;
-          echo 'theta='.$theta;
 		  $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
 		  $dist = acos($dist);
 		  $dist = rad2deg($dist);

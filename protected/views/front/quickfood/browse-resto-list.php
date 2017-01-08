@@ -9,7 +9,7 @@
     <div id="map" class="map"></div>
 </div><!-- End Map -->
 
-<div class="white_bg">
+<div class="">
 <!-- Content ================================================== -->
 <div class="container margin_60_35">
     <div class="row">
@@ -48,7 +48,6 @@
             } else
                 echo '<p class="text-danger">' . t("No restaurant found") . '</p>';
             ?>
-            <a href="#0" class="load_more_bt wow fadeIn" data-wow-delay="0.2s">Load more...</a>  
         </div><!-- End col-md-9-->
 
     </div><!-- End row -->
