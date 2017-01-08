@@ -19,7 +19,6 @@ $this->renderPartial('/layouts/quickfood/front_top_menu', array(
     'theme_hide_logo' => getOptionA('theme_hide_logo')
 ));
 ?>
-?>
 
 
 <div class="white_bg">
