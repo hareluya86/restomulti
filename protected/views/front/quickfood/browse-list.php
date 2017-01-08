@@ -46,10 +46,14 @@
                             <?php echo t("Minimum Order").": ".FunctionsV3::prettyPrice($val['minimum_order'])?>
                         </div>
                         <ul>
-                            <li>Take away<i class=" 
-                                <?php echo (strpos(FunctionsV3::displayServicesList($val['service']), 'Pickup') !== false)?'icon_check_alt2 ok':'icon_close_alt2 no'?>"></i></li>
-                            <li>Delivery<i class="icon_check_alt2 
-                                <?php echo (strpos(FunctionsV3::displayServicesList($val['service']), 'Delivery') !== false)?'icon_check_alt2 ok':'icon_close_alt2 no'?>"></i></li>
+                            <li><?php echo t('Delivery'); ?>
+                                <i class=" 
+                                <?php echo (strpos(FunctionsV3::displayServicesList($val['service']), t('Delivery')))?'icon_check_alt2 ok':'icon_close_alt2 no'?>"></i>
+                            </li>
+                            <li><?php echo t('Pickup'); ?>
+                                <i class=" 
+                                <?php echo (strpos(FunctionsV3::displayServicesList($val['service']), t('Pickup')))?'icon_check_alt2 ok':'icon_close_alt2 no'?>"></i>
+                            </li>
                         </ul>
                     </div>
                 </a><!-- End strip_list-->
