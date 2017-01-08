@@ -15,7 +15,7 @@
                             echo '<i class="icon_star"></i>';
                         } ?>
                 (<small><a href="detail_page_2.html">Read <?php echo $ratings['votes']." ".t("Reviews")?></a></small>)
-                <?php echo FunctionsV3::merchantOpenTag($val['merchant_id'])?>
+                <?php echo FunctionsV3::merchantOpenTag($merchant_id)?>
             </div>
             <div><?php echo FunctionsV3::getFreeDeliveryTag2($merchant_id)?></div>
             <h1><?php echo clearString($restaurant_name)?></h1>
