@@ -35,6 +35,7 @@
                                 echo '<i class="icon_star"></i>';
                             } ?>
                             (<small><?php echo $ratings['votes']." ".t("Reviews")?></small>)
+                            <?php echo FunctionsV3::merchantOpenTag($val['merchant_id'])?>
                         </div>
                         <h3><?php echo clearString($val['restaurant_name'])?></h3>
                         <div class="type">
@@ -42,7 +43,6 @@
                         </div>
                         <div class="location">
                             <?php echo $val['merchant_address']?> <br />
-                            <?php echo FunctionsV3::merchantOpenTag($merchant_id)?>  
                             <?php echo t("Minimum Order").": ".FunctionsV3::prettyPrice($val['minimum_order'])?>
                         </div>
                         <ul>
@@ -82,6 +82,7 @@
                                     echo '<i class="icon_star"></i>';
                                 } ?>
                                 (<small><?php echo $ratings['votes']." ".t("Reviews")?></small>)
+                                <?php echo FunctionsV3::merchantOpenTag($merchant_id)?>  
                             </div>
                             <h3><?php echo clearString($val['restaurant_name'])?></h3>
                             <div class="type">
@@ -89,7 +90,6 @@
                             </div>
                             <div class="location">
                                 <?php echo $val['merchant_address']?> <br />
-                                <?php echo FunctionsV3::merchantOpenTag($merchant_id)?>  
                                 <?php echo t("Minimum Order").": ".FunctionsV3::prettyPrice($val['minimum_order'])?>
                             </div>
                             <ul>

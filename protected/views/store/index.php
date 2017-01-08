@@ -229,13 +229,15 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
                                 <?php for($i = 0; $i < 5-$ratings['ratings']; $i++){
                                     echo '<i class="icon_star"></i>';
                                 } ?>
+                                <?php echo FunctionsV3::merchantOpenTag($val['merchant_id'])?>
                             </div>
+                            
                             <h3><?php echo clearString($val['restaurant_name'])?></h3>
                             <div class="type">
                                 <?php echo FunctionsV3::displayCuisine($val['cuisine']);?>
                             </div>
                             <div class="location">
-                                <?php echo $address?> <span class="opening">Opens at 17:00</span>
+                                <?php echo $address?>
                             </div>
                             <ul>
                                 <li>Take away<i class=" 
