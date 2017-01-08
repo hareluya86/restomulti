@@ -6,21 +6,23 @@
          >
     <div id="subheader">
 	<div id="sub_content">
-    	<div id="thumb"><img src="<?php echo $merchant_logo;?>" alt=""></div>
-        <div class="rating">
-                    <?php for($i = 0; $i < $ratings['ratings']; $i++){
-                        echo '<i class="icon_star voted"></i>';
-                    } ?>
-                    <?php for($i = 0; $i < 5-$ratings['ratings']; $i++){
-                        echo '<i class="icon_star"></i>';
-                    } ?>
-            (<small><a href="detail_page_2.html">Read <?php echo $ratings['votes']." ".t("Reviews")?></a></small>)
-        </div>
-        <h1><?php echo clearString($restaurant_name)?></h1>
-        <div><em><?php echo FunctionsV3::displayCuisine($cuisine);?></em></div>
-        <div><i class="icon_pin"></i> <?php echo $merchant_address?> - <strong>Delivery charge:</strong> $10, free over $15.</div>
-    </div><!-- End sub_content -->
-</div><!-- End subheader -->
+            <div id="thumb"><img src="<?php echo $merchant_logo;?>" alt=""></div>
+            <div class="rating">
+                        <?php for($i = 0; $i < $ratings['ratings']; $i++){
+                            echo '<i class="icon_star voted"></i>';
+                        } ?>
+                        <?php for($i = 0; $i < 5-$ratings['ratings']; $i++){
+                            echo '<i class="icon_star"></i>';
+                        } ?>
+                (<small><a href="detail_page_2.html">Read <?php echo $ratings['votes']." ".t("Reviews")?></a></small>)
+            </div>
+            <div><?php echo FunctionsV3::getFreeDeliveryTag2($merchant_id)?></div>
+            <h1><?php echo clearString($restaurant_name)?></h1>
+            <div><em><?php echo FunctionsV3::displayCuisine($cuisine);?></em></div>
+            <div><i class="icon_pin"></i> <?php echo $merchant_address?></div>
+        
+        </div><!-- End sub_content -->
+    </div><!-- End subheader -->
 <?php 
         if(isset($step) && isset($show_bar)){
             $this->renderPartial('/front/quickfood/order-progress-bar',array(

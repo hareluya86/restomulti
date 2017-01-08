@@ -74,24 +74,8 @@ if (isset($_SESSION['search_type'])){
             <?php endif;?>
             
         </li>
-      
-        
-      </ul><!-- row-->
-  </div> <!--container-->
-  <?php if (false):?>
-   <div class="border progress-dot mytable">    
-     <a href="<?php echo Yii::app()->createUrl('/store')?>" class="mycol selected" ><i class="ion-record"></i></a>
-     <a href="javascript:;" class="mycol 
-     <?php echo $step>=2?"selected":'';?>" ><i class="ion-record"></i></a>
-     
-     <a href="javascript:;" class="mycol <?php echo $step>=3?"selected":'';?>" ><i class="ion-record"></i></a>
-     
-     <a href="javascript:;" class="mycol <?php echo $step>=4?"selected":'';?>"><i class="ion-record"></i></a>
-     
-  </div> <!--end progress-dot-->
-  <?php endif;?>
-</div> <!--order-progress-bar-->
-</div>
+    </ul><!-- row-->
+</div> <!--container-->
 <?php endif;?>
 
 <?php

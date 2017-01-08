@@ -204,7 +204,7 @@ Yii::app()->clientScript->registerMetaTag(
                 <a href="tel://<?php echo $data['restaurant_phone'];?>" class="phone"><?php echo $data['restaurant_phone'];?></a>
                 <small>
                     <?php
-                        $this->renderPartial('/front/merchant-hours',array(
+                        $this->renderPartial('/front/quickfood/merchant-hours',array(
                           'merchant_id'=>$merchant_id
                         )); ?>
                 </small>
