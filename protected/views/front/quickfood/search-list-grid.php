@@ -71,7 +71,7 @@
                 </div><!-- End col-md-6-->
             <?php endforeach ?>
         <?php else : ?>     
-            <p class="center top25 text-danger"><?php echo t("No results with your selected filters") ?></p>
+            <p><?php echo t("No results with your selected filters") ?></p>
         <?php endif; ?>
     </div>
 </div>
@@ -88,7 +88,7 @@ if (!isset($current_page_url)) {
 if (!isset($current_page_link)) {
     $current_page_link = '';
 }
-echo CHtml::hiddenField('current_page_url', $current_page_link);
+echo CHtml::hiddenField('current_page_url', $current_page_url);
 echo CHtml::hiddenField('current_page_link', $current_page_link);
 require_once('pagination.class.php');
 $attributes = array();
@@ -100,5 +100,5 @@ $options['maxpages'] = 1;
 $options['jumpers'] = false;
 $options['link_url'] = $current_page_link . '&page=##ID##';
 $pagination = new pagination($data['total'], ((isset($_GET['page'])) ? $_GET['page'] : 1), $options);
-$data = $pagination->render();
+$data = (count($data['list']) > 0) ? $pagination->render() : $data;
 ?>

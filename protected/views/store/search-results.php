@@ -24,7 +24,7 @@ $this->renderPartial('/layouts/quickfood/front_top_menu', array(
 //));
 
 $this->renderPartial('/front/quickfood/default-header', array(
-    'h1' => count($data['list']) . ' ' . t("results"),
+    'h1' => $data['total'] . ' ' . t("results"),
     'sub_text' => $search_address,
     'step' => 2,
     'show_bar' => true

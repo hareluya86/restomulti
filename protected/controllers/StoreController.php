@@ -606,6 +606,8 @@ class StoreController extends CController {
                 break;
         }
         
+        //var_dump($res);
+        
         if (is_array($res) && count($res) >= 1) {
 
             $_SESSION['client_location'] = $res['client'];
