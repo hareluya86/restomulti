@@ -2091,7 +2091,6 @@ class StoreController extends CController {
         echo "RESPONSE : FAILED";
         return false;
     }
-
 }
 
 /*END CLASS*/

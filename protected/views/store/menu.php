@@ -173,159 +173,375 @@ Yii::app()->clientScript->registerMetaTag(
 }*/
 ?>
 
-<!--<div id="position">
+<div id="position">
     <div class="container">
         <ul>
-            <li><a href="#0">Home</a></li>
-            <li><a href="#0">Category</a></li>
-            <li>Page active</li>
         </ul>
     </div>
-</div> Position -->
+</div>
 
-<div class="white_bg">
+
 <div class="container margin_60_35">
-    <div class="row">
+    <div id="order_menu">
+        <div class="row">
 
-        <div class="col-md-3">
-            
-            <div class="box_style_1">
-                    <?php
-                        $this->renderPartial('/front/quickfood/menu-category', array(
-                            'merchant_id' => $merchant_id,
-                            'menu' => $menu
-                        ));
-                    ?>
-            </div><!-- End box_style_1 -->
+            <div class="col-md-3">
+                <p>
+                    <a href="javascript:;" class="btn_map toggle_reviews">
+                        <?php echo t('See reviews'); ?>
+                    </a>
+                </p>
 
-            <div class="box_style_2" id="help">
-                <i class="icon_lifesaver"></i>
-                <h4>Need <span>Help?</span></h4>
-                <a href="tel://<?php echo $data['restaurant_phone'];?>" class="phone"><?php echo $data['restaurant_phone'];?></a>
-                <small>
+                <div class="box_style_1">
+                        <?php
+                            $this->renderPartial('/front/quickfood/menu-category', array(
+                                'merchant_id' => $merchant_id,
+                                'menu' => $menu
+                            ));
+                        ?>
+                </div><!-- End box_style_1 -->
+
+                <div class="box_style_2" id="help">
+                    <i class="icon_lifesaver"></i>
+                    <h4>Need <span>Help?</span></h4>
+                    <a href="tel://<?php echo $data['restaurant_phone'];?>" class="phone"><?php echo $data['restaurant_phone'];?></a>
+
                     <?php
                         $this->renderPartial('/front/quickfood/merchant-hours',array(
                           'merchant_id'=>$merchant_id
                         )); ?>
-                </small>
-            </div>
-        </div><!-- End col-md-3 -->
 
-        <div class="col-md-6">
-            <div class="box_style_2" id="main_menu">
-                <h2 class="inner"><?php echo t("Menu")?></h2>
-                <?php 
-                    $admin_activated_menu=getOptionA('admin_activated_menu');			 
-                    $admin_menu_allowed_merchant=getOptionA('admin_menu_allowed_merchant');
-                    if ($admin_menu_allowed_merchant==2){			 	 
-                            $temp_activated_menu=getOption($merchant_id,'merchant_activated_menu');			 	 
-                            if(!empty($temp_activated_menu)){
-                                    $admin_activated_menu=$temp_activated_menu;
-                            }
-                    }			 
-                    switch ($admin_activated_menu)
-                    {
-                           case 1:
-                                   $this->renderPartial('/front/menu-merchant-2',array(
-                                     'merchant_id'=>$merchant_id,
-                                     'menu'=>$menu,
-                                     'disabled_addcart'=>$disabled_addcart
-                                   ));
-                                   break;
+                </div>
+            </div><!-- End col-md-3 -->
 
-                           case 2:
-                                   $this->renderPartial('/front/menu-merchant-3',array(
-                                     'merchant_id'=>$merchant_id,
-                                     'menu'=>$menu,
-                                     'disabled_addcart'=>$disabled_addcart
-                                   ));
-                                   break;
+            <div class="col-md-6">
+                <div class="box_style_2" id="main_menu">
+                    <h2 class="inner"><?php echo t("Menu")?></h2>
+                    <?php 
+                        $admin_activated_menu=getOptionA('admin_activated_menu');			 
+                        $admin_menu_allowed_merchant=getOptionA('admin_menu_allowed_merchant');
+                        if ($admin_menu_allowed_merchant==2){			 	 
+                                $temp_activated_menu=getOption($merchant_id,'merchant_activated_menu');			 	 
+                                if(!empty($temp_activated_menu)){
+                                        $admin_activated_menu=$temp_activated_menu;
+                                }
+                        }			 
+                        switch ($admin_activated_menu)
+                        {
+                               case 1:
+                                       $this->renderPartial('/front/menu-merchant-2',array(
+                                         'merchant_id'=>$merchant_id,
+                                         'menu'=>$menu,
+                                         'disabled_addcart'=>$disabled_addcart
+                                       ));
+                                       break;
 
-                           default:	
-                                   $this->renderPartial('/front/quickfood/menu-merchant-1',array(
-                                     'merchant_id'=>$merchant_id,
-                                     'menu'=>$menu,
-                                     'disabled_addcart'=>$disabled_addcart,
-                                     'tc'=>$tc
-                                   ));
-                       break;
-                    }			 
-                ?>
-            </div><!-- End box_style_1 -->
-        </div><!-- End col-md-6 -->
+                               case 2:
+                                       $this->renderPartial('/front/menu-merchant-3',array(
+                                         'merchant_id'=>$merchant_id,
+                                         'menu'=>$menu,
+                                         'disabled_addcart'=>$disabled_addcart
+                                       ));
+                                       break;
 
-        <div class="col-md-3" id="sidebar">
-            <div class="theiaStickySidebar">
-                <div id="cart_box" >
-                    <h3><?php echo t("Your Order")?> <i class="icon_cart_alt pull-right"></i></h3>
-                    <div class="item-order-wrap"></div>
-                    <hr>
-                    
-                    <div class="row" id="options_2">
-                        <?php foreach(Yii::app()->functions->DeliveryOptions($merchant_id) as $delivery_option):?>
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-                                <?php /*echo CHtml::radioButtonList('delivery_type',$now,
-                                    (array)Yii::app()->functions->DeliveryOptions($merchant_id),
-                                    array(
-                                        'class'=>'icheck'
-                                ))*/?>
-                                <?php echo CHtml::radioButton('delivery_type',true,array(
-                                    'class'=>'icheck',
-                                    'id'=> strtolower($delivery_option),
-                                    'value' => strtolower($delivery_option)
-                                ));?>
-                                <label for="<?php echo strtolower($delivery_option);?>"><?php echo $delivery_option;?></label>
-                            </div>
-                        <?php endforeach;?>
-                        <?php echo CHtml::hiddenField('delivery_date',$now)?>
-                        <?php echo CHtml::hiddenField('delivery_time',$now_time)?>
-                    </div>
-                    <hr>
-                    
-                    <?php if ($data['service']==3):?>
-                        <h4><?php echo t("Distance Information")?></h4>
-                    <?php else :?>
-                        <h4><?php echo t("Delivery Information")?></h4>
-                    <?php endif;?>
-                    <p class="delivery-fee-wrap">
-                        <?php echo t("Delivery Est")?>: <?php echo FunctionsV3::getDeliveryEstimation($merchant_id)?></p>
-                    </p>
-                    <p class="delivery-fee-wrap">
-                        <?php 
-                            if (!empty($merchant_delivery_distance)){
-                                    echo t("Delivery Distance Covered").": ".$merchant_delivery_distance." $distance_type_orig";
-                            } else echo  t("Delivery Distance Covered").": ".t("not available");
-                        ?>
-                    </p>
-                    <p class="delivery-fee-wrap">
-                        <?php 
-                            if ($delivery_fee){
-                                 echo t("Delivery Fee").": ".FunctionsV3::prettyPrice($delivery_fee);
-                            } else echo  t("Delivery Fee").": ".t("Free Delivery");
-                        ?>
-                    </p>
-                    <a href="javascript:;" class="top10 green-color change-address block text-center">
-                        [<?php echo t("Change Your Address here")?>]
-                    </a>
-                    <hr>
-                    
-                    <?php if ( $checkout['code']==1):?>
-                        <a href="javascript:;" class="btn_full medium checkout"><?php echo $checkout['button']?></a>
-                    <?php else :?>
-                        <?php if ( $checkout['holiday']==1):?>
-                            <?php echo CHtml::hiddenField('is_holiday',$checkout['msg'],array('class'=>'is_holiday'));?>
-                            <p class="text-danger"><?php echo $checkout['msg']?></p>
+                               default:	
+                                       $this->renderPartial('/front/quickfood/menu-merchant-1',array(
+                                         'merchant_id'=>$merchant_id,
+                                         'menu'=>$menu,
+                                         'disabled_addcart'=>$disabled_addcart,
+                                         'tc'=>$tc
+                                       ));
+                           break;
+                        }			 
+                    ?>
+                </div><!-- End box_style_1 -->
+            </div><!-- End col-md-6 -->
+
+            <div class="col-md-3" id="sidebar">
+                <div class="theiaStickySidebar">
+                    <div id="cart_box" >
+                        <h3><?php echo t("Your Order")?> <i class="icon_cart_alt pull-right"></i></h3>
+                        <div class="item-order-wrap"></div>
+                        <hr>
+
+                        <div class="row" id="options_2">
+                            <?php foreach(Yii::app()->functions->DeliveryOptions($merchant_id) as $delivery_option):?>
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                    <?php /*echo CHtml::radioButtonList('delivery_type',$now,
+                                        (array)Yii::app()->functions->DeliveryOptions($merchant_id),
+                                        array(
+                                            'class'=>'icheck'
+                                    ))*/?>
+                                    <?php echo CHtml::radioButton('delivery_type',true,array(
+                                        'class'=>'icheck',
+                                        'id'=> strtolower($delivery_option),
+                                        'value' => strtolower($delivery_option)
+                                    ));?>
+                                    <label for="<?php echo strtolower($delivery_option);?>"><?php echo $delivery_option;?></label>
+                                </div>
+                            <?php endforeach;?>
+                            <?php echo CHtml::hiddenField('delivery_date',$now)?>
+                            <?php echo CHtml::hiddenField('delivery_time',$now_time)?>
+                        </div>
+                        <hr>
+
+                        <?php if ($data['service']==3):?>
+                            <h4><?php echo t("Distance Information")?></h4>
                         <?php else :?>
-                            <p class="text-danger"><?php echo $checkout['msg']?></p>
-                            <p class="small">
-                            <?php echo Yii::app()->functions->translateDate(date('F d l')."@".timeFormat(date('c'),true));?></p>
+                            <h4><?php echo t("Delivery Information")?></h4>
                         <?php endif;?>
-                    <?php endif;?>
-                </div><!-- End cart_box -->
-            </div><!-- End theiaStickySidebar -->
-        </div><!-- End col-md-3 -->
+                        <p class="delivery-fee-wrap">
+                            <?php echo t("Delivery Est")?>: <?php echo FunctionsV3::getDeliveryEstimation($merchant_id)?></p>
+                        </p>
+                        <p class="delivery-fee-wrap">
+                            <?php 
+                                if (!empty($merchant_delivery_distance)){
+                                        echo t("Delivery Distance Covered").": ".$merchant_delivery_distance." $distance_type_orig";
+                                } else echo  t("Delivery Distance Covered").": ".t("not available");
+                            ?>
+                        </p>
+                        <p class="delivery-fee-wrap">
+                            <?php 
+                                if ($delivery_fee){
+                                     echo t("Delivery Fee").": ".FunctionsV3::prettyPrice($delivery_fee);
+                                } else echo  t("Delivery Fee").": ".t("Free Delivery");
+                            ?>
+                        </p>
+                        <a href="javascript:;" class="top10 green-color change-address block text-center">
+                            [<?php echo t("Change Your Address here")?>]
+                        </a>
+                        <hr>
 
-    </div><!-- End row -->
+                        <?php if ( $checkout['code']==1):?>
+                            <a href="javascript:;" class="btn_full medium checkout"><?php echo $checkout['button']?></a>
+                        <?php else :?>
+                            <?php if ( $checkout['holiday']==1):?>
+                                <?php echo CHtml::hiddenField('is_holiday',$checkout['msg'],array('class'=>'is_holiday'));?>
+                                <p class="text-danger"><?php echo $checkout['msg']?></p>
+                            <?php else :?>
+                                <p class="text-danger"><?php echo $checkout['msg']?></p>
+                                <p class="small">
+                                <?php echo Yii::app()->functions->translateDate(date('F d l')."@".timeFormat(date('c'),true));?></p>
+                            <?php endif;?>
+                        <?php endif;?>
+                    </div><!-- End cart_box -->
+                </div><!-- End theiaStickySidebar -->
+            </div><!-- End col-md-3 -->
+
+        </div><!-- End row -->
+    </div>
+<!-- End container -->
+<!-- End Content =============================================== -->
+    <div id="reviews">
+        <div class="row">
+
+            <div class="col-md-4">
+                    <p>
+                        <a onclick="javascript:;" class="btn_map toggle_reviews">
+                            <?php echo t('Back to menu'); ?>
+                        </a>
+                    </p>
+                    <div class="box_style_2">
+                        <h4 class="nomargin_top">Opening time <i class="icon_clock_alt pull-right"></i></h4>
+                        <?php
+                        $this->renderPartial('/front/quickfood/merchant-hours',array(
+                          'merchant_id'=>$merchant_id
+                        )); ?>
+                    </div>
+                    <div class="box_style_2 hidden-xs" id="help">
+                            <i class="icon_lifesaver"></i>
+                            <h4>Need <span>Help?</span></h4>
+                            <a href="tel://<?php echo $data['restaurant_phone'];?>" class="phone"><?php echo $data['restaurant_phone'];?></a>
+                    </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="box_style_2">
+                        <h2 class="inner">Description</h2>
+                        <?php if ($photo_enabled):?>
+                            <div id="Img_carousel" class="slider-pro">
+                                <div class="sp-slides">
+
+                                    <div class="sp-slide">
+                                        <img alt="" class="sp-image" src="assets/css/quickfood/images/blank.gif" 
+                                        data-src="assets/images/quickfood/img/slider_single_restaurant/1_medium.jpg" 
+                                        data-small="assets/images/quickfood/img/slider_single_restaurant/1_small.jpg" 
+                                        data-medium="assets/images/quickfood/img/slider_single_restaurant/1_medium.jpg" 
+                                        data-large="assets/images/quickfood/img/slider_single_restaurant/1_large.jpg" 
+                                        data-retina="assets/images/quickfood/img/slider_single_restaurant/1_large.jpg">
+                                    </div>
+                                    <div class="sp-slide">
+                                        <img alt="" class="sp-image" src="assets/css/quickfood/images/blank.gif" 
+                                        data-src="assets/images/quickfood/img/slider_single_restaurant/2_medium.jpg" 
+                                        data-small="assets/images/quickfood/img/slider_single_restaurant/2_small.jpg" 
+                                        data-medium="assets/images/quickfood/img/slider_single_restaurant/2_medium.jpg" 
+                                        data-large="assets/images/quickfood/img/slider_single_restaurant/2_large.jpg" 
+                                        data-retina="assets/images/quickfood/img/slider_single_restaurant/2_large.jpg">
+                                        <h3 class="sp-layer sp-black sp-padding" data-horizontal="40" data-vertical="40" data-show-transition="left">
+                                        Lorem ipsum dolor sit amet </h3>
+                                        <p class="sp-layer sp-white sp-padding" data-horizontal="40" data-vertical="100" data-show-transition="left" data-show-delay="200">
+                                             consectetur adipisicing elit
+                                        </p>
+                                        <p class="sp-layer sp-black sp-padding" data-horizontal="40" data-vertical="160" data-width="350" data-show-transition="left" data-show-delay="400">
+                                             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        </p>
+                                    </div>
+
+                                    <div class="sp-slide">
+                                        <img alt="" class="sp-image" src="assets/css/quickfood/images/blank.gif" 
+                                        data-src="assets/images/quickfood/img/slider_single_restaurant/3_medium.jpg" 
+                                        data-small="assets/images/quickfood/img/slider_single_restaurant/3_small.jpg" 
+                                        data-medium="assets/images/quickfood/img/slider_single_restaurant/3_medium.jpg" 
+                                        data-large="assets/images/quickfood/img/slider_single_restaurant/3_large.jpg" 
+                                        data-retina="assets/images/quickfood/img/slider_single_restaurant/3_large.jpg">
+                                        <p class="sp-layer sp-white sp-padding" data-position="centerCenter" data-vertical="-50" data-show-transition="right" data-show-delay="500">
+                                             Lorem ipsum dolor sit amet
+                                        </p>
+                                        <p class="sp-layer sp-black sp-padding" data-position="centerCenter" data-vertical="50" data-show-transition="left" data-show-delay="700">
+                                             consectetur adipisicing elit
+                                        </p>
+                                    </div>
+
+                                    <div class="sp-slide">
+                                        <img alt="" class="sp-image" src="assets/css/quickfood/images/blank.gif" 
+                                        data-src="assets/images/quickfood/img/slider_single_restaurant/4_medium.jpg" 
+                                        data-small="assets/images/quickfood/img/slider_single_restaurant/4_small.jpg" 
+                                        data-medium="assets/images/quickfood/img/slider_single_restaurant/4_medium.jpg" 
+                                        data-large="assets/images/quickfood/img/slider_single_restaurant/4_large.jpg" 
+                                        data-retina="assets/images/quickfood/img/slider_single_restaurant/4_large.jpg">
+                                        <p class="sp-layer sp-black sp-padding" data-position="bottomLeft" data-vertical="0" data-width="100%" data-show-transition="up">
+                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        </p>
+                                    </div>
+
+                                    <div class="sp-slide">
+                                        <img alt="" class="sp-image" src="assets/css/quickfood/images/blank.gif" 
+                                        data-src="assets/images/quickfood/img/slider_single_restaurant/5_medium.jpg" 
+                                        data-small="assets/images/quickfood/img/slider_single_restaurant/5_small.jpg" 
+                                        data-medium="assets/images/quickfood/img/slider_single_restaurant/5_medium.jpg" 
+                                        data-large="assets/images/quickfood/img/slider_single_restaurant/5_large.jpg" 
+                                        data-retina="assets/images/quickfood/img/slider_single_restaurant/5_large.jpg">
+                                        <p class="sp-layer sp-white sp-padding" data-vertical="5%" data-horizontal="5%" data-width="90%" data-show-transition="down" data-show-delay="400">
+                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        </p>
+                                    </div>
+
+                                    <div class="sp-slide">
+                                        <img alt="" class="sp-image" src="../src/css/images/blank.gif" 
+                                        data-src="assets/images/quickfood/img/slider_single_restaurant/6_medium.jpg" 
+                                        data-small="assets/images/quickfood/img/slider_single_restaurant/6_small.jpg" 
+                                        data-medium="assets/images/quickfood/img/slider_single_restaurant/6_medium.jpg" 
+                                        data-large="assets/images/quickfood/img/slider_single_restaurant/6_large.jpg" 
+                                        data-retina="assets/images/quickfood/img/slider_single_restaurant/6_large.jpg">
+                                        <p class="sp-layer sp-white sp-padding" data-horizontal="10" data-vertical="10" data-width="300">
+                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        </p>
+                                    </div>
+
+                                    <div class="sp-slide">
+                                        <img alt="" class="sp-image" src="assets/css/quickfood/images/blank.gif" 
+                                        data-src="assets/images/quickfood/img/slider_single_restaurant/7_medium.jpg" 
+                                        data-small="assets/images/quickfood/img/slider_single_restaurant/7_small.jpg" 
+                                        data-medium="assets/images/quickfood/img/slider_single_restaurant/7_medium.jpg" 
+                                        data-large="assets/images/quickfood/img/slider_single_restaurant/7_large.jpg" 
+                                        data-retina="assets/images/quickfood/img/slider_single_restaurant/7_large.jpg">
+                                        <p class="sp-layer sp-black sp-padding" data-position="bottomLeft" data-horizontal="5%" data-vertical="5%" data-width="90%" data-show-transition="up" data-show-delay="400">
+                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        </p>
+                                    </div>
+
+                                   <div class="sp-slide">
+                                        <img alt="" class="sp-image" src="assets/css/quickfood/images/blank.gif" 
+                                        data-src="assets/images/quickfood/img/slider_single_restaurant/8_medium.jpg" 
+                                        data-small="assets/images/quickfood/img/slider_single_restaurant/8_small.jpg" 
+                                        data-medium="assets/images/quickfood/img/slider_single_restaurant/8_medium.jpg" 
+                                        data-large="assets/images/quickfood/img/slider_single_restaurant/8_large.jpg" 
+                                        data-retina="assets/images/quickfood/img/slider_single_restaurant/8_large.jpg">
+                                        <p class="sp-layer sp-black sp-padding" data-horizontal="50" data-vertical="50" data-show-transition="down" data-show-delay="500">
+                                             Lorem ipsum dolor sit amet
+                                        </p>
+                                        <p class="sp-layer sp-white sp-padding" data-horizontal="50" data-vertical="100" data-show-transition="up" data-show-delay="500">
+                                             consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                        </p>
+                                    </div>
+
+                                    <div class="sp-slide">
+                                        <img alt="" class="sp-image" src="assets/css/quickfood/images/blank.gif" 
+                                        data-src="assets/images/quickfood/img/slider_single_restaurant/9_medium.jpg" 
+                                        data-small="assets/images/quickfood/img/slider_single_restaurant/9_small.jpg" 
+                                        data-medium="assets/images/quickfood/img/slider_single_restaurant/9_medium.jpg" 
+                                        data-large="assets/images/quickfood/img/slider_single_restaurant/9_large.jpg" 
+                                        data-retina="assets/images/quickfood/img/slider_single_restaurant/9_large.jpg">
+                                    </div>
+                                </div>
+                                <div class="sp-thumbnails">
+                                    <img alt="" class="sp-thumbnail" src="assets/images/quickfood/img/slider_single_restaurant/1_medium.jpg">
+                                    <img alt="" class="sp-thumbnail" src="assets/images/quickfood/img/slider_single_restaurant/2_medium.jpg">
+                                    <img alt="" class="sp-thumbnail" src="assets/images/quickfood/img/slider_single_restaurant/3_medium.jpg">
+                                    <img alt="" class="sp-thumbnail" src="assets/images/quickfood/img/slider_single_restaurant/4_medium.jpg">
+                                    <img alt="" class="sp-thumbnail" src="assets/images/quickfood/img/slider_single_restaurant/5_medium.jpg">
+                                    <img alt="" class="sp-thumbnail" src="assets/images/quickfood/img/slider_single_restaurant/6_medium.jpg">
+                                    <img alt="" class="sp-thumbnail" src="assets/images/quickfood/img/slider_single_restaurant/7_medium.jpg">
+                                    <img alt="" class="sp-thumbnail" src="assets/images/quickfood/img/slider_single_restaurant/8_medium.jpg">
+                                    <img alt="" class="sp-thumbnail" src="assets/images/quickfood/img/slider_single_restaurant/9_medium.jpg">
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($theme_info_tab==""):?>
+                            <h3>About us</h3>
+                            <p>
+                                <?php echo getOption($merchant_id,'merchant_information')?>
+                            </p>
+                        <?php endif; ?>
+
+                        <?php $this->renderPartial('/front/quickfood/merchant-review',array(
+                            'merchant_id'=>$merchant_id,
+                            'ratings'=>$ratings
+                            )); ?> 
+
+                </div><!-- End box_style_1 -->
+            </div>
+        </div><!-- End row -->
+    </div>
+    
 </div><!-- End container -->
 <!-- End Content =============================================== -->
-</div>
+
+<?php
+//page-specific js and css files
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+
+
+//$cs->registerScriptFile("http://maps.googleapis.com/maps/api/js"
+//        , CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . "/assets/js/quickfood/map_single.js"
+        , CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . "/assets/js/quickfood/infobox.js"
+        , CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . "/assets/js/quickfood/jquery.sliderPro.js"
+        , CClientScript::POS_END);
+
+$cs->registerCssFile($baseUrl . '/assets/css/quickfood/skins/square/grey.css');
+$cs->registerCssFile($baseUrl . '/assets/css/quickfood/slider-pro.min.css');
+
+$cs->registerScript('slider-pro', "
+        $( document ).ready(function( $ ) {
+		$( '#Img_carousel' ).sliderPro({
+			width: 960,
+			height: 500,
+			fade: true,
+			arrows: true,
+			buttons: false,
+			fullScreen: false,
+			smallSize: 500,
+			startSlide: 0,
+			mediumSize: 1000,
+			largeSize: 3000,
+			thumbnailArrows: true,
+			autoplay: false
+		});
+                \$('#reviews').hide();
+	});"
+        , CClientScript::POS_END);//The last line is for sliderPro to render the gallery at its normal size first before hiding it
+?>

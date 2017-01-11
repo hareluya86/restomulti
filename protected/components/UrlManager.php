@@ -28,7 +28,7 @@ class UrlManager extends CUrlManager
             	$route='store/page';
             } elseif (preg_match("/menux/i",$route_original)){            	
             	$route='store/menu';
-            }	
+            } 
             //dump($route);
             return $route;
         }

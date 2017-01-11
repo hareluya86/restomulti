@@ -3041,11 +3041,66 @@ $params['cart_tip_value']=isset($this->data['cart_tip_value'])?$this->data['cart
 	    	$client_id=Yii::app()->functions->getClientId();
 	    	if ( $res=Yii::app()->functions->getReviewsList($this->data['merchant_id']) ){	    		
 	    		ob_start();
+	    		foreach ($res as $i=>$val) {	    		
+	    		$pretyy_date=PrettyDateTime::parse(new DateTime($val['date_created']));
+	    		$pretyy_date=Yii::app()->functions->translateDate($pretyy_date);
+	    		?>
+                        <div id="#review-<?php echo $val['id']?>" class="review_strip_single<?php echo ($i >= count($res)-1)?' last':''?>">
+                            <img src="<?php echo FunctionsV3::getAvatar($val['client_id']);?>" alt="" class="img-circle" style="width: 68px;">
+                            <small> - <?php echo $pretyy_date ?> -</small>
+                            <?php if ( $val['client_id']==$client_id ):?>
+                                <small style="margin-right: 20px;">
+                                    <a href="javascript:;" data-id="<?php echo $val['id']?>" class="edit-review orange-button inline">
+                                        <?php echo t("Edit")?>
+                                    </a>
+                                </small>
+                                <small style="margin-right: 15px;">
+                                    <a href="javascript:;" data-id="<?php echo $val['id']?>" class="delete-review green-button inline">
+                                        <?php echo t("Delete")?>
+                                    </a>
+                                </small>
+	    		   <?php endif;?>
+                            <h4><?php echo $val['client_name']?></h4>
+                            <p>
+                                <?php echo nl2br($val['review'])?>
+                            </p>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="rating">
+                                        <?php
+                                            for ($i = 0; $i < $val['rating']; $i++) {
+                                                echo '<i class="icon_star voted"></i>';
+                                            }
+                                            for ($i = 0; $i < 5 - $val['rating']; $i++) {
+                                                echo '<i class="icon_star"></i>';
+                                            }
+                                        ?>
+                                    </div>
+                                    <?php echo $val['rating']; ?>
+                                </div>
+                            </div>
+                        </div>
+	    		<?php
+	    		}
+	    		$html = ob_get_contents();
+                ob_end_clean();   
+                
+                $this->code=1;
+	            $this->msg="OK";	    		
+	             $this->details=$html;
+	    	} else $this->msg=Yii::t("default","No reviews yet.");	
+	    }
+            
+            public function loadReviews2()
+	    {	    		    		    		    		    	
+	    	$client_id=Yii::app()->functions->getClientId();
+	    	if ( $res=Yii::app()->functions->getReviewsList($this->data['merchant_id']) ){	    		
+	    		ob_start();
 	    		foreach ($res as $val) {	    		
 	    		$pretyy_date=PrettyDateTime::parse(new DateTime($val['date_created']));
 	    		$pretyy_date=Yii::app()->functions->translateDate($pretyy_date);
 	    		?>
-	    		<div  id="#review-<?php echo $val['id']?>" class="row row-review">
+	    		<div id="#review-<?php echo $val['id']?>" class="row row-review">
 	    		   <div class="col-md-2 col-xs-2 border center into-row">
 	    		   
 	    		     <!--<i class="ion-android-contact"></i>-->

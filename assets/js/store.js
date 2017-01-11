@@ -1356,9 +1356,9 @@ jQuery(document).ready(function () {
         }
     });
 
-    /*if ( $(".merchant-review-wrap").exists() ){
+    if ( $(".merchant-review-wrap").exists() ){
      load_reviews();
-     }*/
+     }
 
     $(document).on("click", ".map-li", function () {
         var locations;
@@ -1574,6 +1574,26 @@ jQuery(document).ready(function () {
         }
         window.location = url;
     });
+    
+    /**
+     * For menu page - reviews and order-menu slide in and out
+     */
+    if($('#reviews') && $('#order_menu')) {
+        var $menu = $('#order_menu');
+        var $reviews = $('#reviews');
+        //$reviews.hide();
+        $(document).on('click','.toggle_reviews',function(){
+            
+            $menu.toggle('slide',{
+                direction : 'left'
+            },'slow');
+            $reviews.toggle('slide',{
+                direction : 'right'
+            },'slow');
+        });
+    }
+    
+    
 
 }); /*END DOCU*/
 
@@ -3863,3 +3883,14 @@ var addToCart = function (form) {
 
         form_submit(formid);
     };
+    
+$.validate({
+    language: jsLanguageValidator,
+    form: '#frm-review',
+    onError: function () {
+    },
+    onSuccess: function () {
+        form_submit('frm-review');
+        return true;
+    }
+});

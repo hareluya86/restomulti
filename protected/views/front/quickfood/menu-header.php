@@ -8,13 +8,12 @@
 	<div id="sub_content">
             <div id="thumb"><img src="<?php echo $merchant_logo;?>" alt=""></div>
             <div class="rating">
-                        <?php for($i = 0; $i < $ratings['ratings']; $i++){
-                            echo '<i class="icon_star voted"></i>';
-                        } ?>
-                        <?php for($i = 0; $i < 5-$ratings['ratings']; $i++){
-                            echo '<i class="icon_star"></i>';
-                        } ?>
-                (<small><a href="detail_page_2.html">Read <?php echo $ratings['votes']." ".t("Reviews")?></a></small>)
+                <?php
+                    $this->renderPartial('/front/quickfood/ratings-star', array(
+                        'rating' => $ratings['ratings']
+                    ));
+                ?>
+                (<small><a href="javascript:;" class="toggle_reviews">Read <?php echo $ratings['votes']." ".t("Reviews")?></a></small>)
                 <?php echo FunctionsV3::merchantOpenTag($merchant_id)?>
             </div>
             <div><?php echo FunctionsV3::getFreeDeliveryTag2($merchant_id)?></div>
