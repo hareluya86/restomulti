@@ -28,12 +28,11 @@
                             <img src="<?php echo FunctionsV3::getMerchantLogo($merchant_id);?>" alt="">
                         </div>
                         <div class="rating">
-                            <?php for($i = 0; $i < $ratings['ratings']; $i++){
-                                echo '<i class="icon_star voted"></i>';
-                            } ?>
-                            <?php for($i = 0; $i < 5-$ratings['ratings']; $i++){
-                                echo '<i class="icon_star"></i>';
-                            } ?>
+                            <?php
+                                $this->renderPartial('/front/quickfood/ratings-star', array(
+                                    'rating' => $ratings['ratings']
+                                ));
+                            ?>
                             (<small><?php echo $ratings['votes']." ".t("Reviews")?></small>)
                             <?php echo FunctionsV3::merchantOpenTag($val['merchant_id'])?>
                         </div>
@@ -79,12 +78,11 @@
                                 </a>
                             </div>
                             <div class="rating">
-                                <?php for($i = 0; $i < $ratings['ratings']; $i++){
-                                    echo '<i class="icon_star voted"></i>';
-                                } ?>
-                                <?php for($i = 0; $i < 5-$ratings['ratings']; $i++){
-                                    echo '<i class="icon_star"></i>';
-                                } ?>
+                                <?php
+                                    $this->renderPartial('/front/quickfood/ratings-star', array(
+                                        'rating' => $ratings['ratings']
+                                    ));
+                                ?>
                                 (<small><?php echo $ratings['votes']." ".t("Reviews")?></small>)
                                 <?php echo FunctionsV3::merchantOpenTag($merchant_id)?>  
                             </div>

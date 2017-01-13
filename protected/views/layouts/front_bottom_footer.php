@@ -117,7 +117,7 @@
                         <?php if (!empty($google_page)):?>
                             <li>
                                 <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($google_page)?>">
-                                    <i class="icon-facebook"></i>
+                                    <i class="icon-google"></i>
                                 </a>
                             </li>
                         <?php endif;?>
@@ -138,14 +138,14 @@
                         <?php if (!empty($intagram_page)):?>
                             <li>
                                 <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($intagram_page)?>">
-                                    <i class="ion-social-instagram"></i>
+                                    <i class="icon-instagram"></i>
                                 </a>
                             </li>
                         <?php endif;?>
                         <?php if (!empty($youtube_url)):?>
                             <li>
                                 <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($youtube_url)?>">
-                                    <i class="ion-social-youtube-outline"></i>
+                                    <i class="icon-youtube-play"></i>
                                 </a>
                             </li>
                         <?php endif;?>
@@ -257,13 +257,13 @@
                     <div class="mytable social-wrap">
     <?php if (!empty($google_page)): ?>
                             <div class="mycol border">
-                                <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($google_page) ?>"><i class="ion-social-googleplus"></i></a>
+                                <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($google_page) ?>"><i class="icon-google"></i></a>
                             </div> <!--col-->
                         <?php endif; ?>
 
     <?php if (!empty($twitter_page)): ?>
                             <div class="mycol border">
-                                <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($twitter_page) ?>"><i class="ion-social-twitter"></i></a>
+                                <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($twitter_page) ?>"><i class="icon-twitter"></i></a>
                             </div> <!--col-->
                         <?php endif; ?>
 
@@ -276,13 +276,13 @@
 
     <?php if (!empty($intagram_page)): ?>
                             <div class="mycol border">
-                                <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($intagram_page) ?>"><i class="ion-social-instagram"></i></a>
+                                <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($intagram_page) ?>"><i class="icon-instagram"></i></a>
                             </div> <!--col-->
                         <?php endif; ?>
 
     <?php if (!empty($youtube_url)): ?>
                             <div class="mycol border">
-                                <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($youtube_url) ?>"><i class="ion-social-youtube-outline"></i></a>
+                                <a target="_blank" href="<?php echo FunctionsV3::prettyUrl($youtube_url) ?>"><i class="icon-youtube-play"></i></a>
                             </div> <!--col-->
     <?php endif; ?>
 

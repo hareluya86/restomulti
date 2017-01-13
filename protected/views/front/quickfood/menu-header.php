@@ -13,7 +13,7 @@
                         'rating' => $ratings['ratings']
                     ));
                 ?>
-                (<small><a href="javascript:;" class="toggle_reviews">Read <?php echo $ratings['votes']." ".t("Reviews")?></a></small>)
+                (<small><a href="javascript:;" class="toggle_reviews view-merchant-map">Read <?php echo $ratings['votes']." ".t("Reviews")?></a></small>)
                 <?php echo FunctionsV3::merchantOpenTag($merchant_id)?>
             </div>
             <div><?php echo FunctionsV3::getFreeDeliveryTag2($merchant_id)?></div>

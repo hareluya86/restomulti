@@ -242,8 +242,7 @@ jQuery(document).ready(function() {
 	$( document ).on( "click", ".write-review-new", function() {		
 		$(".review-input-wrap").slideToggle("fast");
 	});
-	
-	
+        
 	$( document ).on( "click", ".view-merchant-map", function() {	
 		 	
 		 $(".direction_output").css({"display":"none"});	
@@ -269,7 +268,8 @@ jQuery(document).ready(function() {
 			lat: lat,
 			lng: lng,
 			scrollwheel: false ,
-			styles: [ {stylers: [ { "saturation":-100 }, { "lightness": 0 }, { "gamma": 1 } ]}]
+			styles: [ {stylers: [ { "saturation":-100 }, { "lightness": 0 }, { "gamma": 1 } ]}],
+                        height: '450px'
 		 });      	  		 
 		 
 		 var resto_info='';	

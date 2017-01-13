@@ -3894,3 +3894,59 @@ $.validate({
         return true;
     }
 });
+
+var viewmerchantmap = function() {	
+		 	
+    $(".direction_output").css({"display":"none"});	
+
+    var lat=$("#merchant_map_latitude").val();
+    var lng=$("#merchant_map_longtitude").val();	
+
+    if (empty(lat)){
+            uk_msg(js_lang.trans_9);
+            $(".direction-action").hide();
+            return;
+    }
+    if (empty(lng)){
+            uk_msg(js_lang.trans_9);
+            $(".direction-action").hide();
+            return;
+    }		 		 		 
+
+    //$(".direction-action").show();
+
+    smap = new GMaps({
+           div: '#merchant-map',
+           lat: lat,
+           lng: lng,
+           scrollwheel: false ,
+           //styles: [ {stylers: [ { "saturation":-100 }, { "lightness": 0 }, { "gamma": 1 } ]}],
+           height: '450px'
+    });      	  		 
+
+    var resto_info='';	
+    if ( !empty(merchant_information)){
+            resto_info+='<div class="marker-wrap">';
+              resto_info+='<div class="row">';
+                      resto_info+='<div class="col-md-4 ">';
+                      resto_info+='<img class="logo-small" src="'+merchant_information.merchant_logo+'" >';
+                      resto_info+='</div>';
+                      resto_info+='<div class="col-md-8 ">';
+                              resto_info+='<h3 class="orange-text">'+merchant_information.restaurant_name+'</h3>'; 
+                              resto_info+='<p class="small">'+merchant_information.merchant_address+'</p>';				   	   
+                      resto_info+='</div>';
+              resto_info+='</div>';
+       resto_info+='<div>';  
+    } else {
+           resto_info='';
+    }		 
+    smap.addMarker({
+           lat: lat,
+           lng: lng,
+           title: $("#restaurant_name").val(),
+           icon : map_marker ,
+           infoWindow: {
+             content: resto_info
+           }
+   });			
+};

@@ -223,12 +223,11 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
                                 <img src="/assets/images/quickfood/img/thumb_restaurant.jpg" alt="">
                             </div>
                             <div class="rating">
-                                <?php for($i = 0; $i < $ratings['ratings']; $i++){
-                                    echo '<i class="icon_star voted"></i>';
-                                } ?>
-                                <?php for($i = 0; $i < 5-$ratings['ratings']; $i++){
-                                    echo '<i class="icon_star"></i>';
-                                } ?>
+                                <?php
+                                    $this->renderPartial('/front/quickfood/ratings-star', array(
+                                        'rating' => $ratings['ratings']
+                                    ));
+                                ?>
                                 <?php echo FunctionsV3::merchantOpenTag($val['merchant_id'])?>
                             </div>
                             

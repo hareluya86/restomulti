@@ -795,7 +795,7 @@ class StoreController extends CController {
                 }
 
 		    	$photo_enabled=getOption($merchant_id,'gallery_disabled')=="yes"?false:true;
-		    	if ( getOptionA('theme_photos_tab')==2){
+		    	if (true || getOptionA('theme_photos_tab')==2){
 		    		$photo_enabled=false;
                 }
 						    

@@ -187,7 +187,7 @@ Yii::app()->clientScript->registerMetaTag(
 
             <div class="col-md-3">
                 <p>
-                    <a href="javascript:;" class="btn_map toggle_reviews">
+                    <a href="javascript:;" class="btn_map toggle_reviews view-merchant-map">
                         <?php echo t('See reviews'); ?>
                     </a>
                 </p>
@@ -358,28 +358,38 @@ Yii::app()->clientScript->registerMetaTag(
             <div class="col-md-8">
                 <div class="box_style_2">
                         <h2 class="inner">Description</h2>
-                        <?php if ($photo_enabled):?>
-                            <?php 
-                                $gallery=Yii::app()->functions->getOption("merchant_gallery",$merchant_id);
-                                $gallery=!empty($gallery)?json_decode($gallery):false;
-                                $this->renderPartial('/front/quickfood/merchant-photos',array(
-                                  'merchant_id'=>$merchant_id,
-                                  'gallery'=>$gallery
-                                )); 
-                            ?>
-                        <?php endif; ?>
-                        <?php if ($theme_info_tab==""):?>
-                            <h3>About us</h3>
-                            <p>
-                                <?php echo getOption($merchant_id,'merchant_information')?>
-                            </p>
-                        <?php endif; ?>
-
-                        <?php $this->renderPartial('/front/quickfood/merchant-review',array(
-                            'merchant_id'=>$merchant_id,
-                            'ratings'=>$ratings
-                            )); ?> 
-
+                        <!--MERCHANT MAP-->
+                        <p>
+                            <?php if ($theme_map_tab==""):?>	        	
+                                <?php $this->renderPartial('/front/quickfood/merchant-map'); ?>
+                            <?php endif;?>
+                        </p>
+                        <p>
+                            <?php if ($photo_enabled):?>
+                                <?php 
+                                    $gallery=Yii::app()->functions->getOption("merchant_gallery",$merchant_id);
+                                    $gallery=!empty($gallery)?json_decode($gallery):false;
+                                    $this->renderPartial('/front/quickfood/merchant-photos',array(
+                                      'merchant_id'=>$merchant_id,
+                                      'gallery'=>$gallery
+                                    )); 
+                                ?>
+                            <?php endif; ?>
+                        </p>
+                        <p>
+                            <?php if ($theme_info_tab==""):?>
+                                <h3>About us</h3>
+                                <p>
+                                    <?php echo getOption($merchant_id,'merchant_information')?>
+                                </p>
+                            <?php endif; ?>
+                        </p>
+                        <p>
+                            <?php $this->renderPartial('/front/quickfood/merchant-review',array(
+                                'merchant_id'=>$merchant_id,
+                                'ratings'=>$ratings
+                                )); ?> 
+                        </p>
                 </div><!-- End box_style_1 -->
             </div>
         </div><!-- End row -->
@@ -408,6 +418,7 @@ $cs->registerCssFile($baseUrl . '/assets/css/quickfood/slider-pro.min.css');
 
 $cs->registerScript('slider-pro', "
         $( document ).ready(function( $ ) {
+                
 		$( '#Img_carousel' ).sliderPro({
 			width: 960,
 			height: 500,
@@ -422,7 +433,7 @@ $cs->registerScript('slider-pro', "
 			thumbnailArrows: true,
 			autoplay: false
 		});
-                \$('#reviews').hide();
+                $('#reviews').hide();
 	});"
         , CClientScript::POS_END);//The last line is for sliderPro to render the gallery at its normal size first before hiding it
 ?>
