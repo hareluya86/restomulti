@@ -227,6 +227,8 @@ echo CHtml::hiddenField('display_type', $display_type);
 <!-- End Content =============================================== -->
 
 <!--quickfood end-->
+<input type='hidden' id='search_location_lat' value="<?php echo $search_location_lat;?>">
+<input type='hidden' id='search_location_lng' value="<?php echo $search_location_lng;?>">
 
 <?php
 //page-specific js and css files

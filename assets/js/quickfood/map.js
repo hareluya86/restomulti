@@ -21,7 +21,7 @@ var initMap = function() {
             markersData = loadMarkersData();
             
     var mapOptions = {
-        zoom: 14,
+        zoom: 12,
         center: new google.maps.LatLng(48.865633, 2.321236),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         mapTypeControl: false,
@@ -112,8 +112,8 @@ var initMap = function() {
     ;
 
     function getCurrLoc() {
-        var lat = localStorage.getItem("lat");
-        var lng = localStorage.getItem("lng");
+        var lat = $('#search_location_lat').val();//localStorage.getItem("lat");
+        var lng = $('#search_location_lng').val();//localStorage.getItem("lng");
         if (lat && lng) {
             mapObject.setCenter(new google.maps.LatLng(lat, lng));
             return;
