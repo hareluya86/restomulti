@@ -1,4 +1,4 @@
-var MarkersData; //global variable
+var MarkersData = {}; //global variable
 
 (function (A) {
 

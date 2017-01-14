@@ -45,14 +45,9 @@
                             </div>
                             <div class="rating">
                                 <?php
-                                for ($i = 0; $i < $ratings['ratings']; $i++) {
-                                    echo '<i class="icon_star voted"></i>';
-                                }
-                                ?>
-                                <?php
-                                for ($i = 0; $i < 5 - $ratings['ratings']; $i++) {
-                                    echo '<i class="icon_star"></i>';
-                                }
+                                    $this->renderPartial('/front/quickfood/ratings-star', array(
+                                        'rating' => $ratings['ratings']
+                                    ));
                                 ?>
                                 (<small><?php echo $ratings['votes'] . " " . t("Reviews") ?></small>)
                                 <?php echo FunctionsV3::merchantOpenTag($merchant_id) ?> 
@@ -88,6 +83,23 @@
                         </div>
                     </div>
                 </div><!-- End row-->
+                <input type="hidden" name='mapObj[]' data-field='restaurant_name' data-id='<?php echo $val['merchant_id'];?>' 
+                           value="<?php echo $val['restaurant_name'];?>" />
+                    <input type="hidden" name="mapObj[]" data-field='location_latitude' data-id='<?php echo $val['merchant_id'];?>' 
+                           value="<?php echo $val['latitude'];?>" />
+                    <input type="hidden" name="mapObj[]" data-field='location_longitude' data-id='<?php echo $val['merchant_id'];?>' 
+                           value="<?php echo $val['lontitude'];?>" />
+                    <input type="hidden" name="mapObj[]" data-field='map_image_url' data-id='<?php echo $val['merchant_id'];?>' 
+                           value="<?php echo FunctionsV3::getMerchantLogo($val['merchant_id']);?>" />
+                    <input type="hidden" name="mapObj[]" data-field='name_point' data-id='<?php echo $val['merchant_id'];?>' 
+                           value="<?php echo $val['restaurant_name'];?>" />
+                    <input type="hidden" name="mapObj[]" data-field='type_point' data-id='<?php echo $val['merchant_id'];?>' 
+                           value="<?php echo FunctionsV3::displayCuisine($val['cuisine']);?>" />
+                    <input type="hidden" name="mapObj[]" data-field='description_point' data-id='<?php echo $val['merchant_id'];?>' 
+                           value="<?php echo $val['merchant_address'];?>" />
+                    
+                    <input type="hidden" name="mapObj[]" data-field='url_point' data-id='<?php echo $val['merchant_id'];?>' 
+                           value="<?php echo Yii::app()->createUrl("/menu-" . trim($val['restaurant_slug']));?>" />
             </div><!-- End strip_list-->
         <?php endforeach ?>
     <?php else : ?>     

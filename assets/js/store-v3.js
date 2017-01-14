@@ -133,7 +133,10 @@ jQuery(document).ready(function() {
 	       	  removeFreeDelivery();
 	       	  if ( $("#restuarant-list").exists() ){
 	    	       plotMap();
-	          }           
+	          }
+                  if($('#collapseMap')) {
+                      initMap();
+                  }
 	       }
 	    }); 
    }

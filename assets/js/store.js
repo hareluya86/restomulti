@@ -2889,7 +2889,7 @@ function geocode_address(address)
     var mapOptions = {
         scrollwheel: false,
         zoom: 18,
-        //center: latlng,
+        center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     map = new google.maps.Map(document.getElementById('maps_side'), mapOptions);

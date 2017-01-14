@@ -193,7 +193,7 @@ echo CHtml::hiddenField('display_type', $display_type);
                 $this->renderPartial('/front/quickfood/search-list-list', array(
                     'data' => $data,
                     'current_page_url' => $current_page_url,
-                    'current_page_link' => $current_page_link
+                    'current_page_link' => $current_page_link,
                         //'val'=>$val,
                         //'merchant_id'=>$merchant_id,
                         //'ratings'=>$ratings,
@@ -227,7 +227,6 @@ echo CHtml::hiddenField('display_type', $display_type);
 <!-- End Content =============================================== -->
 
 <!--quickfood end-->
-
 
 <?php
 //page-specific js and css files
@@ -268,33 +267,4 @@ $cs->registerScript('ion.rangeSlider', '$(function () {
             });
         });'
         , CClientScript::POS_END);
-?>
-
-<?php
-//build map objects
-$markersPhp = array();
-$pin_nr = 0;
-foreach ($data['list'] as $val) {
-    $restObj = array();
-    $restObj['name'] = $val['restaurant_name'];
-    $restObj['location_latitude'] = $val['latitude'];
-    $restObj['location_longitude'] = $val['lontitude'];
-    $restObj['map_image_url'] = FunctionsV3::getMerchantLogo($val['merchant_id']);
-    $restObj['name_point'] = $val['restaurant_name'];
-    $restObj['type_point'] = FunctionsV3::displayCuisine($val['cuisine']);
-    $restObj['description_point'] = $val['merchant_address'];
-    $restObj['open_status'] = FunctionsV3::merchantOpenTag($val['merchant_id']);
-    $restObj['url_point'] = Yii::app()->createUrl("/menu-" . trim($val['restaurant_slug']));
-    $restObj['pin_nr'] = ( ++$pin_nr) % 7;
-
-    $restObjCont = array();
-    $restObjCont[0] = $restObj;
-
-    $markersPhp[$val['merchant_id']] = $restObjCont;
-}
-$cs = Yii::app()->getClientScript();
-$cs->registerScript(
-        'MarkersData'
-        , 'MarkersData = ' . CJSON::encode($markersPhp) . ';'
-        , CClientScript::POS_BEGIN);
 ?>

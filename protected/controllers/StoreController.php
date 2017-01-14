@@ -607,6 +607,11 @@ class StoreController extends CController {
         }
         
         //var_dump($res);
+        //get the GPS coordinates of the search address (not the current location of the client)
+        //if ($lat_res=Yii::app()->functions->geodecodeAddress($_GET['s'])){
+        //    $lat=$lat_res['lat'];
+        //    $lng=$lat_res['long'];
+        //}
         
         if (is_array($res) && count($res) >= 1) {
 
@@ -626,6 +631,7 @@ class StoreController extends CController {
                 'fc' => getOptionA('theme_filter_colapse'),
                 'enabled_search_map' => getOptionA('enabled_search_map'),
                 'tabs' => $tabs
+                
             ));
             $_SESSION['kmrs_search_stmt'] = $res['sql'];
         } else {
