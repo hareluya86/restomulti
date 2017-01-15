@@ -271,7 +271,7 @@ jQuery(document).ready(function() {
 			lat: lat,
 			lng: lng,
 			scrollwheel: false ,
-			styles: [ {stylers: [ { "saturation":-100 }, { "lightness": 0 }, { "gamma": 1 } ]}],
+			//styles: [ {stylers: [ { "saturation":-100 }, { "lightness": 0 }, { "gamma": 1 } ]}],
                         height: '450px'
 		 });      	  		 
 		 

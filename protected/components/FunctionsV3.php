@@ -1576,7 +1576,9 @@ class FunctionsV3
 	    		return uploadURL()."/$map_marker";
 	    	}
     	}
-    	return assetsURL()."/images/map_pointer_small.png";
+    	//return assetsURL()."/images/map_pointer_small.png";
+        $key = rand(1,7);
+        return '/assets/images/quickfood/img/pins/'.$key.'.png';
     }
     
     public static function reCheckDelivery($merchant_id='',$data='')
