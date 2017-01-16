@@ -203,8 +203,8 @@ Yii::app()->clientScript->registerMetaTag(
 
                 <div class="box_style_2" id="help">
                     <i class="icon_lifesaver"></i>
-                    <h4>Need <span>Help?</span></h4>
-                    <a href="tel://<?php echo $data['restaurant_phone'];?>" class="phone"><?php echo $data['restaurant_phone'];?></a>
+                    <h4><?php echo t('Need Help?');?></h4>
+                    <a href="page-faq" class=""><?php echo t('Visit our FAQ page');?></a>
 
                     <?php
                         $this->renderPartial('/front/quickfood/merchant-hours',array(
@@ -350,8 +350,9 @@ Yii::app()->clientScript->registerMetaTag(
                     </div>
                     <div class="box_style_2 hidden-xs" id="help">
                             <i class="icon_lifesaver"></i>
-                            <h4>Need <span>Help?</span></h4>
-                            <a href="tel://<?php echo $data['restaurant_phone'];?>" class="phone"><?php echo $data['restaurant_phone'];?></a>
+                            <h4><?php echo t('Need Help?');?></h4>
+                            
+                            <a href="page-faq" class=""><?php echo t('Visit our FAQ page');?></a>
                     </div>
             </div>
 
