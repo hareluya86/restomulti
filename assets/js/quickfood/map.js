@@ -54,23 +54,23 @@ var initMap = function() {
     //test
     var marker;
         mapObject = new google.maps.Map(document.getElementById('map'), mapOptions);
-    for (var key in markersData) {
-        var item = markersData[key];
-        marker = new google.maps.Marker({
-            position: new google.maps.LatLng(item.location_latitude, item.location_longitude),
-            map: mapObject,
-            icon: '/assets/images/quickfood/img/pins/' + (key%7 + 1) + '.png',
-        });
+    for (var key in markersData) 
+        markersData[key].forEach(function(item) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(item.location_latitude, item.location_longitude),
+                map: mapObject,
+                icon: '/assets/images/quickfood/img/pins/' + (key%7 + 1) + '.png',
+            });
 
-        if ('undefined' === typeof markers[key])
-            markers[key] = [];
-        markers[key].push(marker);
-        google.maps.event.addListener(marker, 'click', (function () {
-            closeInfoBox();
-            getInfoBox(item).open(mapObject, this);
-            mapObject.setCenter(new google.maps.LatLng(item.location_latitude, item.location_longitude));
-        }));
-    }
+            if ('undefined' === typeof markers[key])
+                markers[key] = [];
+            markers[key].push(marker);
+            google.maps.event.addListener(marker, 'click', (function () {
+                closeInfoBox();
+                getInfoBox(item).open(mapObject, this);
+                mapObject.setCenter(new google.maps.LatLng(item.location_latitude, item.location_longitude));
+            }));
+        });
 
     function hideAllMarkers() {
         for (var key in markers)
@@ -142,9 +142,9 @@ var loadMarkersData = function() {
         var id = element.dataset.id;
         var field = element.dataset.field;
         if(!(id in MarkersData)) {
-            MarkersData[id] = {};
+            MarkersData[id] = [{}];
         }
-        MarkersData[id][field] = element.value;
+        MarkersData[id][0][field] = element.value;
     });
     
     return MarkersData;
