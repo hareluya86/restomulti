@@ -206,10 +206,18 @@ Yii::app()->clientScript->registerMetaTag(
                     <h4><?php echo t('Need Help?');?></h4>
                     <a href="page-faq" class=""><?php echo t('Visit our FAQ page');?></a>
 
-                    <?php
-                        $this->renderPartial('/front/quickfood/merchant-hours',array(
-                          'merchant_id'=>$merchant_id
-                        )); ?>
+                    <?php if ( $res=FunctionsV3::getMerchantOpeningHours($merchant_id)):?>
+                        <ul class="opening_list">
+                            <?php foreach ($res as $val):?>
+                                <li style="font-weight: normal">
+                                  <?php echo ucwords(t($val['day']))?>
+                                  <?php echo $val['hours']?>
+                               </li>
+                            <?php endforeach;?>
+                        </ul>
+                    <?php else :?>
+                        <p class="text-danger"><?php echo t("Not available.")?></p>
+                    <?php endif;?>
 
                 </div>
             </div><!-- End col-md-3 -->
