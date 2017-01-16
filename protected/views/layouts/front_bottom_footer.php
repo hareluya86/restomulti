@@ -56,6 +56,7 @@
                             <?php $x=1;?>
                             <?php foreach ($list as $val): ?>
                             <li>
+                                <?php if($val['total']>0): ?>
                                 <a href="<?php echo Yii::app()->createUrl('/store/cuisine',array("category"=>$val['cuisine_id']))?>">
                                     <?php 
                                     $cuisine_json['cuisine_name_trans']=!empty($val['cuisine_name_trans'])?json_decode($val['cuisine_name_trans'],true):'';	 
@@ -65,6 +66,11 @@
                                     }
                                     ?>
                                 </a>
+                                <?php else: ?>
+                                    <span>
+                                        <?php echo qTranslate($val['cuisine_name'],'cuisine_name',$cuisine_json);?>
+                                    </span>
+                                <?php endif; ?>
                             </li>
                             <?php $x++;?>
                             <?php endforeach;?>
