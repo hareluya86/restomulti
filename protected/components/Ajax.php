@@ -387,7 +387,8 @@ $action="<a href=\"$link\" >".Yii::t("default","Details")."</a>";
 	      'state'=>$this->data['state'],
 	      'is_commission'=>2,
 	      'percent_commision'=>$percent,	      
-	      'abn'=>isset($this->data['abn'])?$this->data['abn']:''
+	      'abn'=>isset($this->data['abn'])?$this->data['abn']:'',
+              'service'=>$this->data['service']
 	    );			
 	    
 	    if ( !Yii::app()->functions->validateUsername($this->data['username']) ){
