@@ -9538,7 +9538,7 @@ if (!Yii::app()->functions->getMerchantOffers($merchant_id,$this->data['valid_fr
 	    
 		public function subscriberList()
 		{
-		    $slug=Yii::app()->request->baseUrl."/".ADMIN_CONTROLLER."/".$_GET['slug'];
+		    //$slug=Yii::app()->request->baseUrl."/".ADMIN_CONTROLLER."/".$_GET['slug'];
 			$stmt="SELECT * FROM
 			{{newsletter}}		
 			ORDER BY id DESC						
