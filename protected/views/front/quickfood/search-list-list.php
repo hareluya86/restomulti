@@ -1,6 +1,25 @@
 <div id="tools">
     <div class="row">
-        <div class="col-md-12 col-sm-12 hidden-xs">
+        <div class="col-md-3 col-sm-3 col-xs-6">
+            <div class="styled-select">
+                <?php 
+                    $filter_list=array(
+                      'restaurant_name'=>t("Name"),
+                      'ratings'=>t("Rating"),
+                      'minimum_order'=>t("Minimum"),
+                      'distance'=>t("Distance")
+                    );
+                    if (isset($_GET['st'])){
+                            unset($filter_list['distance']);
+                    }
+                    echo CHtml::dropDownList('sort-results',$sort_filter,$filter_list,array(
+                      'class'=>"sort-results",
+                      'title'=>t("Sort By")
+                    ));
+                ?>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-9 hidden-xs">
             <a href="<?php echo FunctionsV3::clearSearchParams('display_type', 'display_type=gridview') ?>" class="bt_filters"><i class="icon-th"></i></a>
         </div>
     </div>

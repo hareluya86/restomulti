@@ -194,6 +194,7 @@ echo CHtml::hiddenField('display_type', $display_type);
                     'data' => $data,
                     'current_page_url' => $current_page_url,
                     'current_page_link' => $current_page_link,
+                    'sort_filter' => $sort_filter
                         //'val'=>$val,
                         //'merchant_id'=>$merchant_id,
                         //'ratings'=>$ratings,
@@ -207,7 +208,8 @@ echo CHtml::hiddenField('display_type', $display_type);
                 $this->renderPartial('/front/quickfood/search-list-grid', array(
                     'data' => $data,
                     'current_page_url' => $current_page_url,
-                    'current_page_link' => $current_page_link
+                    'current_page_link' => $current_page_link,
+                    'sort_filter' => $sort_filter
                         //'val'=>$val,
                         //'merchant_id'=>$merchant_id,
                         ///'ratings'=>$ratings,
