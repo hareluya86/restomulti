@@ -272,27 +272,6 @@ Yii::app()->clientScript->registerMetaTag(
                         <div class="item-order-wrap"></div>
                         <hr>
 
-                        <div class="row" id="options_2">
-                            <?php foreach(Yii::app()->functions->DeliveryOptions($merchant_id) as $delivery_option):?>
-                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-                                    <?php /*echo CHtml::radioButtonList('delivery_type',$now,
-                                        (array)Yii::app()->functions->DeliveryOptions($merchant_id),
-                                        array(
-                                            'class'=>'icheck'
-                                    ))*/?>
-                                    <?php echo CHtml::radioButton('delivery_type',true,array(
-                                        'class'=>'icheck',
-                                        'id'=> strtolower($delivery_option),
-                                        'value' => strtolower($delivery_option)
-                                    ));?>
-                                    <label for="<?php echo strtolower($delivery_option);?>"><?php echo $delivery_option;?></label>
-                                </div>
-                            <?php endforeach;?>
-                            <?php echo CHtml::hiddenField('delivery_date',$now)?>
-                            <?php echo CHtml::hiddenField('delivery_time',$now_time)?>
-                        </div>
-                        <hr>
-
                         <?php if ($data['service']==3):?>
                             <h4><?php echo t("Distance Information")?></h4>
                         <?php else :?>
@@ -319,7 +298,62 @@ Yii::app()->clientScript->registerMetaTag(
                             [<?php echo t("Change Your Address here")?>]
                         </a>
                         <hr>
-
+                        
+                        <h4><?php echo t("Delivery Options")?></h4>
+                        <div class="row" id="options_2" style="margin-top: 10px">
+                            <?php foreach(Yii::app()->functions->DeliveryOptions($merchant_id) as $delivery_option):?>
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                    <?php /*echo CHtml::radioButtonList('delivery_type',$now,
+                                        (array)Yii::app()->functions->DeliveryOptions($merchant_id),
+                                        array(
+                                            'class'=>'icheck'
+                                    ))*/?>
+                                    <?php echo CHtml::radioButton('delivery_type'
+                                        ,true
+                                        ,array(
+                                            'class'=>'icheck',
+                                            'id'=> strtolower($delivery_option),
+                                            'value' => strtolower($delivery_option)
+                                    ));?>
+                                    <label for="<?php echo strtolower($delivery_option);?>"><?php echo $delivery_option;?></label>
+                                </div>
+                            <?php endforeach;?>
+                            <?php echo CHtml::hiddenField('delivery_date',$now)?>
+                            <?php echo CHtml::hiddenField('delivery_time',$now_time)?>
+                        </div>
+                        <div class="form-group" style="margin-top: 25px">
+                            <?php echo CHtml::textField('delivery_date1',
+                                FormatDateTime($now,false),array(
+                                    'class'=>"date-pick grey-fields form-control",
+                                    'style'=>"text-align:center;",
+                                    'data-id'=>'delivery_date'))
+                            ?>
+                        </div>
+                        <div class="form-group delivery_asap_wrap">
+                            <?php $detect = new Mobile_Detect;?>           
+                            <?php if ( $detect->isMobile() ) :?>
+                                <?php                           
+                                    echo CHtml::dropDownList('delivery_time',$now_time,
+                                        (array)FunctionsV3::timeList()
+                                        ,array(
+                                        'class'=>"grey-fields"
+                                        )
+                                    )
+                                 ?>
+                            <?php else :?>                       
+                                <?php echo CHtml::textField('delivery_time',$now_time,
+                                    array('class'=>"time-pick grey-fields form-control",
+                                        'placeholder'=>Yii::t("default","Delivery Time")))?>
+                            <?php endif;?>
+                        </div>
+                        <div class="form-group">
+                            <span class="delivery-asap" class="margin-top: 25px">
+                                <?php echo CHtml::checkBox('delivery_asap',false,array('class'=>"icheck"))?>
+                                <span class="text-muted"><?php echo Yii::t("default","Delivery ASAP?")?></span>	          
+                            </span> 
+                        </div>
+                        <hr>
+                        
                         <?php if ( $checkout['code']==1):?>
                             <a href="javascript:;" class="btn_full medium checkout"><?php echo $checkout['button']?></a>
                         <?php else :?>
@@ -421,9 +455,14 @@ $cs->registerScriptFile($baseUrl . "/assets/js/quickfood/infobox.js"
         , CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . "/assets/js/quickfood/jquery.sliderPro.js"
         , CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . "/assets/js/quickfood/bootstrap-datepicker.js"
+        , CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . "/assets/js/quickfood/bootstrap-timepicker.js"
+        , CClientScript::POS_END);
 
 $cs->registerCssFile($baseUrl . '/assets/css/quickfood/skins/square/grey.css');
 $cs->registerCssFile($baseUrl . '/assets/css/quickfood/slider-pro.min.css');
+$cs->registerCssFile($baseUrl . '/assets/css/quickfood/date_time_picker.css');
 
 $cs->registerScript('slider-pro', "
         $( document ).ready(function( $ ) {
@@ -445,4 +484,18 @@ $cs->registerScript('slider-pro', "
                 $('#reviews').hide();
 	});"
         , CClientScript::POS_END);//The last line is for sliderPro to render the gallery at its normal size first before hiding it
+
+$cs->registerScript('datetimepicker', "
+        $( document ).ready(function( $ ) {
+            $('input.date-pick').datepicker('setDate', 'today');
+            $('input.time-pick').timepicker({
+                minuteStep: 15,
+                showInpunts: false
+            })
+	});"
+        , CClientScript::POS_END);
+
+$cs->registerCss('search-address', 
+        '.pac-container { z-index:99999 !important; }');
+
 ?>

@@ -2,11 +2,44 @@
 <footer>
     <div class="container">
         <div class="row">
-            <div class="col-md-3 col-sm-3">
+            <!--<div class="col-md-3 col-sm-3">
                 <h3>&nbsp;</h3>
                 <?php FunctionsV3::getFooterAddress(); ?>
+            </div>-->
+            
+            <div class="col-md-4 col-sm-4">
+                <!--CUISINE SECTIONS-->
+                <h3><?php echo t("Browse by cuisine")?></h3>
+                <?php if ($theme_hide_cuisine<>2):?>
+                    <?php if ( $list=FunctionsV3::getCuisine() ): ?>
+                        <ul>
+                            <!--<img src="img/cards.png" alt="" class="img-responsive">-->
+                            <?php $x=1;?>
+                            <?php foreach ($list as $val): ?>
+                            <li>
+                                <?php if($val['total']>0): ?>
+                                <a href="<?php echo Yii::app()->createUrl('/store/cuisine',array("category"=>$val['cuisine_id']))?>">
+                                    <?php 
+                                    $cuisine_json['cuisine_name_trans']=!empty($val['cuisine_name_trans'])?json_decode($val['cuisine_name_trans'],true):'';	 
+                                    echo qTranslate($val['cuisine_name'],'cuisine_name',$cuisine_json);
+                                    if($val['total']>0){
+                                      echo "<span>(".$val['total'].")</span>";
+                                    }
+                                    ?>
+                                </a>
+                                <?php else: ?>
+                                    <span>
+                                        <?php echo qTranslate($val['cuisine_name'],'cuisine_name',$cuisine_json);?>
+                                    </span>
+                                <?php endif; ?>
+                            </li>
+                            <?php $x++;?>
+                            <?php endforeach;?>
+                        </ul>
+                    <?php endif;?>
+                <?php endif;?>
             </div>
-            <div class="col-md-3 col-sm-3">
+            <div class="col-md-4 col-sm-4">
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                         <?php if (true && $theme_hide_footer_section1!=2):?>
@@ -46,75 +79,46 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 col-sm-3">
-                <!--CUISINE SECTIONS-->
-                <h3><?php echo t("Browse by cuisine")?></h3>
-                <?php if ($theme_hide_cuisine<>2):?>
-                    <?php if ( $list=FunctionsV3::getCuisine() ): ?>
-                        <ul>
-                            <!--<img src="img/cards.png" alt="" class="img-responsive">-->
-                            <?php $x=1;?>
-                            <?php foreach ($list as $val): ?>
-                            <li>
-                                <?php if($val['total']>0): ?>
-                                <a href="<?php echo Yii::app()->createUrl('/store/cuisine',array("category"=>$val['cuisine_id']))?>">
-                                    <?php 
-                                    $cuisine_json['cuisine_name_trans']=!empty($val['cuisine_name_trans'])?json_decode($val['cuisine_name_trans'],true):'';	 
-                                    echo qTranslate($val['cuisine_name'],'cuisine_name',$cuisine_json);
-                                    if($val['total']>0){
-                                      echo "<span>(".$val['total'].")</span>";
-                                    }
-                                    ?>
-                                </a>
-                                <?php else: ?>
-                                    <span>
-                                        <?php echo qTranslate($val['cuisine_name'],'cuisine_name',$cuisine_json);?>
-                                    </span>
-                                <?php endif; ?>
-                            </li>
-                            <?php $x++;?>
-                            <?php endforeach;?>
-                        </ul>
+            <div class="col-md-4 col-sm-4">
+                <div class="row">
+                    <?php if ( getOptionA('disabled_subscription') == ""):?>
+                        <div class="col-md-12 col-sm-12" id="newsletter">
+                            <p>
+                                <?php echo t("Subscribe to our newsletter") ?>
+                            </p>
+                                <div id="message-newsletter_2">
+                            </div>
+                            <form method="POST" id="frm-subscribe" class="frm-subscribe" onsubmit="return false;">
+                                <?php echo CHtml::hiddenField('action','subscribeNewsletter')?>
+                                <div class="form-group">
+                                    <!--<input name="email_newsletter_2" id="email_newsletter_2" type="email" value="" placeholder="Your mail" class="form-control">-->
+                                    <?php echo CHtml::textField('subscriber_email','',array(
+                                        'placeholder'=>t("Your mail"),
+                                        'required'=>true,
+                                        'class'=>"form-control"
+                                    ))?>
+                                </div>
+                                <input type="submit" value="Subscribe" class="btn_1" id="submit-newsletter_2">
+                            </form>
+                        </div>
                     <?php endif;?>
-                <?php endif;?>
-            </div>
-            <?php if ( getOptionA('disabled_subscription') == ""):?>
-                <div class="col-md-3 col-sm-3" id="newsletter">
-                    
-                    <p>
-                        <?php echo t("Subscribe to our newsletter") ?>
-                    </p>
-                        <div id="message-newsletter_2">
-                    </div>
-                    <form method="POST" id="frm-subscribe" class="frm-subscribe" onsubmit="return false;">
-                        <?php echo CHtml::hiddenField('action','subscribeNewsletter')?>
-                        <div class="form-group">
-                            <!--<input name="email_newsletter_2" id="email_newsletter_2" type="email" value="" placeholder="Your mail" class="form-control">-->
-                            <?php echo CHtml::textField('subscriber_email','',array(
-                                'placeholder'=>t("Your mail"),
-                                'required'=>true,
-                                'class'=>"form-control"
-                            ))?>
-                        </div>
-                        <input type="submit" value="Subscribe" class="btn_1" id="submit-newsletter_2">
-                    </form>
-                </div>
-            <?php endif;?>
-            <?php if ($show_language <> 1) :?>
-                <?php if ($theme_lang_pos == "bottom" || $theme_lang_pos == "") :?>
-                    <div class="col-md-2 col-sm-3">
-                        <h3><?php echo t("Language")?></h3>
-                        <div class="styled-select">
-                            <?php echo CHtml::dropDownList('language-options', $_COOKIE['kr_lang_id'], (array) FunctionsV3::getLanguage()
-                                    , array(
-                                'class' => "form-control",// language-options selectpicker",
-                                'title' => t("Select language")
-                            ));?>
+                    <?php if ($show_language <> 1) :?>
+                        <?php if ($theme_lang_pos == "bottom" || $theme_lang_pos == "") :?>
+                            <div class="col-md-12 col-sm-12">
+                                <h3><?php echo t("Language")?></h3>
+                                <div class="styled-select">
+                                    <?php echo CHtml::dropDownList('language-options', $_COOKIE['kr_lang_id'], (array) FunctionsV3::getLanguage()
+                                            , array(
+                                        'class' => "form-control",// language-options selectpicker",
+                                        'title' => t("Select language")
+                                    ));?>
 
-                        </div>
-                    </div>
-                <?php endif;?>
-            <?php endif;?>
+                                </div>
+                            </div>
+                        <?php endif;?>
+                    <?php endif;?>
+                </div>
+            </div>
         </div><!-- End row -->
         <div class="row">
             <div class="col-md-12">

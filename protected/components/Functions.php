@@ -3817,16 +3817,19 @@ class Functions extends CApplicationComponent {
                 $tax_amt = $tax;
                 $delivery_charges = Yii::app()->functions->getOption('merchant_delivery_charges', $mid);
 
-
                 //shipping rates
                 if (isset($_SESSION['shipping_fee'])) {
                     if (is_numeric($_SESSION['shipping_fee'])) {
                         $delivery_charges = $_SESSION['shipping_fee'];
+                        //debug
+                //echo 'shipping_fee = '.$_SESSION['shipping_fee'].'<br>';
                     }
                 }
                 //if (isset($data['delivery_charge']) && $data['delivery_charge']>=1){
                 if (isset($data['delivery_charge'])) {
                     $delivery_charges = $data['delivery_charge'];
+                    //debug
+                //echo 'delivery_charge = '.$data['delivery_charge'].'<br>';
                 }
                 //end shipping rates
 

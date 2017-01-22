@@ -1971,12 +1971,14 @@ $resto_info.="<p><span class=\"uk-text-bold\">".Yii::t("default","Delivery Est")
 	    			   $_SESSION['kr_item'][$found_key]['qty']+=$item['qty'];
                                    //No choice have to increment all addon items here
                                    //loop through each subitem and increment if found in incoming request
-                                   foreach ($_SESSION['kr_item'][$found_key]['addon_qty'] as $i => $addon_cat) {
-                                       foreach($addon_cat as $row => $addon_row) {
-                                           $_SESSION['kr_item'][$found_key]['addon_qty'][$i][$row] += $item['qty'];
-                                           //$this->details .= $row.':'.$_SESSION['kr_item'][$found_key]['addon_qty'][$i][$row].'|';
-                                           
-                                       }
+                                   if(isset($_SESSION['kr_item'][$found_key]['addon_qty'])) {
+                                        foreach ($_SESSION['kr_item'][$found_key]['addon_qty'] as $i => $addon_cat) {
+                                            foreach($addon_cat as $row => $addon_row) {
+                                                $_SESSION['kr_item'][$found_key]['addon_qty'][$i][$row] += $item['qty'];
+                                                //$this->details .= $row.':'.$_SESSION['kr_item'][$found_key]['addon_qty'][$i][$row].'|';
+
+                                            }
+                                        }
                                    }
                                     //$this->details = $_SESSION['kr_item'][$found_key]['addon_qty'];
 	    			}	    		
@@ -2002,7 +2004,9 @@ $resto_info.="<p><span class=\"uk-text-bold\">".Yii::t("default","Delivery Est")
 		    			}
 		    		}	    	
 	    		}
-	    	}	    
+	    	}
+                //Store delivery type in session
+                $_SESSION['kr_delivery_type'] = $this->data['delivery_type'];
 	    		    		    		    		    		
 	    	//dump($_SESSION['kr_item']);
 	    	
@@ -8132,7 +8136,7 @@ $last_login=$val['last_login']=="0000-00-00 00:00:00"?"":date('M d,Y G:i:s',strt
 		
 		public function enterAddress()
 		{
-		   require_once "enter-address.php";
+		   require_once "quickfood/enter-address.php";
 		}
 		
 		public function setAddress()

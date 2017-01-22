@@ -640,7 +640,7 @@ video {
 	font-weight:bold;
 }
 #delivery_time{
-	width:500px;
+	/*width:500px;*/
 	margin:auto;
 	text-align:center;
 	margin-top:25px;
