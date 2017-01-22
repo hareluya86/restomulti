@@ -326,16 +326,16 @@ $this->renderPartial('/layouts/quickfood/front_top_menu', array(
                         </div>
                         <div class="col-md-12 col-sm-12">
                             <div class="form-group">
-                        <label>
-                            <?php echo t("Confirm Password")?>
-                        </label>
-                        <?php echo CHtml::passwordField('cpassword',
-                            ''
-                            ,array(
-                            'class'=>'grey-fields full-width form-control',
-                            'data-validation'=>"required"
-                        ))?>
-                    </div>
+                                <label>
+                                    <?php echo t("Confirm Password")?>
+                                </label>
+                                <?php echo CHtml::passwordField('cpassword',
+                                    ''
+                                    ,array(
+                                    'class'=>'grey-fields full-width form-control',
+                                    'data-validation'=>"required"
+                                ))?>
+                            </div>
                         </div>
                     <?php if ($kapcha_enabled==2):?>      
                         <div class="top10 capcha-wrapper">        
@@ -343,17 +343,21 @@ $this->renderPartial('/layouts/quickfood/front_top_menu', array(
                         </div>
                     <?php endif;?>
                     <?php if ( $terms_merchant=="yes"):?>
-                        <?php $terms_link=Yii::app()->functions->prettyLink($terms_merchant_url);?>
-                    <?php 
-                        echo CHtml::checkBox('terms_n_condition',false,array(
-                         'value'=>2,
-                         'class'=>"icheck",
-                         'data-validation'=>"required"
-                        ));
-                        echo " ". t("I Agree To")." <a href=\"$terms_link\" target=\"_blank\">".t("The Terms & Conditions")."</a>";
-                    ?>
+                        <div class="col-md-12 col-sm-12" style="margin-bottom: 10px">
+                            <?php $terms_link=Yii::app()->functions->prettyLink($terms_merchant_url);?>
+                            <?php 
+                                echo CHtml::checkBox('terms_n_condition',false,array(
+                                 'value'=>2,
+                                 'class'=>"icheck",
+                                 'data-validation'=>"required"
+                                ));
+                                echo " ". t("I Agree To")." <a href=\"$terms_link\" target=\"_blank\">".t("The Terms & Conditions")."</a>";
+                            ?>
+                        </div>
                     <?php endif; ?>
-                    <input type="submit" value="<?php echo t("Next")?>" class="orange-button inline medium btn_full_outline">
+                    <div class="col-md-12 col-sm-12">
+                        <input type="submit" value="<?php echo t("Next")?>" class="orange-button inline medium btn_full_outline">
+                    </div>
                 </form>
                 
             </div>
