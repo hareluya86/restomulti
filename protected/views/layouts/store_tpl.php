@@ -3,7 +3,7 @@
 
 <!--COOKIE LAW-->
 <?php if (getOptionA('cookie_law_enabled')==2):?>
-<?php $this->renderPartial('/front/cookie-law',array(
+<?php $this->renderPartial('/front/quickfood/cookie-law',array(
   'cookie_accept_text'=>getOptionA('cookie_accept_text'),
   'cookie_info_text'=>getOptionA('cookie_info_text'),
   'cookie_msg_text'=>getOptionA('cookie_msg_text'),
