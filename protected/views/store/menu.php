@@ -301,7 +301,11 @@ Yii::app()->clientScript->registerMetaTag(
                         
                         <h4><?php echo t("Delivery Options")?></h4>
                         <div class="row" id="options_2" style="margin-top: 10px">
-                            <?php foreach(Yii::app()->functions->DeliveryOptions($merchant_id) as $delivery_option):?>
+                            <?php 
+                                $delivery_options = Yii::app()->functions->DeliveryOptions($merchant_id);
+                                $selected = (array_key_exists('delivery', $delivery_options))?'delivery':'pickup';
+                            ?>
+                            <?php foreach(Yii::app()->functions->DeliveryOptions($merchant_id) as $key=>$delivery_option):?>
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                     <?php /*echo CHtml::radioButtonList('delivery_type',$now,
                                         (array)Yii::app()->functions->DeliveryOptions($merchant_id),
@@ -309,13 +313,13 @@ Yii::app()->clientScript->registerMetaTag(
                                             'class'=>'icheck'
                                     ))*/?>
                                     <?php echo CHtml::radioButton('delivery_type'
-                                        ,true
+                                        ,($selected == $key)
                                         ,array(
                                             'class'=>'icheck',
-                                            'id'=> strtolower($delivery_option),
-                                            'value' => strtolower($delivery_option)
+                                            'id'=> strtolower($key),
+                                            'value' => strtolower($key)
                                     ));?>
-                                    <label for="<?php echo strtolower($delivery_option);?>"><?php echo $delivery_option;?></label>
+                                    <label for="<?php echo strtolower($key);?>"><?php echo $delivery_option;?></label>
                                 </div>
                             <?php endforeach;?>
                             <?php echo CHtml::hiddenField('delivery_date',$now)?>
