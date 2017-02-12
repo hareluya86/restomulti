@@ -9513,6 +9513,37 @@ EOF;
     }
 
     /** END CODE ADDED FOR VERSION 2.1.1 */
+    
+    /** For quickfood template **/
+    public function getTotalRestaurantCount() {
+        $stmt = "SELECT COUNT(merchant_id) as total FROM
+    	{{merchant}}";
+        if ($res = $this->db_ext->rst($stmt)) {
+            
+            return $res[0]['total'];
+        }
+        return 0;
+    }
+    
+    public function getTotalOrderCount() {
+         $stmt = "SELECT COUNT(order_id) as total FROM
+    	{{order}}";
+        if ($res = $this->db_ext->rst($stmt)) {
+            
+            return $res[0]['total'];
+        }
+        return 0;
+    }
+    
+    public function getTotalRegisteredUsers() {
+         $stmt = "SELECT COUNT(client_id) as total FROM
+    	{{client}}";
+        if ($res = $this->db_ext->rst($stmt)) {
+            
+            return $res[0]['total'];
+        }
+        return 0;
+    }
 }
 
 /* END CLASS */

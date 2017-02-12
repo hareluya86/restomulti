@@ -28,9 +28,9 @@ $this->renderPartial('/layouts/quickfood/front_top_menu',array(
 <section class="header-video">
     <div id="hero_video">
         <div id="sub_content">
-            <h1>Order Takeaway or Delivery Food</h1>
+            <h1><?php echo t('Order Takeaway or Delivery Food')?></h1>
             <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque vehicula.
+                <?php echo t('Enter your address to start searching for great tasting food sent right to your doorsteps.')?>
             </p>
             <form id="forms-search" class="forms-search" method="GET" action="/searcharea">
                 <div id="custom-search-input">
@@ -49,9 +49,9 @@ $this->renderPartial('/layouts/quickfood/front_top_menu',array(
     <img src="assets/images/quickfood/img/video_fix.png" alt="" class="header-video--media" data-video-src="/assets/video/intro" data-teaser-source="/assets/video/intro" data-provider="Vimeo" data-video-width="1920" data-video-height="960">
     <div id="count" class="hidden-xs">
         <ul>
-            <li><span class="number">2650</span> Restaurant</li>
-            <li><span class="number">5350</span> People Served</li>
-            <li><span class="number">12350</span> Registered Users</li>
+            <li><span class="number"><?php echo Yii::app()->functions->getTotalRestaurantCount()?></span> Restaurant</li>
+            <li><span class="number"><?php echo Yii::app()->functions->getTotalOrderCount()?></span> People Served</li>
+            <li><span class="number"><?php echo Yii::app()->functions->getTotalRegisteredUsers()?></span> Registered Users</li>
         </ul>
     </div>
 </section><!-- End Header video -->
@@ -62,35 +62,6 @@ $this->renderPartial('/layouts/quickfood/front_top_menu',array(
 data-parallax="scroll" data-position="top" data-bleed="10" 
 data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
 
-<?php 
-/*if ( $home_search_mode=="address" || $home_search_mode=="") { 
-	if ( $enabled_advance_search=="yes"){
-		$this->renderPartial('/front/advance_search',array(
-		  'home_search_text'=>$home_search_text,
-		  'kr_search_adrress'=>$kr_search_adrress,
-		  'placholder_search'=>$placholder_search,
-		  'home_search_subtext'=>$home_search_subtext,
-		  'theme_search_merchant_name'=>getOptionA('theme_search_merchant_name'),
-		  'theme_search_street_name'=>getOptionA('theme_search_street_name'),
-		  'theme_search_cuisine'=>getOptionA('theme_search_cuisine'),
-		  'theme_search_foodname'=>getOptionA('theme_search_foodname'),
-		  'theme_search_merchant_address'=>getOptionA('theme_search_merchant_address'),
-		));
-	} else $this->renderPartial('/front/single_search',array(
-	      'home_search_text'=>$home_search_text,
-		  'kr_search_adrress'=>$kr_search_adrress,
-		  'placholder_search'=>$placholder_search,
-		  'home_search_subtext'=>$home_search_subtext
-	));
-} else {
-	$this->renderPartial('/front/search_postcode',array(
-	      'home_search_text'=>$home_search_text,
-		  'placholder_search'=>$placholder_search,
-		  'home_search_subtext'=>t("Enter your post code")
-	));
-}*/
-?>
-
 </div> <!--parallax-container-->
 
 <!--HOW IT WORKS SECTIONS -->
@@ -99,45 +70,45 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
     <div class="container margin_60">
         
          <div class="main_title">
-            <h2 class="nomargin_top" style="padding-top:0">How it works</h2>
+            <h2 class="nomargin_top" style="padding-top:0"><?php echo t('How it works')?></h2>
             <p>
-                Cum doctus civibus efficiantur in imperdiet deterruisset.
+                <?php echo t('The order process in a nutshell.')?>
             </p>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="box_home" id="one">
                     <span>1</span>
-                    <h3>Search by address</h3>
+                    <h3><?php echo t('Search by address')?></h3>
                     <p>
-                        Find all restaurants available in your zone.
+                        <?php echo t('Find all restaurants available in your zone.')?>
                     </p>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="box_home" id="two">
                     <span>2</span>
-                    <h3>Choose a restaurant</h3>
+                    <h3><?php echo t('Choose a restaurant')?></h3>
                     <p>
-                        We have more than 1000s of menus online.
+                        <?php echo t('We have more than 1000s of menus online.')?>
                     </p>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="box_home" id="three">
                     <span>3</span>
-                    <h3>Pay by card or cash</h3>
+                    <h3><?php echo t('Pay by card or cash')?></h3>
                     <p>
-                        It's quick, easy and totally secure.
+                        <?php echo t('It\'s quick, easy and totally secure.')?>
                     </p>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="box_home" id="four">
                     <span>4</span>
-                    <h3>Delivery or takeaway</h3>
+                    <h3><?php echo t('Delivery or takeaway')?></h3>
                     <p>
-                        Don't feel like leaving home? No problem!
+                        <?php echo t('Don\'t feel like leaving home? No problem!')?>
                     </p>
                 </div>
             </div>
@@ -145,7 +116,7 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
         
         <div id="delivery_time" class="hidden-xs">
             <strong><span>2</span><span>5</span></strong>
-            <h4>The minutes that usually takes to deliver!</h4>
+            <h4><?php echo t('The minutes that usually takes to deliver!')?></h4>
         </div>
     </div><!-- End container -->
 <?php endif;?>
@@ -204,7 +175,7 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
         <div class="main_title">
             <h2 class="nomargin_top"><?php echo t("Featured Restaurants")?></h2>
             <p>
-                Cum doctus civibus efficiantur in imperdiet deterruisset.
+                <?php echo t('Check out these featured restaurants')?>
             </p>
         </div>
         
@@ -321,9 +292,9 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
 <!--CHOOSE FROM OVER X RESTAURANTS-->
 <div class="high_light">
     <div class="container">
-            <h3>Choose from over 2,000 Restaurants</h3>
-        <p>Ridiculus sociosqu cursus neque cursus curae ante scelerisque vehicula.</p>
-        <a href="/store/browse">View all Restaurants</a>
+            <h3><?php echo t('Choose from over 2,000 Restaurants')?></h3>
+        <p><?php echo t('And you don\'t even have to leave your doorsteps.')?></p>
+        <a href="/store/browse"><?php echo t('View all Restaurants')?></a>
     </div><!-- End container -->
 </div><!-- End hight_light -->
 <!--CHOOSE FROM OVER X RESTAURANTS-->
@@ -333,9 +304,9 @@ data-image-src="<?php echo assetsURL()."/images/banner.jpg"?>">-->
     <div class="parallax-content">
         <div class="sub_content">
             <i class="icon_mug"></i>
-            <h3>We also deliver to your office</h3>
+            <h3><?php echo t('We also deliver to your office')?></h3>
             <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque vehicula.
+                <?php echo t('Got work to do? Doesn\'t mean you can\'t enjoy your favourite restaurants.')?>
             </p>
         </div><!-- End sub_content -->
     </div><!-- End subheader -->
