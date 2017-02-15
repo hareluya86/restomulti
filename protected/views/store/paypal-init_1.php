@@ -6,6 +6,10 @@ $this->renderPartial('/front/quickfood/banner-receipt',array(
     'show_bar'=>true
 ));
 
+$this->renderPartial('/front/quickfood/order-progress-bar',array(
+   'step'=>4,
+   'show_bar'=>true
+));
 
 $data='';
 $data2='';
