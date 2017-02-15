@@ -311,12 +311,17 @@ class Widgets extends CApplicationComponent
 		endif;
 	}
 	
-	public static function applyVoucher($merchant_id='')
+	public static function applyVoucher($merchant_id='',$payment_type='')
 	{
 		$enabled=Yii::app()->functions->getOption('merchant_enabled_voucher',$merchant_id);
 		if ( $enabled!="yes"){
 			return ;
-		}		
+		}	
+                //1. Check at the site level
+                $disabled_by_payment = Yii::app()->functions->getOption('payment_disable_voucher_'.$payment_type);
+                if ( $disabled_by_payment=="yes"){
+			return ;
+		}
 		$style='';
 		$has_voucher=false;		
 		$code='';

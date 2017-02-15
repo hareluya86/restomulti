@@ -3,7 +3,11 @@
 
 <?php if (is_array($payment_list) && count($payment_list)>=1):?>
 <?php foreach ($payment_list as $key => $val):?>
-  
+  <?php echo 
+    CHtml::hiddenField('payment_disable_voucher_'.$key, 
+          getOptionA('payment_disable_voucher_'.$key)
+          );
+  ?>
   <div class="payment_select" id="<?php echo $key?>">
         <label>
             <?php echo CHtml::radioButton('payment_opt',false,

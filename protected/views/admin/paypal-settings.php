@@ -187,6 +187,21 @@ Yii::app()->functions->getOptionAdmin('admin_paypal_fee')
   ?>
 </div>
 
+<hr>
+<h3><?php echo t("Voucher settings")?></h3>
+
+<div class="uk-form-row">
+  <label class="uk-form-label"><?php echo Yii::t("default","Disable voucher?")?></label>
+  <?php 
+  echo CHtml::checkBox('payment_disable_voucher_pyp',
+  getOptionA('payment_disable_voucher_pyp')=="yes"?true:false
+  ,array(
+    'value'=>"yes",
+    'class'=>"icheck"
+  ))
+  ?> 
+</div>
+
 
 <div class="uk-form-row">
 <label class="uk-form-label"></label>

@@ -4551,6 +4551,9 @@ $params['cart_tip_value']=isset($this->data['cart_tip_value'])?$this->data['cart
 	    	
 	    	Yii::app()->functions->updateOptionAdmin("adm_paypal_mobile_clientid",
 	    	isset($this->data['adm_paypal_mobile_clientid'])?$this->data['adm_paypal_mobile_clientid']:'');
+                
+                Yii::app()->functions->updateOptionAdmin("payment_disable_voucher_pyp",
+	    	isset($this->data['payment_disable_voucher_pyp'])?$this->data['payment_disable_voucher_pyp']:'');
 	    	
 	    	$this->code=1;
 	    	$this->msg=Yii::t("default","Setting saved");

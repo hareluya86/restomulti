@@ -342,6 +342,14 @@ jQuery(document).ready(function() {
     		$(".payment-provider-wrap").hide();
     		break;
     	}
+        var disable_voucher = $('#payment_disable_voucher_'+seleted_payment).val();
+        if(disable_voucher === 'yes'){
+            $('.voucher_wrap').hide();
+            $('#voucher_code').val('');
+        } else {
+            $('.voucher_wrap').show();
+        }
+            
     });  
 
 
