@@ -29,7 +29,7 @@
                                 </a>
                                 <?php else: ?>
                                     <span>
-                                        <?php echo qTranslate($val['cuisine_name'],'cuisine_name',$cuisine_json);?>
+                                        <?php echo qTranslate($val['cuisine_name'],'cuisine_name');?>
                                     </span>
                                 <?php endif; ?>
                             </li>
