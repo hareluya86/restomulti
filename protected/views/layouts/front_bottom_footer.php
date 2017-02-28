@@ -161,7 +161,7 @@
                         <?php endif;?>
                     </ul>
                     <p>
-                        © Vincent Lee 2016
+                        © <?php echo getOptionA('website_title').' '.date('Y'); ?>
                     </p>
                 </div>
             </div>
