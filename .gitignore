@@ -7,4 +7,4 @@
 nbproject/**
 protected/config/**
 
-#upload/* #because we are in the showcase environment, we just copy a snapshot of our local files and upload all together
+upload/* 
